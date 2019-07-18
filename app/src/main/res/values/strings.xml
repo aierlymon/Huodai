@@ -9,4 +9,5 @@
     <string name="pre">最快 </string>
     <string name="end">下款</string>
     <string name="request_loan">申请贷款</string>
+    <string name="loan_num">货款</string>
 </resources>

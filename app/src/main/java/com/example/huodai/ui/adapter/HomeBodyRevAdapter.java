@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.baselib.http.HttpConstant;
 import com.example.huodai.R;
+import com.example.huodai.widget.CircleImageView;
 import com.example.model.bean.HomeBodyBean;
 
 import java.util.List;
@@ -39,16 +39,16 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
     @Override
     public void onBindViewHolder(@NonNull BodyItemHold holder, int position) {
         HomeBodyBean homeBodyBean = homeBodyBeanList.get(position);
-        String icon_url=HttpConstant.BASE_URL + homeBodyBeanList.get(position).getIcon();
+        String icon_url = HttpConstant.BASE_URL + homeBodyBeanList.get(position).getIcon();
 
         RequestOptions options = new RequestOptions();
-       int size= (int) mContext.getResources().getDimension(R.dimen.x27);
+        int size = (int) mContext.getResources().getDimension(R.dimen.x30);
         options.override(size, size); //设置加载的图片大小
         Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
 
         holder.title.setText(homeBodyBean.getName());
-        holder.limit.setText(""+homeBodyBean.getLimitL());
-        holder.max.setText(""+homeBodyBean.getLimitH());
+        holder.limit.setText("" + homeBodyBean.getLimitL());
+        holder.max.setText("" + homeBodyBean.getLimitH());
         holder.rate.setText(homeBodyBean.getInterest());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
@@ -66,7 +66,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
     }
 
     class BodyItemHold extends RecyclerView.ViewHolder {
-        private ImageView icon;
+        private CircleImageView icon;
         private TextView title;
         private TextView limit;
         private TextView max;
@@ -77,7 +77,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
 
         public BodyItemHold(@NonNull View itemView) {
             super(itemView);
-            icon = ((ImageView) itemView.findViewById(R.id.icon));
+            icon = itemView.findViewById(R.id.icon);
             title = ((TextView) itemView.findViewById(R.id.title));
             limit = ((TextView) itemView.findViewById(R.id.limit));
             max = ((TextView) itemView.findViewById(R.id.max));

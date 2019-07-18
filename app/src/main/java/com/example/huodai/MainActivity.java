@@ -15,12 +15,14 @@ import com.example.huodai.mvp.presenters.MainPrsenter;
 import com.example.huodai.mvp.view.MainViewImpl;
 import com.example.huodai.ui.adapter.MainVPAdapter;
 import com.example.huodai.ui.fragments.HomeFragment;
+import com.example.huodai.ui.fragments.LoanFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> implements MainViewImpl {
 
@@ -72,8 +74,10 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         //初始化三页
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance("home"));
+        fragments.add(LoanFragment.newInstance("loan"));
         MainVPAdapter mainVPagerAdapter = new MainVPAdapter(fragments,getSupportFragmentManager());
         mViewPager.setAdapter(mainVPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
     }
 
     @Override
@@ -94,5 +98,28 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @Override
     public void showError(String msg) {
 
+    }
+
+    @OnCheckedChanged({R.id.rb_home, R.id.rb_loan ,R.id.rb_my})
+    public void onCheckChange(RadioButton radioButton){
+        boolean checked = radioButton.isChecked();
+
+        switch (radioButton.getId()) {
+            case R.id.rb_home:
+                if (checked) {
+                    mViewPager.setCurrentItem(0);
+                }
+                break;
+            case R.id.rb_loan:
+                if (checked) {
+                    mViewPager.setCurrentItem(1);
+                }
+                break;
+            case R.id.rb_my:
+                if (checked) {
+                    mViewPager.setCurrentItem(0);
+                }
+                break;
+        }
     }
 }

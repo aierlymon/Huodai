@@ -15,13 +15,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.15">
 
-        <ImageView
+        <com.example.huodai.widget.CircleImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/y7"
-            android:layout_marginRight="@dimen/x2"
+            android:layout_marginTop="@dimen/y5"
+            android:layout_marginRight="@dimen/x5"
             android:src="@mipmap/ic_launcher" />
     </RelativeLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="bold字体"
-                android:layout_marginTop="@dimen/y5"
+                android:layout_marginTop="@dimen/y8"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 

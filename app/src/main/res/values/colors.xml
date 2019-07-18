@@ -8,4 +8,6 @@
     <color name="color_text_ps">#FFC779</color>
     <color name="red">#F44336</color>
     <color name="index_color">#B4AEAE</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
 </resources>
