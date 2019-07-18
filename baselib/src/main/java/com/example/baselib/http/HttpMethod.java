@@ -1,10 +1,12 @@
 package com.example.baselib.http;
 
 import com.example.baselib.BuildConfig;
-import com.example.baselib.http.bean.TestBean;
-import com.example.baselib.http.bean.UpdateBean;
+import com.example.model.bean.HomeBannerBean;
+import com.example.model.bean.TestBean;
+import com.example.model.bean.UpdateBean;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -55,7 +57,7 @@ public class HttpMethod{
             OkHttpClient okHttpClient = builder.build();
             mRetrofit = new Retrofit.Builder()
                     //设置基础地址
-                    .baseUrl(HttpConstant.BASE_URL)
+                    .baseUrl(HttpConstant.BASE_API_URL)
                     //这个把返回的数据转换为gson
                     .addConverterFactory(GsonConverterFactory.create())
                     //这个为了支持rxjva
@@ -77,5 +79,9 @@ public class HttpMethod{
     //测试用的
     public Observable<TestBean> getCityWeather(String cityId){
         return  mMovieService.loadCityDate(cityId);
+    }
+
+    public Observable<List<HomeBannerBean>> loadHomeBanner(){
+        return mMovieService.loadHomeBanner();
     }
 }

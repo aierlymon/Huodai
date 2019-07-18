@@ -1,8 +1,11 @@
 package com.example.baselib.http;
 
 
-import com.example.baselib.http.bean.TestBean;
-import com.example.baselib.http.bean.UpdateBean;
+import com.example.model.bean.HomeBannerBean;
+import com.example.model.bean.TestBean;
+import com.example.model.bean.UpdateBean;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -34,4 +37,6 @@ public interface MovieService {
     @GET("adat/sk/{cityId}.html")
     Observable<TestBean> loadCityDate(@Path("cityId") String cityId);
 
+    @GET("banners?filter[where][open]=true")
+    Observable<List<HomeBannerBean>> loadHomeBanner();
 }

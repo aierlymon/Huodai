@@ -8,6 +8,9 @@ package com.example.baselib.http;
 public abstract class HttpConstant {
    public static int DEFAULT_TIME_OUT=8;//超时时间 单位（s）秒
 
+    public static String BASE_URL = "http://tuershiting.com/";
+
     //baseUrl
-    public static String BASE_URL = "http://www.weather.com.cn/";
+    public static String BASE_API_URL = BASE_URL+"api/";
+
 }

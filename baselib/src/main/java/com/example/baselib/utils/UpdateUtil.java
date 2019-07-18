@@ -16,7 +16,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.http.HttpMethod;
 import com.example.baselib.http.MovieService;
-import com.example.baselib.http.bean.UpdateBean;
+import com.example.model.bean.UpdateBean;
 import com.example.baselib.http.interrceptorebean.JsDownloadInterceptor;
 import com.example.baselib.http.listener.JsDownloadListener;
 import com.example.baselib.widget.UpdateDialog;
