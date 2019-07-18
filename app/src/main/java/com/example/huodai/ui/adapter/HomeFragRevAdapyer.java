@@ -14,9 +14,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.baselib.utils.MyLog;
 import com.example.huodai.R;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
+import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
+import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
 
 import java.util.List;
 
@@ -49,6 +51,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case MENU:
                 return new MenuHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_menu, viewGroup, false));
+            case BODY:
+                return new BodyHolder(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.fra_home_recy_body, null));
         }
         return null;
     }
@@ -107,8 +112,27 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRMenuHolder dataModel, int position) {
-            HomeMenuRevAdapter homeMenuRevAdapter=new HomeMenuRevAdapter(mContext,dataModel.getUrls());
+            HomeMenuRevAdapter homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, dataModel.getUrls());
             recyclerView.setAdapter(homeMenuRevAdapter);
+        }
+    }
+
+    class BodyHolder extends BaseMulViewHolder<HomeFRBodyHolder> {
+
+        @BindView(R.id.recv_body)
+        RecyclerView recyclerView;
+
+        public BodyHolder(View itemView) {
+            super(itemView);
+            LinearLayoutManager manager = new LinearLayoutManager(mContext);
+            recyclerView.setLayoutManager(manager);
+        }
+
+        @Override
+        public void bindData(HomeFRBodyHolder dataModel, int position) {
+            HomeBodyRevAdapter homeBodyRevAdapter=new HomeBodyRevAdapter(mContext,dataModel.getHomeBodyBeanList());
+            recyclerView.addItemDecoration(new SpaceItemDecoration(2));
+            recyclerView.setAdapter(homeBodyRevAdapter);
         }
     }
 }

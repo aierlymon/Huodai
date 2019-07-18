@@ -58,4 +58,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.mRight = mLeft;
         this.mBottom = mLeft;
     }
+
+
 }

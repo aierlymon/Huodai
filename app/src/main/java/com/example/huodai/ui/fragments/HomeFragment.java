@@ -77,5 +77,6 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         fragRevAdapyer.getModelList().clear();
         fragRevAdapyer.getModelList().addAll(list);
         fragRevAdapyer.notifyDataSetChanged();
+        hideLoading();
     }
 }

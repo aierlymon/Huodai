@@ -2,6 +2,7 @@ package com.example.baselib.http;
 
 import com.example.baselib.BuildConfig;
 import com.example.model.bean.HomeBannerBean;
+import com.example.model.bean.HomeBodyBean;
 import com.example.model.bean.HomeMenuBean;
 import com.example.model.bean.TestBean;
 import com.example.model.bean.UpdateBean;
@@ -24,7 +25,7 @@ import static com.example.baselib.http.HttpConstant.DEFAULT_TIME_OUT;
  * on 2019/6/28
  * data 以后所有请求的调用方法写在这里,然后所有请求路径和方式放到MovieService,由一个MovieService同意调用
  */
-public class HttpMethod{
+public class HttpMethod {
     public static Retrofit mRetrofit;
     //以后所有请求的调用方法写在这里,然后所有请求路径和方式放到MovieService,由一个MovieService同意调用
     private MovieService mMovieService;
@@ -33,8 +34,8 @@ public class HttpMethod{
 
     //获取单例
     public static HttpMethod getInstance() {
-        if(httpMethods==null){
-            httpMethods=new HttpMethod();
+        if (httpMethods == null) {
+            httpMethods = new HttpMethod();
         }
         return httpMethods;
     }
@@ -78,15 +79,19 @@ public class HttpMethod{
     }
 
     //测试用的
-    public Observable<TestBean> getCityWeather(String cityId){
-        return  mMovieService.loadCityDate(cityId);
+    public Observable<TestBean> getCityWeather(String cityId) {
+        return mMovieService.loadCityDate(cityId);
     }
 
-    public Observable<List<HomeBannerBean>> loadHomeBanner(){
+    public Observable<List<HomeBannerBean>> loadHomeBanner() {
         return mMovieService.loadHomeBanner();
     }
 
-    public Observable<List<HomeMenuBean>> loadHomeMenu(){
+    public Observable<List<HomeMenuBean>> loadHomeMenu() {
         return mMovieService.loadHomeMenu();
+    }
+
+    public Observable<List<HomeBodyBean>> loadBody() {
+        return mMovieService.loadHomeBody();
     }
 }

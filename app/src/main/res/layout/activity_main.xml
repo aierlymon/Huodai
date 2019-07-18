@@ -20,7 +20,7 @@
         android:id="@+id/Indicator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_text_normal"
+        android:background="@color/index_color"
         app:layout_constraintBottom_toTopOf="@+id/group"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
