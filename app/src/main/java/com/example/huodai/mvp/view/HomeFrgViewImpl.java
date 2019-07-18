@@ -6,5 +6,7 @@ import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import java.util.List;
 
 public interface HomeFrgViewImpl extends IView {
-    void refreshBannerViewpager(List<BaseMulDataModel> list);
+    void refreshHome(List<BaseMulDataModel> list);
+
+
 }

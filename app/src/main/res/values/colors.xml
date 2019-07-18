@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="color_text_selected">#FF8100</color>
     <color name="color_text_normal">#777777</color>
+    <color name="color_text_ps">#FFC779</color>
 </resources>

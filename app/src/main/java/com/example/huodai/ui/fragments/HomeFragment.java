@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMVPFragment;
+import com.example.baselib.utils.LoadDialogUtil;
+import com.example.baselib.widget.CustomDialog;
 import com.example.huodai.R;
 import com.example.huodai.mvp.presenters.HomeFrgPresenter;
 import com.example.huodai.mvp.view.HomeFrgViewImpl;
@@ -40,7 +42,10 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     protected void lazyLoadData() {
-        mPresenter.requestHead();
+        showLoading();
+        mPresenter.requestHead();//请求banner
+        mPresenter.requestMenu();//请求菜单
+        mPresenter.requestBody();
     }
 
     @Override
@@ -54,12 +59,12 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void showLoading() {
-
+        LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).show();
     }
 
     @Override
     public void hideLoading() {
-
+        LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).cancel();
     }
 
     @Override
@@ -68,7 +73,8 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     }
 
     @Override
-    public void refreshBannerViewpager(List<BaseMulDataModel> list) {
+    public void refreshHome(List<BaseMulDataModel> list) {
+        fragRevAdapyer.getModelList().clear();
         fragRevAdapyer.getModelList().addAll(list);
         fragRevAdapyer.notifyDataSetChanged();
     }

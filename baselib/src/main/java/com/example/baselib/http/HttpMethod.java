@@ -2,6 +2,7 @@ package com.example.baselib.http;
 
 import com.example.baselib.BuildConfig;
 import com.example.model.bean.HomeBannerBean;
+import com.example.model.bean.HomeMenuBean;
 import com.example.model.bean.TestBean;
 import com.example.model.bean.UpdateBean;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
@@ -83,5 +84,9 @@ public class HttpMethod{
 
     public Observable<List<HomeBannerBean>> loadHomeBanner(){
         return mMovieService.loadHomeBanner();
+    }
+
+    public Observable<List<HomeMenuBean>> loadHomeMenu(){
+        return mMovieService.loadHomeMenu();
     }
 }

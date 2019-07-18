@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -28,9 +30,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int BODY = 2;
     private Context mContext;
 
-    public HomeFragRevAdapyer(Context mContext,List<BaseMulDataModel> modelList) {
+    public HomeFragRevAdapyer(Context mContext, List<BaseMulDataModel> modelList) {
         this.modelList = modelList;
-        this.mContext=mContext;
+        this.mContext = mContext;
     }
 
     public List<BaseMulDataModel> getModelList() {
@@ -44,6 +46,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case BANNER:
                 return new BannerHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_banner, viewGroup, false));
+            case MENU:
+                return new MenuHolder(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.fra_home_recy_menu, viewGroup, false));
         }
         return null;
     }
@@ -81,8 +86,29 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            HomeBannerVPAdapyer homeBannerVPAdapyer = new HomeBannerVPAdapyer(mContext,dataModel.getUrls());
+            HomeBannerVPAdapyer homeBannerVPAdapyer = new HomeBannerVPAdapyer(mContext, dataModel.getUrls());
             viewPager.setAdapter(homeBannerVPAdapyer);
+        }
+    }
+
+    class MenuHolder extends BaseMulViewHolder<HomeFRMenuHolder> {
+        @BindView(R.id.recv_menu)
+        RecyclerView recyclerView;
+
+        @BindView(R.id.tx_ps)
+        TextView tx;
+
+        public MenuHolder(View itemView) {
+            super(itemView);
+            LinearLayoutManager manager = new LinearLayoutManager(mContext);
+            manager.setOrientation(RecyclerView.HORIZONTAL);
+            recyclerView.setLayoutManager(manager);
+        }
+
+        @Override
+        public void bindData(HomeFRMenuHolder dataModel, int position) {
+            HomeMenuRevAdapter homeMenuRevAdapter=new HomeMenuRevAdapter(mContext,dataModel.getUrls());
+            recyclerView.setAdapter(homeMenuRevAdapter);
         }
     }
 }

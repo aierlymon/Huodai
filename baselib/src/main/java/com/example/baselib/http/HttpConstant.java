@@ -10,7 +10,7 @@ public abstract class HttpConstant {
 
     public static String BASE_URL = "http://tuershiting.com/";
 
-    //baseUrl
+    //http://tuershiting.com/api/
     public static String BASE_API_URL = BASE_URL+"api/";
 
 }
