@@ -24,5 +24,6 @@
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="12sp"
+        android:textColor="@color/color_text_selected"
         android:text="@string/ps"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

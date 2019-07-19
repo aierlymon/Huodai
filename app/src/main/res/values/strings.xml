@@ -10,4 +10,15 @@
     <string name="end">下款</string>
     <string name="request_loan">申请贷款</string>
     <string name="loan_num">货款</string>
+    <string name="exits">退出</string>
+    <string name="login">点击登录</string>
+
+    <string name="any_question">常见问题</string>
+    <string name="about_us">关于我们</string>
+    <string name="serice_content">服务协议</string>
+    <string name="mine">我的</string>
+    <string name="logo">LOGO</string>
+    <string name="phone_num">请输入手机号码</string>
+    <string name="chek_num">输入验证码</string>
+    <string name="getcheck">获取验证码</string>
 </resources>

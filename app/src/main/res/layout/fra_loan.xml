@@ -6,28 +6,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_height="wrap_content"
             android:background="@color/color_text_selected">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/toolbar_height"
+                android:textSize="@dimen/sp_my_textsize"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:textColor="@color/white"
-                android:text="@string/loan_num" />
+                android:text="@string/loan_num"/>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone">
             <!--放类型选择的-->
@@ -35,10 +34,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="@dimen/y30"
             android:background="@color/color_text_ps">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +51,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recv_loan"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"/>
+        android:layout_height="match_parent"
+        android:background="@color/index_my_color"
+        android:layout_weight="7"/>
 
 </LinearLayout>

@@ -10,4 +10,5 @@
     <color name="index_color">#B4AEAE</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
+    <color name="index_my_color">#F3F1F1</color>
 </resources>

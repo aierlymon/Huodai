@@ -23,7 +23,6 @@ public abstract class BaseMvpTitleActivity<V extends IView,P extends IPresenter<
     private View bodyView;
 
 
-
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_base_title;
@@ -33,10 +32,27 @@ public abstract class BaseMvpTitleActivity<V extends IView,P extends IPresenter<
 
     protected abstract boolean hasBackHome();
 
+    protected abstract boolean isShowToolbar();
+
+    public void showToolbar(){
+        if(toolbar!=null){
+            toolbar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideToolbar(){
+        if(toolbar!=null){
+            toolbar.setVisibility(View.GONE);
+        }
+    }
+
     @Override
    public void initView() {
         super.initView();
         toolbar = ((Toolbar) findViewById(R.id.base_toolbar));
+        if(isShowToolbar()){
+            showToolbar();
+        }
         toolbar.setTitle("");
         mToolBarTitle = ((TextView) findViewById(R.id.base_title_tv));
         setSupportActionBar(toolbar);
@@ -59,5 +75,9 @@ public abstract class BaseMvpTitleActivity<V extends IView,P extends IPresenter<
 
     public void setTitleColor(@ColorInt int colorRes){
         mToolBarTitle.setTextColor(colorRes);
+    }
+
+    public void setTitleBackground(@ColorInt int colorRes){
+        toolbar.setBackgroundColor(colorRes);
     }
 }
