@@ -1,18 +1,24 @@
 package com.example.baselib.http;
 
 import com.example.baselib.BuildConfig;
+import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
 import com.example.model.bean.HomeBannerBean;
 import com.example.model.bean.HomeBodyBean;
 import com.example.model.bean.HomeMenuBean;
+import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.TestBean;
 import com.example.model.bean.UpdateBean;
-import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -93,5 +99,24 @@ public class HttpMethod {
 
     public Observable<List<HomeBodyBean>> loadBody() {
         return mMovieService.loadHomeBody();
+    }
+
+    public Observable<String> getVerificationCode(String number) {
+        return mMovieService.getVerificationCode(number);
+    }
+
+    public Observable<LoginCallBackBean> requestLogin(String number, String code) {
+        JSONObject root = new JSONObject();
+        try {
+            root.put("code", "4588");
+            root.put("phone","15622762654" );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),root.toString());
+    /*    Map<String,String> map=new HashMap<>();
+        map.put("code", "4588");
+        map.put("phone","15622762654" );*/
+        return mMovieService.requestLogin(requestBody);
     }
 }
