@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.Utils;
+import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
@@ -19,6 +21,8 @@ import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -92,6 +96,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
             HomeBannerVPAdapyer homeBannerVPAdapyer = new HomeBannerVPAdapyer(mContext, dataModel.getUrls());
+            homeBannerVPAdapyer.setOnItemClickListener(new HomeBannerVPAdapyer.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view) {
+                    go(view,-1);
+                }
+            });
             viewPager.setAdapter(homeBannerVPAdapyer);
         }
     }
@@ -103,17 +113,25 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.tx_ps)
         TextView tx;
 
+        private HomeMenuRevAdapter homeMenuRevAdapter;
+
         public MenuHolder(View itemView) {
             super(itemView);
             LinearLayoutManager manager = new LinearLayoutManager(mContext);
             manager.setOrientation(RecyclerView.HORIZONTAL);
             recyclerView.setLayoutManager(manager);
+            homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
+            homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
+                go(view,position1);
+            });
+            recyclerView.setAdapter(homeMenuRevAdapter);
+
         }
 
         @Override
         public void bindData(HomeFRMenuHolder dataModel, int position) {
-            HomeMenuRevAdapter homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, dataModel.getUrls());
-            recyclerView.setAdapter(homeMenuRevAdapter);
+            homeMenuRevAdapter.setMulDataModelList(dataModel.getUrls());
+            homeMenuRevAdapter.notifyDataSetChanged();
         }
     }
 
@@ -130,9 +148,22 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBodyHolder dataModel, int position) {
-            HomeBodyRevAdapter homeBodyRevAdapter=new HomeBodyRevAdapter(mContext,dataModel.getHomeBodyBeanList());
+            HomeBodyRevAdapter homeBodyRevAdapter = new HomeBodyRevAdapter(mContext, dataModel.getHomeBodyBeanList());
+            homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
+                go(view,position);
+            });
             recyclerView.addItemDecoration(new SpaceItemDecoration(2));
             recyclerView.setAdapter(homeBodyRevAdapter);
+        }
+    }
+
+    public void go(View view, int position){
+        if (Utils.isFastClick()) {
+            if (ApplicationPrams.loginCallBackBean == null) {
+                EventBus.getDefault().post(false);
+                return;
+            }
+            //进行页面跳转
         }
     }
 }

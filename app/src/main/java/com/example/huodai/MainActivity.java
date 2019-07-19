@@ -1,5 +1,6 @@
 package com.example.huodai;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,9 @@ import com.example.huodai.ui.adapter.MainVPAdapter;
 import com.example.huodai.ui.fragments.HomeFragment;
 import com.example.huodai.ui.fragments.LoanFragment;
 import com.example.huodai.ui.fragments.MyFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @BindView(R.id.rb_my)
     RadioButton mRb_Mine;
+
 
 
     @Override
@@ -82,7 +87,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         mViewPager.setAdapter(mainVPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
     }
-
 
 
     @Override
@@ -130,5 +134,16 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     }
 
+    @Override
+    public boolean isUseEventBus() {
+        return true;
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginstate(Boolean isState){
+        if(!isState){
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
+        }
+    }
 }

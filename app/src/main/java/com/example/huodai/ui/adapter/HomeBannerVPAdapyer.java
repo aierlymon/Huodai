@@ -14,15 +14,34 @@ import com.example.huodai.R;
 
 import java.util.List;
 
-public class HomeBannerVPAdapyer extends PagerAdapter {
+public class HomeBannerVPAdapyer extends PagerAdapter implements View.OnClickListener {
 
     private Context mContext;
 
     List<String> fragmentList;
 
+    public interface OnItemClickListener {
+        void onItemClick(View view);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
     public HomeBannerVPAdapyer(Context mContext,List<String> fragmentList) {
         this.fragmentList = fragmentList;
         this.mContext=mContext;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(view);
+        }
     }
 
     @Override
@@ -42,6 +61,7 @@ public class HomeBannerVPAdapyer extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mContext).inflate( R.layout.home_banner_item, null,false);
         ImageView image = (ImageView) view.findViewById(R.id.image);
+        image.setOnClickListener(this);
         MyLog.i("banner图片地址为: "+fragmentList.get(position));
         Glide.with(mContext).load(fragmentList.get(position)).into(image);
         container.addView(view);
@@ -72,4 +92,5 @@ public class HomeBannerVPAdapyer extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
+
 }

@@ -14,7 +14,9 @@ public class MyFrgPresenter extends BasePresenter<MyViewImpl> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginstate(Boolean isState){
-        getView().loginSuceesee();
+        if(isState){
+            getView().loginSuceesee();
+        }
     }
 
 }

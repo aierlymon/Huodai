@@ -19,21 +19,42 @@ import com.example.model.bean.HomeBodyBean;
 
 import java.util.List;
 
-public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.BodyItemHold> {
+public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.BodyItemHold> implements View.OnClickListener{
 
     private Context mContext;
     private List<HomeBodyBean> homeBodyBeanList;
+
+    public interface OnItemClickListener {
+        void onItemClick(View view , int position);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    private OnItemClickListener mOnItemClickListener;
 
     public HomeBodyRevAdapter(Context mContext, List<HomeBodyBean> homeBodyBeanList) {
         this.mContext = mContext;
         this.homeBodyBeanList = homeBodyBeanList;
     }
 
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(view, (int)view.getTag());
+        }
+    }
+
+
+
     @NonNull
     @Override
     public BodyItemHold onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BodyItemHold(LayoutInflater.from(mContext)
-                .inflate(R.layout.home_body_item, parent, false));
+                .inflate(R.layout.home_body_item, parent, false),this);
     }
 
     @Override
@@ -52,12 +73,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         holder.rate.setText(homeBodyBean.getInterest());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
-        holder.btn_request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -75,8 +91,9 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         private TextView time;
         private Button btn_request;
 
-        public BodyItemHold(@NonNull View itemView) {
+        public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
+            itemView.setOnClickListener(listener);
             icon = itemView.findViewById(R.id.icon);
             title = ((TextView) itemView.findViewById(R.id.title));
             limit = ((TextView) itemView.findViewById(R.id.limit));
