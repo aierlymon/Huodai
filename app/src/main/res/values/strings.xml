@@ -26,4 +26,6 @@
 
     <string name="number_error">手机号码输入格式不正确</string>
     <string name="numberorcheck_error"> 手机号码或验证吗输入格式不正确</string>
+
+    <string name="back">返回</string>
 </resources>

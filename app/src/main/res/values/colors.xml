@@ -13,4 +13,6 @@
     <color name="index_my_color">#F3F1F1</color>
     <color name="textcolor">#141414</color>
     <color name="text_ps_back">#F3DBC6</color>
+    <color name="webview_title">#26E6E8E7</color>
+    <color name="toumin">#00E6E8E7</color>
 </resources>
