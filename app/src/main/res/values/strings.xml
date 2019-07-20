@@ -4,7 +4,8 @@
     <string name="loan">贷款</string>
     <string name="my">我的</string>
     <string name="ps">温馨提示: 多申请几家不同产品会大幅提升借款成功率哦~</string>
-    <string name="quotaname">额度:  </string>
+    <string name="quotaname">额度:</string>
+    <string name="rixi">日息:</string>
     <string name="flag">起</string>
     <string name="pre">最快 </string>
     <string name="end">下款</string>

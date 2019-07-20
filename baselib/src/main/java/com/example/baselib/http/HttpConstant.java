@@ -1,5 +1,7 @@
 package com.example.baselib.http;
 
+import android.content.Context;
+
 /**
  * createBy ${huanghao}
  * on 2019/6/28
@@ -13,4 +15,7 @@ public abstract class HttpConstant {
     //http://tuershiting.com/api/
     public static String BASE_API_URL = BASE_URL+"api/";
 
+    public  static Context context;
+
+    //http://tuershiting.com/api/banners?filter[where][open]=true
 }

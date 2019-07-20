@@ -7,13 +7,13 @@
 
     <ImageView
         android:id="@+id/menu_icon"
-        android:layout_width="@dimen/x40"
-        android:layout_height="@dimen/x40"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_bias="0.30"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
@@ -26,7 +26,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintVertical_bias="0.1"
+        android:textColor="@color/textcolor"
+        android:textStyle="bold"
         android:text="你好" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,4 +11,6 @@
     <color name="black">#000</color>
     <color name="white">#fff</color>
     <color name="index_my_color">#F3F1F1</color>
+    <color name="textcolor">#141414</color>
+    <color name="text_ps_back">#F3DBC6</color>
 </resources>

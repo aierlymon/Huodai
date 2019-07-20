@@ -26,10 +26,8 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
 
     @Override
     public void onClick(View view) {
-        MyLog.i("检测到recyclerview的点击事件");
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            MyLog.i("mOnItemClickListener: "+mOnItemClickListener);
             mOnItemClickListener.onItemClick(view, (int)view.getTag());
         }
     }

@@ -2,6 +2,7 @@ package com.example.baselib.http;
 
 import com.example.baselib.BuildConfig;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
+import com.example.baselib.http.interrceptorebean.RetryInterceptor;
 import com.example.model.bean.HomeBannerBean;
 import com.example.model.bean.HomeBodyBean;
 import com.example.model.bean.HomeMenuBean;
@@ -12,10 +13,12 @@ import com.example.model.bean.UpdateBean;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.Cache;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -53,7 +56,13 @@ public class HttpMethod {
             builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//连接 超时时间
             builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//写操作 超时时间
             builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//读操作 超时时间
-            builder.retryOnConnectionFailure(true);//错误重连
+
+            File cacheFile = new File(HttpConstant.context.getCacheDir(), "httpcaches");//缓存文件路径
+            if(!cacheFile.exists())cacheFile.mkdirs();
+
+            int cacheSize = 10 * 1024 * 1024;//设置缓存文件大小为10M
+            Cache cache = new Cache(cacheFile, cacheSize);
+            builder.cache(cache);
             if (BuildConfig.DEBUG) {
                 // Log信息拦截器
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -61,6 +70,9 @@ public class HttpMethod {
                 //设置 Debug Log 模式
                 builder.addInterceptor(loggingInterceptor);
                 builder.addInterceptor(new LoggingInterceptor());
+
+                // 错误重连拦截器
+                builder.addInterceptor(new RetryInterceptor(3,DEFAULT_TIME_OUT));
             }
             OkHttpClient okHttpClient = builder.build();
             mRetrofit = new Retrofit.Builder()

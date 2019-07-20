@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
@@ -21,6 +23,8 @@ import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
+import com.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
+import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.UpdateImage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -86,23 +90,25 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     class BannerHolder extends BaseMulViewHolder<HomeFRBannerHolder> {
         @BindView(R.id.banner_viewpager)
-        ViewPager viewPager;
+        LoopViewPager loopViewPager;
 
         public BannerHolder(View itemView) {
             super(itemView);
-
+            loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
+            loopViewPager.startBanner();
+            loopViewPager.showIndicator(true);
         }
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            HomeBannerVPAdapyer homeBannerVPAdapyer = new HomeBannerVPAdapyer(mContext, dataModel.getUrls());
-            homeBannerVPAdapyer.setOnItemClickListener(new HomeBannerVPAdapyer.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view) {
+            loopViewPager.setData( dataModel.getUrls(), (view, position1, item) -> {
+                view.setScaleType(ImageView.ScaleType.FIT_XY);
+                view.setOnClickListener(view1 -> {
                     go(view,-1);
-                }
+                });
+                //加载图片，如gide
+                Glide.with(mContext).load(item).into(view);
             });
-            viewPager.setAdapter(homeBannerVPAdapyer);
         }
     }
 
@@ -160,6 +166,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     public void go(View view, int position){
         if (Utils.isFastClick()) {
             if (ApplicationPrams.loginCallBackBean == null) {
+                MyLog.i("点击了go");
                 EventBus.getDefault().post(false);
                 return;
             }

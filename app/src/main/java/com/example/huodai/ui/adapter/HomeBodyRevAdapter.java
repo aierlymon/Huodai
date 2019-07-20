@@ -68,9 +68,9 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
 
         holder.title.setText(homeBodyBean.getName());
-        holder.limit.setText("" + homeBodyBean.getLimitL());
+        holder.limit.setText("  " + homeBodyBean.getLimitL());
         holder.max.setText("" + homeBodyBean.getLimitH());
-        holder.rate.setText(homeBodyBean.getInterest());
+        holder.rate.setText("  "+homeBodyBean.getInterest());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
         holder.itemView.setTag(position);

@@ -74,7 +74,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
 
     @Override
     public void showError(String msg) {
-        CustomToast.showToast(this, msg, 2000);
+        CustomToast.showToast(getApplicationContext(), msg, 2000);
     }
 
     @OnClick({R.id.btn_login, R.id.img_back, R.id.check})

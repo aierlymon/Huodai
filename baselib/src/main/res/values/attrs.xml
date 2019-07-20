@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoopViewPage">
+
+        <attr name="loop_now_indicator_img" format="integer"/>
+
+        <attr name="loop_indicator_img" format="integer"/>
+
+        <attr name="loop_gravity" format="string"/>
+
+    </declare-styleable>
+</resources>

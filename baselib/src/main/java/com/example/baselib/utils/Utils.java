@@ -1,7 +1,10 @@
 package com.example.baselib.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -16,7 +19,6 @@ import java.util.regex.Pattern;
  */
 
 public class Utils {
-
 
 
     public static float[] getScreenWH(Context context) {
@@ -45,7 +47,6 @@ public class Utils {
 
         return strHexString.toString();
     }
-
 
 
     //获得不重复的6位密码
@@ -87,12 +88,12 @@ public class Utils {
             } else if (b >= 10 && b < 36) {
                 singleChar = String.valueOf((char) (Integer.parseInt(x) + 55));
                 //A--Z
-            } else if ((b > 61&&b<=64)) {
+            } else if ((b > 61 && b <= 64)) {
                 singleChar = String.valueOf((char) (Integer.parseInt(x) + 20));
-            } else if ((b >64&&b<90)) {
+            } else if ((b > 64 && b < 90)) {
                 singleChar = String.valueOf((char) (Integer.parseInt(x)));
-            } else if ((b >=90)) {
-                singleChar = String.valueOf((char) ((Integer.parseInt(x)-10)));
+            } else if ((b >= 90)) {
+                singleChar = String.valueOf((char) ((Integer.parseInt(x) - 10)));
             } else {
                 //18年
                 singleChar = String.valueOf((char) (Integer.parseInt(x) + 61));
@@ -105,6 +106,7 @@ public class Utils {
 
     /**
      * 判断手机号是否符合规范
+     *
      * @param phoneNo 输入的手机号
      * @return
      */
@@ -141,6 +143,18 @@ public class Utils {
         }
         lastClickTime = curClickTime;
         return flag;
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            @SuppressLint("MissingPermission") NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
 }
