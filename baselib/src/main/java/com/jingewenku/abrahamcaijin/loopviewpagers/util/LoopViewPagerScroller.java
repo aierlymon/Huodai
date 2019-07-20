@@ -24,6 +24,10 @@ public class LoopViewPagerScroller extends Scroller {
     // 滑动速度
     private int mScrollDuration = 2000;
 
+    public int getmScrollDuration() {
+        return mScrollDuration;
+    }
+
     /**
      * 设置速度速度
      * @param duration

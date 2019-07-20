@@ -3,12 +3,14 @@ package com.example.huodai;
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -25,6 +27,8 @@ import com.example.huodai.ui.fragments.HomeFragment;
 import com.example.huodai.ui.fragments.LoanFragment;
 import com.example.huodai.ui.fragments.MyFragment;
 import com.example.huodai.widget.CustomScrollViewPager;
+import com.example.model.bean.LoginCallBackBean;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -53,6 +57,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @BindView(R.id.rb_my)
     RadioButton mRb_Mine;
 
+    private SharedPreferences preferences;
+
     private String[] permissions = {
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.REQUEST_INSTALL_PACKAGES,
@@ -80,7 +86,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     private void init() {
         //获取权限
-        RxPermissionUtil.getInstance().permission(this,permissions);
+        RxPermissionUtil.getInstance().permission(this, permissions);
 
         //注册网络检测广播
         netWorkStateBroadcast = new NetWorkStateBroadcast();
@@ -100,7 +106,14 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStateBroadcast, filter);
 
-
+        //判断是否已经登陆过
+        preferences = getSharedPreferences("cache", MODE_PRIVATE);
+        String obj = preferences.getString("obj", null);
+        if (!TextUtils.isEmpty(obj)) {
+            Gson gson = new Gson();
+            ApplicationPrams.loginCallBackBean = gson.fromJson(obj, LoginCallBackBean.class);
+            ApplicationPrams.isLogin=true;
+        }
         //butterknife的绑定
         ButterKnife.bind(this);
         //重新定义当前drawable的大小
@@ -185,9 +198,49 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginstate(Boolean isState) {
         if (!isState) {
+            //因为跳转到登陆。清空shareprefence
+            if (!TextUtils.isEmpty(preferences.getString("obj", null))) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("obj", null);
+                editor.apply();
+                editor.commit();
+            }
+
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            return;
         }
+
+        /*
+        *   private int id;
+        private String phone;
+        private String nick;
+        private Object name;
+        private Object card;
+        private String clientType;
+        private String channelId;
+        private int status;
+        private int activeTime;
+        private int createTime;
+        private String ip;
+        * */
+        //存储到sharepre
+        if (ApplicationPrams.loginCallBackBean != null) {
+            Gson gson = new Gson();
+            String obj = gson.toJson(ApplicationPrams.loginCallBackBean);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("obj", obj);
+            editor.apply();
+            editor.commit();
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void webState(String url) {
+        Intent intent = new Intent(this, WebActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 
     @Override

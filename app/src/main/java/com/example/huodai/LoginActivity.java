@@ -45,7 +45,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.login;
+        return R.layout.activity_login;
     }
 
     @Override

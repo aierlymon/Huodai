@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMVPFragment;
+import com.example.baselib.utils.MyLog;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.LoginActivity;
 import com.example.huodai.R;
@@ -19,6 +20,8 @@ import com.example.huodai.ui.adapter.MyRevAdapter;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.example.huodai.widget.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,10 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         }
         MyRevAdapter myRevAdapter = new MyRevAdapter(myFRFunctionHolders, getContext());
         recyclerView.setAdapter(myRevAdapter);
+
+        if(ApplicationPrams.isLogin){
+            loginSuceesee();
+        }
     }
 
     @Override
@@ -109,15 +116,15 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
                 break;
             case R.id.exit:
                 noLogin();
+                EventBus.getDefault().post(false);
                 ApplicationPrams.loginCallBackBean = null;
-                intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
                 break;
         }
 
     }
 
     private void noLogin() {
+        ApplicationPrams.isLogin=false;
         btnLogin.setVisibility(View.VISIBLE);
         imgIcon.setVisibility(View.GONE);
         txUsername.setVisibility(View.GONE);

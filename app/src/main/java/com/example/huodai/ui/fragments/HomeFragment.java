@@ -53,7 +53,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
-        fragRevAdapyer = new HomeFragRevAdapyer(getContext(),baseMulDataModels);
+        fragRevAdapyer = new HomeFragRevAdapyer(getActivity(),baseMulDataModels);
         mRecyclerView.setAdapter(fragRevAdapyer);
     }
 

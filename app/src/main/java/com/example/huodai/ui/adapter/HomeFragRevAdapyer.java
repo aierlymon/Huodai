@@ -1,6 +1,8 @@
 package com.example.huodai.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +19,14 @@ import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
+import com.example.huodai.WebActivity;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
+import com.example.model.bean.HomeBodyBean;
 import com.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
 import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.UpdateImage;
 
@@ -38,12 +42,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int BANNER = 0;
     private static final int MENU = 1;
     private static final int BODY = 2;
-    private Context mContext;
+    private Activity mContext;
 
-    public HomeFragRevAdapyer(Context mContext, List<BaseMulDataModel> modelList) {
+    public HomeFragRevAdapyer(Activity mContext, List<BaseMulDataModel> modelList) {
         this.modelList = modelList;
         this.mContext = mContext;
     }
+
+
 
     public List<BaseMulDataModel> getModelList() {
         return modelList;
@@ -95,16 +101,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         public BannerHolder(View itemView) {
             super(itemView);
             loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
-            loopViewPager.startBanner();
             loopViewPager.showIndicator(true);
         }
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            loopViewPager.setData( dataModel.getUrls(), (view, position1, item) -> {
+            loopViewPager.setData(dataModel.getUrls(), (view, position1, item) -> {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setOnClickListener(view1 -> {
-                    go(view,-1);
+                    go(view, -1,null);
                 });
                 //加载图片，如gide
                 Glide.with(mContext).load(item).into(view);
@@ -128,7 +133,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             recyclerView.setLayoutManager(manager);
             homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
-                go(view,position1);
+                go(view, position1,null);
             });
             recyclerView.setAdapter(homeMenuRevAdapter);
 
@@ -156,14 +161,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         public void bindData(HomeFRBodyHolder dataModel, int position) {
             HomeBodyRevAdapter homeBodyRevAdapter = new HomeBodyRevAdapter(mContext, dataModel.getHomeBodyBeanList());
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
-                go(view,position);
+                go(view, position, dataModel.getHomeBodyBeanList().get(position1));
             });
             recyclerView.addItemDecoration(new SpaceItemDecoration(2));
             recyclerView.setAdapter(homeBodyRevAdapter);
         }
     }
 
-    public void go(View view, int position){
+    public <T> void go(View view, int position, T object) {
         if (Utils.isFastClick()) {
             if (ApplicationPrams.loginCallBackBean == null) {
                 MyLog.i("点击了go");
@@ -171,6 +176,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 return;
             }
             //进行页面跳转
+            if (object instanceof HomeBodyBean){
+                EventBus.getDefault().post(((HomeBodyBean) object).getUrl());
+            }
+
+
         }
     }
 }

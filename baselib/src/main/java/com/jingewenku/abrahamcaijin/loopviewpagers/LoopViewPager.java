@@ -65,6 +65,10 @@ public class LoopViewPager<T> extends FrameLayout {
     private int loopIndicatorImg= R.mipmap.ic_un_origin;
 
 
+    public Handler getmHandler() {
+        return mHandler;
+    }
+
     public enum IndicatorGravity {
         LEFT,
         RIGHT,
@@ -254,6 +258,8 @@ public class LoopViewPager<T> extends FrameLayout {
         mHandler.postDelayed(loopRunnable,delayTime);
     }
 
+
+
     public void startBanner(long delayTime){
         this.delayTime=delayTime;
         mHandler.postDelayed(loopRunnable,delayTime);
@@ -288,4 +294,16 @@ public class LoopViewPager<T> extends FrameLayout {
         }
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        MyLog.i("动画时长: "+loopViewPagerScroller.getmScrollDuration());
+        startBanner();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }
