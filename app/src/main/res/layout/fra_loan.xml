@@ -5,6 +5,13 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/noOnline"
+        layout="@layout/refrsh_request"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +43,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y30"
-            android:background="@color/color_text_ps">
+            android:background="@color/text_ps_back">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

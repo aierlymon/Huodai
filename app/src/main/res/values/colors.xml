@@ -15,4 +15,5 @@
     <color name="text_ps_back">#F3DBC6</color>
     <color name="webview_title">#26E6E8E7</color>
     <color name="toumin">#00E6E8E7</color>
+    <color name="error_request">#222</color>
 </resources>

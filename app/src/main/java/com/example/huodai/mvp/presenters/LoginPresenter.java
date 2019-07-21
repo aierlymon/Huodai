@@ -80,6 +80,7 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
                     @Override
                     public void onFail(Throwable e) {
                         MyLog.i("我失败了");
+                        getView().showError("验证码不正确");
                     }
 
                     @Override

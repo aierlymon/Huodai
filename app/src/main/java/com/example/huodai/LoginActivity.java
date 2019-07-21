@@ -107,6 +107,10 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
                 finish();
                 break;
             case R.id.check:
+                if(!NetWorkStateBroadcast.isOnline.get()){
+                    showError(getString(R.string.nonet));
+                    break;
+                }
                 //发起验证码请求
                 mPresenter.checkVerificationCode(editNumber.getText().toString());
                 break;
@@ -116,9 +120,10 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     private CountDownTimer timer;
 
 
+    private CountDownTimer countDownTimer;
     @Override
     public void startTime() {
-        new CountDownTimer(60 * 1000, 1000) {
+        countDownTimer=  new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // TODO Auto-generated method stub
@@ -129,7 +134,8 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
             public void onFinish() {
                 txCheck.setText(getResources().getString(R.string.getcheck));
             }
-        }.start();
+        };
+        countDownTimer.start();
     }
 
     @Override
@@ -142,7 +148,9 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
     }
 
 

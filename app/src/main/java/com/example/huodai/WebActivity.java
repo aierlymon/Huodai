@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,6 +33,7 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
         String cacheDirPath = getFilesDir().getAbsolutePath()+"/webcache";
         //设置数据库缓存路径
         webSettings.setDatabasePath(cacheDirPath);
@@ -41,7 +43,19 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setAppCacheEnabled(true);
 
         webView.loadUrl(url);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    // 网页加载完成
+                    webSettings.setBlockNetworkImage(false);
+                } else {
+                    // 网页加载中
+                }
+
+            }
+        });
+      //  webView.setWebViewClient(new WebViewClient());
 
 
         ((FloatingActionButton) findViewById(R.id.img_back)).setOnClickListener(new View.OnClickListener() {

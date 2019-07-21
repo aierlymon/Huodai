@@ -75,7 +75,14 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         holder.rate.setText("  "+homeBodyBean.getInterest());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
+        holder.btn_request.setOnClickListener(view -> {
+            if (mOnItemClickListener != null) {
+                //注意这里使用getTag方法获取position
+                mOnItemClickListener.onItemClick(view,position);
+            }
+        });
         holder.itemView.setTag(position);
+
     }
 
     @Override
@@ -104,6 +111,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
             finaltext = ((TextView) itemView.findViewById(R.id.finaltext));
             time = ((TextView) itemView.findViewById(R.id.time));
             btn_request = itemView.findViewById(R.id.btn_request);
+
         }
     }
 }

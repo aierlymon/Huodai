@@ -297,7 +297,6 @@ public class LoopViewPager<T> extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        MyLog.i("动画时长: "+loopViewPagerScroller.getmScrollDuration());
         startBanner();
     }
 
@@ -305,5 +304,6 @@ public class LoopViewPager<T> extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mHandler.removeCallbacksAndMessages(null);
+        viewPager.setCurrentItem(currentItem);
     }
 }

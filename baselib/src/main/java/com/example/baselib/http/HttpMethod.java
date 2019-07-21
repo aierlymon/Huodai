@@ -57,23 +57,24 @@ public class HttpMethod {
             builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//写操作 超时时间
             builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//读操作 超时时间
 
-            File cacheFile = new File(HttpConstant.context.getCacheDir(), "httpcaches");//缓存文件路径
-            if(!cacheFile.exists())cacheFile.mkdirs();
+            File cacheFile = new File(HttpConstant.context.getCacheDir(), HttpConstant.cacheFileName);//缓存文件路径
+            // if(!cacheFile.exists())cacheFile.mkdirs();
 
             int cacheSize = 10 * 1024 * 1024;//设置缓存文件大小为10M
             Cache cache = new Cache(cacheFile, cacheSize);
             builder.cache(cache);
-            if (BuildConfig.DEBUG) {
-                // Log信息拦截器
-                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                //设置 Debug Log 模式
-                builder.addInterceptor(loggingInterceptor);
-                builder.addInterceptor(new LoggingInterceptor());
 
-                // 错误重连拦截器
-                builder.addInterceptor(new RetryInterceptor(3,DEFAULT_TIME_OUT));
-            }
+            // Log信息拦截器
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            //设置 Debug Log 模式
+            builder.addInterceptor(loggingInterceptor);
+            builder.addInterceptor(new LoggingInterceptor());
+
+            // 错误重连拦截器
+            builder.addInterceptor(new RetryInterceptor(3, DEFAULT_TIME_OUT));
+         /*   if (BuildConfig.DEBUG) {
+            }*/
             OkHttpClient okHttpClient = builder.build();
             mRetrofit = new Retrofit.Builder()
                     //设置基础地址
@@ -120,12 +121,12 @@ public class HttpMethod {
     public Observable<LoginCallBackBean> requestLogin(String number, String code) {
         JSONObject root = new JSONObject();
         try {
-            root.put("code", "4588");
-            root.put("phone","15622762654" );
+            root.put("code", code);
+            root.put("phone", number);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),root.toString());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
     /*    Map<String,String> map=new HashMap<>();
         map.put("code", "4588");
         map.put("phone","15622762654" );*/

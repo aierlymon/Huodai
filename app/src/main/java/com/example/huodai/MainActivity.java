@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -122,7 +121,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         registerReceiver(netWorkStateBroadcast, filter);
 
 
-
         //判断是否已经登陆过
         preferences = getSharedPreferences("cache", MODE_PRIVATE);
         String obj = preferences.getString("obj", null);
@@ -172,7 +170,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     public void run() {
                         imageViewBack.setVisibility(View.GONE);
                         //检测更新
-                        mPresenter.checkUpdate(MainActivity.this);
+                        if (NetWorkStateBroadcast.isOnline.get()&&mPresenter!=null)
+                            mPresenter.checkUpdate(MainActivity.this);
                     }
                 });
             }
@@ -243,7 +242,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             }
 
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("isAnim",true);
+            intent.putExtra("isAnim", true);
             startActivity(intent);
             return;
         }
@@ -266,6 +265,12 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         startActivity(intent);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkRadio(Integer radioIndex) {
+        MyLog.i("MainActivity 我接收到了image的点击事件");
+        ((RadioButton) mGroup.getChildAt(radioIndex)).setChecked(true);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -273,7 +278,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         if (netWorkStateBroadcast != null)
             unregisterReceiver(netWorkStateBroadcast);
         //取消下载更新
-        mPresenter.cancelIUpdate();
+        if (mPresenter != null)
+            mPresenter.cancelIUpdate();
     }
 
     private ProgressDialog pd;
@@ -305,9 +311,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @Override
     public void onUpdateProgress(int progress) {
-
+        if (pd != null)
             pd.setProgress(progress);
-            MyLog.i("下载进度为: " + progress);
+        MyLog.i("下载进度为: " + progress);
 
     }
 
@@ -325,22 +331,23 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     break;
             }
             showError(info);
-            pd.dismiss();
+            if (pd != null)
+                pd.dismiss();
         });
 
     }
 
     @Override
     public void onUpdateSuccess(Intent intent) {
-          pd.dismiss();
-          startActivity(intent);
+        pd.dismiss();
+        startActivity(intent);
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        if(intent.getBooleanExtra("isAnim",false))
-        overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
+        if (intent.getBooleanExtra("isAnim", false))
+            overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
     }
 
 

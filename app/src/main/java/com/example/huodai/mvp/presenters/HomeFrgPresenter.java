@@ -36,13 +36,16 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onSuccess(List<HomeBannerBean> homeHeadBeans) {
                         MyLog.i("成功了: " + homeHeadBeans.size()+"  shuxing: ");
-                        List<String> urls = new ArrayList<>();
+                        List<String > icon_urls = new ArrayList<>();
+                        List<String> urls=new ArrayList<>();
                         for (HomeBannerBean homeHeadBean : homeHeadBeans) {
-                            MyLog.i("看一看数据:=========> "+homeHeadBean.getTitle());
+                            MyLog.i("看一看数据:=========> "+homeHeadBean.getUrl());
                             ///group1/default/20190630/22/32/8/微信图片_20190417112246.png
-                            urls.add(HttpConstant.BASE_URL + homeHeadBean.getIcon());
+                            icon_urls.add(HttpConstant.BASE_URL + homeHeadBean.getIcon());
+                            urls.add(homeHeadBean.getUrl());
                         }
                         HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+                        homeFRBannerHolder.setIcon_urls(icon_urls);
                         homeFRBannerHolder.setUrls(urls);
                         list.add(homeFRBannerHolder);
                         getView().refreshHome(list);
@@ -51,6 +54,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onFail(Throwable e) {
                         MyLog.i("失败了: " + e.getMessage());
+                        getView().showError("连接错误: "+e.getMessage());
                     }
 
                     @Override
@@ -76,7 +80,6 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
                     @Override
                     public void onFail(Throwable e) {
-
                     }
 
                     @Override

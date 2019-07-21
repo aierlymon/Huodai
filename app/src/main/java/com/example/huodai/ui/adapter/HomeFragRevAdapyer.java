@@ -1,6 +1,7 @@
 package com.example.huodai.ui.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,10 +102,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            loopViewPager.setData(dataModel.getUrls(), (view, position1, item) -> {
+            loopViewPager.setData(dataModel.getIcon_urls(), (view, position1, item) -> {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setOnClickListener(view1 -> {
-                    go(view, -1,null);
+                    MyLog.i("banner 点击之后: "+dataModel.getUrls().get(position1));
+                    go(view, -100,dataModel.getUrls().get(position1));
                 });
                 MyLog.i("banner item icon: "+item);
                 //加载图片，如gide
@@ -129,7 +131,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             recyclerView.setLayoutManager(manager);
             homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
-                go(view, position1,null);
+                go(view, -1,null);
             });
             recyclerView.setAdapter(homeMenuRevAdapter);
 
@@ -174,9 +176,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             //进行页面跳转
             if (object instanceof HomeBodyBean){
                 EventBus.getDefault().post(((HomeBodyBean) object).getUrl());
+            }else if(object instanceof String){
+                if(!TextUtils.isEmpty(""+object))
+                EventBus.getDefault().post(""+object);
             }
 
-
+            if(position==-1){
+                EventBus.getDefault().post(1);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.huodai.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.Utils;
+import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
+import com.example.model.bean.HomeBodyBean;
 import com.example.model.bean.HomeMenuBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -62,6 +68,16 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
         Glide.with(mContext).load(HttpConstant.BASE_URL+mulDataModelList.get(position).getIcon()).into(holder.image);
         holder.name.setText(mulDataModelList.get(position).getName());
         holder.itemView.setTag(position);
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnItemClickListener != null) {
+                    //注意这里使用getTag方法获取position
+                    mOnItemClickListener.onItemClick(view, position);
+                }
+            }
+        });
+
     }
 
     @Override

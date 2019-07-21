@@ -1,24 +1,40 @@
 package com.example.huodai.ui.fragments;
 
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMVPFragment;
+import com.example.baselib.http.HttpConstant;
+import com.example.baselib.utils.CustomToast;
+import com.example.baselib.utils.MyLog;
 import com.example.huodai.R;
 import com.example.huodai.mvp.presenters.LoanFrgPresenter;
 import com.example.huodai.mvp.view.LoanFrgViewImpl;
 import com.example.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresenter> implements LoanFrgViewImpl {
 
     @BindView(R.id.recv_loan)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.tx_refrsh)
+    TextView refreshTx;
+
+    @BindView(R.id.noOnline)
+    RelativeLayout relativeLayout;
+
 
     private HomeFragRevAdapyer fragRevAdapyer;
     private List<BaseMulDataModel> baseMulDataModels;
@@ -41,14 +57,12 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     protected void lazyLoadData() {
-
+        //不把它放到懒加载
+        mPresenter.requestBody();
     }
 
     @Override
     protected void initView() {
-
-        //不把它放到懒加载
-        mPresenter.requestBody();
         baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
@@ -68,7 +82,9 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     public void showError(String msg) {
-
+            mRecyclerView.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.VISIBLE);
+            CustomToast.showToast(getContext().getApplicationContext(),msg,2000);
     }
 
     @Override
@@ -76,5 +92,16 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         fragRevAdapyer.getModelList().clear();
         fragRevAdapyer.getModelList().addAll(list);
         fragRevAdapyer.notifyDataSetChanged();
+    }
+
+    @OnClick({R.id.tx_refrsh})
+    public void onClick(){
+        MyLog.i("触发了刷新的点击事件");
+        File cacheFile = new File(HttpConstant.context.getCacheDir(), HttpConstant.cacheFileName);//缓存文件路径
+        mPresenter.requestBody();//请求body
+        if(cacheFile.exists()){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            relativeLayout.setVisibility(View.GONE);
+        }
     }
 }

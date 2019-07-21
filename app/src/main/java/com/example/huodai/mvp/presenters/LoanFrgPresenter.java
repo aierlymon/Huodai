@@ -40,7 +40,7 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
 
                     @Override
                     public void onFail(Throwable e) {
-
+                        getView().showError(e.getMessage());
                     }
 
                     @Override

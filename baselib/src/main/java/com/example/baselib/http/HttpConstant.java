@@ -17,5 +17,7 @@ public abstract class HttpConstant {
 
     public  static Context context;
 
+    public static  final String cacheFileName="httpcaches";
+
     //http://tuershiting.com/api/banners?filter[where][open]=true
 }
