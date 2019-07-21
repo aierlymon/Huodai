@@ -32,7 +32,7 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
         String cacheDirPath = getFilesDir().getAbsolutePath()+"/webcache";
         //设置数据库缓存路径
@@ -55,7 +55,7 @@ public class WebActivity extends AppCompatActivity {
 
             }
         });
-     
+
 
 
         ((FloatingActionButton) findViewById(R.id.img_back)).setOnClickListener(new View.OnClickListener() {

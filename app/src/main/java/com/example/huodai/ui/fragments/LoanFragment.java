@@ -57,12 +57,14 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     protected void lazyLoadData() {
-        //不把它放到懒加载
-        mPresenter.requestBody();
+
     }
 
     @Override
     protected void initView() {
+        //不把它放到懒加载
+        mPresenter.requestBody();
+
         baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
