@@ -55,7 +55,7 @@ public class WebActivity extends AppCompatActivity {
 
             }
         });
-      //  webView.setWebViewClient(new WebViewClient());
+     
 
 
         ((FloatingActionButton) findViewById(R.id.img_back)).setOnClickListener(new View.OnClickListener() {
