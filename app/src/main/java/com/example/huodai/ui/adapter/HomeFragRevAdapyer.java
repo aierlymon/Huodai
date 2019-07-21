@@ -1,8 +1,6 @@
 package com.example.huodai.ui.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
-import com.example.huodai.WebActivity;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
@@ -28,7 +24,6 @@ import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.example.model.bean.HomeBodyBean;
 import com.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.UpdateImage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -111,6 +106,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 view.setOnClickListener(view1 -> {
                     go(view, -1,null);
                 });
+                MyLog.i("banner item icon: "+item);
                 //加载图片，如gide
                 Glide.with(mContext).load(item).into(view);
             });

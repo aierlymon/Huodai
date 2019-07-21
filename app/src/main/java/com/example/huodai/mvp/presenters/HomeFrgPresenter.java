@@ -35,9 +35,10 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 .subscribe(new MySubscriber<List<HomeBannerBean>>(this) {
                     @Override
                     public void onSuccess(List<HomeBannerBean> homeHeadBeans) {
-                        MyLog.i("成功了: " + homeHeadBeans.size());
+                        MyLog.i("成功了: " + homeHeadBeans.size()+"  shuxing: ");
                         List<String> urls = new ArrayList<>();
                         for (HomeBannerBean homeHeadBean : homeHeadBeans) {
+                            MyLog.i("看一看数据:=========> "+homeHeadBean.getTitle());
                             ///group1/default/20190630/22/32/8/微信图片_20190417112246.png
                             urls.add(HttpConstant.BASE_URL + homeHeadBean.getIcon());
                         }

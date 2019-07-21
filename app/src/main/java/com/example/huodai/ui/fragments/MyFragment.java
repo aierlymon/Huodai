@@ -111,8 +111,9 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         Intent intent;
         switch (v.getId()) {
             case R.id.btn_login:
-                intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                EventBus.getDefault().post(false);
+              /*  intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);*/
                 break;
             case R.id.exit:
                 noLogin();

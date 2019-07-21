@@ -6,8 +6,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.PhoneNumberUtils;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
+import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -157,4 +162,11 @@ public class Utils {
         return false;
     }
 
+
+    public static void  setEditTextHintSize(EditText editText, String hintText, int size){
+        SpannableString ss = new SpannableString(hintText);//定义hint的值
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(size,true);//设置字体大小 true表示单位是sp
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        editText.setHint(new SpannedString(ss));
+    }
 }

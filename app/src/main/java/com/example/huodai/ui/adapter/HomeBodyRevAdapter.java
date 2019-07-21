@@ -66,6 +66,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         RequestOptions options = new RequestOptions();
         int size = (int) mContext.getResources().getDimension(R.dimen.x30);
         options.override(size, size); //设置加载的图片大小
+        MyLog.i("body item icon: "+icon_url);
         Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
 
         holder.title.setText(homeBodyBean.getName());

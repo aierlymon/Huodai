@@ -1,5 +1,6 @@
 package com.example.huodai;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.utils.CustomToast;
+import com.example.baselib.utils.Utils;
 import com.example.huodai.mvp.presenters.LoginPresenter;
 import com.example.huodai.mvp.view.LoginViewimpl;
+import com.google.gson.annotations.Until;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,6 +47,8 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     EditText editCheck;
 
 
+
+
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_login;
@@ -54,6 +60,8 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
         ButterKnife.bind(this);
 
         backIcon.setVisibility(View.VISIBLE);
+        Utils.setEditTextHintSize(editCheck,getString(R.string.chek_num),15);
+        Utils.setEditTextHintSize(editNumber,getString(R.string.phone_num),15);
         titleName.setText(getResources().getString(R.string.logintxt));
     }
 
@@ -81,6 +89,10 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
+                if(!NetWorkStateBroadcast.isOnline.get()){
+                    showError(getString(R.string.nonet));
+                    break;
+                }
                 if (!mPresenter.checkTelPhoneNumber(editNumber.getText().toString()) || TextUtils.isEmpty(editCheck.getText().toString())) {
                     showError(getResources().getString(R.string.numberorcheck_error));
                     break;

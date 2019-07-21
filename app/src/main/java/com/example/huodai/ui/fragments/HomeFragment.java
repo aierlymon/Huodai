@@ -59,12 +59,12 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void showLoading() {
-        LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).show();
+     //   LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).show();
     }
 
     @Override
     public void hideLoading() {
-        LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).cancel();
+      //  LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).cancel();
     }
 
     @Override

@@ -10,8 +10,12 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@mipmap/ic_launcher</item>
     </style>
 
+    <style name="splash_style" parent="@android:style/Theme.NoTitleBar">
 
+    </style>
 
 </resources>

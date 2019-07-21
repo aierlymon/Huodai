@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -9,14 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/y20">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/myloginhead"
             layout="@layout/toolbarhead"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y50" />
+            android:layout_height="@dimen/y40" />
 
 
         <!--logo-->
@@ -30,8 +28,9 @@
             android:gravity="center"
             android:text="@string/logo"
             android:textAlignment="center"
-            android:textColor="@color/color_text_ps"
-            android:textSize="25sp" />
+            android:textColor="@color/color_text_selected"
+            android:layout_marginTop="@dimen/y20"
+            android:textSize="18sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -46,8 +45,8 @@
                 android:layout_marginBottom="@dimen/y10"
                 android:background="@drawable/edittext_back"
                 android:hint="@string/phone_num"
-                android:padding="10dp"
                 android:inputType="phone"
+                android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/edit_check"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -61,40 +60,41 @@
                 android:layout_marginBottom="@dimen/y20"
                 android:background="@drawable/edittext_back"
                 android:hint="@string/chek_num"
-                android:padding="10dp"
                 android:inputType="number"
+                android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/btn_login"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/edit_num"
                 app:layout_constraintTop_toBottomOf="@+id/edit_num"
-                app:layout_constraintWidth_percent="0.8" />
+                app:layout_constraintWidth_percent="0.5" />
 
             <TextView
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/getcheck"
-                app:layout_constraintTop_toTopOf="@+id/edit_check"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_check"
-                app:layout_constraintRight_toRightOf="@+id/edit_check"
+                android:layout_marginRight="@dimen/x2"
                 android:gravity="center"
+                android:paddingRight="@dimen/x8"
+                android:text="@string/getcheck"
                 android:textAlignment="center"
-                android:layout_marginRight="@dimen/x8"
-                android:textSize="17sp"
-                android:textColor="@color/color_text_ps"/>
+                android:textColor="@color/color_text_ps"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_check"
+                app:layout_constraintRight_toRightOf="@+id/edit_num"
+                app:layout_constraintTop_toTopOf="@+id/edit_check" />
 
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_button"
-                android:text="@string/login"
-                android:textColor="@color/color_text_ps"
+                android:text="@string/logintxt"
+                android:textColor="@color/color_text_selected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_check"
-                app:layout_constraintWidth_percent="0.8" />
+                app:layout_constraintWidth_percent="0.8"
+                android:textSize="18sp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

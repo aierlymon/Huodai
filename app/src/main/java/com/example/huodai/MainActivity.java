@@ -1,6 +1,7 @@
 package com.example.huodai;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -11,15 +12,23 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.baselib.base.BaseMvpActivity;
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
+import com.example.baselib.utils.CustomToast;
+import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.RxPermissionUtil;
+import com.example.baselib.utils.UpdateUtil;
 import com.example.huodai.mvp.presenters.MainPrsenter;
 import com.example.huodai.mvp.view.MainViewImpl;
 import com.example.huodai.ui.adapter.MainVPAdapter;
@@ -57,6 +66,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @BindView(R.id.rb_my)
     RadioButton mRb_Mine;
 
+    @BindView(R.id.background)
+    ImageView imageViewBack;
+
     private SharedPreferences preferences;
 
     private String[] permissions = {
@@ -66,7 +78,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.CHANGE_NETWORK_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE
+            Manifest.permission.CHANGE_WIFI_STATE,
+
     };
 
 
@@ -85,6 +98,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     private NetWorkStateBroadcast netWorkStateBroadcast;
 
     private void init() {
+
+
         //获取权限
         RxPermissionUtil.getInstance().permission(this, permissions);
 
@@ -106,13 +121,15 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStateBroadcast, filter);
 
+
+
         //判断是否已经登陆过
         preferences = getSharedPreferences("cache", MODE_PRIVATE);
         String obj = preferences.getString("obj", null);
         if (!TextUtils.isEmpty(obj)) {
             Gson gson = new Gson();
             ApplicationPrams.loginCallBackBean = gson.fromJson(obj, LoginCallBackBean.class);
-            ApplicationPrams.isLogin=true;
+            ApplicationPrams.isLogin = true;
         }
         //butterknife的绑定
         ButterKnife.bind(this);
@@ -130,7 +147,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         }
 
 
-        //初始化三页
+        //初始化页面
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance("home"));
         fragments.add(LoanFragment.newInstance("loan"));
@@ -141,6 +158,25 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         mViewPager.setAdapter(mainVPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
 
+        //过度界面展示
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageViewBack.setVisibility(View.GONE);
+                        //检测更新
+                        mPresenter.checkUpdate(MainActivity.this);
+                    }
+                });
+            }
+        }).start();
 
     }
 
@@ -187,7 +223,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @Override
     public void showError(String msg) {
-
+        CustomToast.showToast(getApplicationContext(), msg, 2000);
     }
 
     @Override
@@ -207,24 +243,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             }
 
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("isAnim",true);
             startActivity(intent);
             return;
         }
 
-        /*
-        *   private int id;
-        private String phone;
-        private String nick;
-        private Object name;
-        private Object card;
-        private String clientType;
-        private String channelId;
-        private int status;
-        private int activeTime;
-        private int createTime;
-        private String ip;
-        * */
-        //存储到sharepre
         if (ApplicationPrams.loginCallBackBean != null) {
             Gson gson = new Gson();
             String obj = gson.toJson(ApplicationPrams.loginCallBackBean);
@@ -246,7 +269,79 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //取消注册广播
         if (netWorkStateBroadcast != null)
             unregisterReceiver(netWorkStateBroadcast);
+        //取消下载更新
+        mPresenter.cancelIUpdate();
     }
+
+    private ProgressDialog pd;
+
+    @Override
+    public void statrUpdateProgress() {
+        runOnUiThread(() -> {
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setOnKeyListener((dialog, keyCode, event) -> {
+                if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+                    return true;
+                } else {
+                    return false; //默认返回 false
+                }
+            });
+            pd.setTitle("请稍等");
+            //设置对话进度条样式为水平
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            //设置提示信息
+            pd.setMessage("正在玩命下载中......");
+            //设置对话进度条显示在屏幕顶部（方便截图）
+            pd.getWindow().setGravity(Gravity.CENTER);
+            pd.setCancelable(false);
+            pd.setMax(100);
+            pd.show();//调用show方法显示进度条对话框
+        });
+
+    }
+
+    @Override
+    public void onUpdateProgress(int progress) {
+
+            pd.setProgress(progress);
+            MyLog.i("下载进度为: " + progress);
+
+    }
+
+    @Override
+    public void onUpdateFail(int errorType, String info) {
+        runOnUiThread(() -> {
+            switch (errorType) {
+                case UpdateUtil.FILE_DOWNLOAD_ERROR:
+                    break;
+                case UpdateUtil.FILE_IO_ERROR:
+                    break;
+                case UpdateUtil.FILE_MD5_ERROR:
+                    break;
+                case UpdateUtil.FILE_NOTFOUND_ERROR:
+                    break;
+            }
+            showError(info);
+            pd.dismiss();
+        });
+
+    }
+
+    @Override
+    public void onUpdateSuccess(Intent intent) {
+          pd.dismiss();
+          startActivity(intent);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        if(intent.getBooleanExtra("isAnim",false))
+        overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
+    }
+
+
 }

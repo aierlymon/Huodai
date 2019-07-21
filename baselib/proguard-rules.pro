@@ -9,7 +9,7 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
+  # public *;
 #}
 
 # Uncomment this to preserve the line number information for
@@ -19,3 +19,28 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#自定义view
+-keep public class com.example.baselib.widget.**{*;}
+
+
+-keep public class com.example.baselib.http.**
+
+-keep public class * extends android.app.Application
+-keep public class * extends android.support.multidex.MultiDexApplication
+
+#butterknife
+
+-keep class butterknife.** { *; }
+
+-dontwarn butterknife.internal.**
+
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}

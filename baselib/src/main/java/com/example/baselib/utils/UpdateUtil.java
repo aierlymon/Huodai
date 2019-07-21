@@ -42,10 +42,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * on 2019/7/10
  */
 public class UpdateUtil implements LifecycleObserver {
-    public static final int FILE_NOTFOUND_ERROR=0x01;
-    public static final int FILE_IO_ERROR=0x02;
-    public static final int FILE_MD5_ERROR=0x03;
-    public static final int FILE_DOWNLOAD_ERROR=0x04;
+    public static final int FILE_NOTFOUND_ERROR=0x01;//没有找到地址
+    public static final int FILE_IO_ERROR=0x02;//下载过程错误
+    public static final int FILE_MD5_ERROR=0x03;//下载后md5错误
+    public static final int FILE_DOWNLOAD_ERROR=0x04;//文件下载失败
 
     private Context context;
     private Retrofit retrofit;
@@ -74,6 +74,11 @@ public class UpdateUtil implements LifecycleObserver {
 
     private UpdateDialog builder;
 
+    private String appPackName;
+
+    public void setAppPackName(String appPackName) {
+        this.appPackName = appPackName;
+    }
 
     public boolean checkUpdate(HttpMethod httpMethod) {
         httpMethod.checkUpdate()
@@ -288,9 +293,11 @@ public class UpdateUtil implements LifecycleObserver {
                                 File file = new File(getApkPath(), updateBean.getApk_name());
                                 MyLog.i("file存在吗: "+file.exists());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 //判读版本是否在7.0以上
                                 if (Build.VERSION.SDK_INT >= 24) {
                                     //provider authorities
+                                    MyLog.i("provider name: "+context.getPackageName()+".fileprovider");
                                     Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider", file);
                                     //Granting Temporary Permissions to a URI
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
