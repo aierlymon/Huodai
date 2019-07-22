@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/x20"
             android:visibility="gone"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/man" />
 
         <TextView
             android:id="@+id/tx_username"

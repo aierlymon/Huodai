@@ -82,6 +82,6 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/ic_launcher"/>
+        android:background="@drawable/backgroud"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,8 +61,8 @@ public class LoopViewPager<T> extends FrameLayout {
     private int currentItem=0;
     private int viewNumber=0;
 
-    private int loopNowIndicatorImg= R.mipmap.ic_origin;
-    private int loopIndicatorImg= R.mipmap.ic_un_origin;
+    private int loopNowIndicatorImg= R.drawable.ic_check;
+    private int loopIndicatorImg= R.drawable.ic_uncheck;
 
 
     public Handler getmHandler() {
