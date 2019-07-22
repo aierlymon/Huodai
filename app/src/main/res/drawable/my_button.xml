@@ -4,5 +4,5 @@
     android:shape="rectangle">
     <solid android:color="@color/white" />
     <corners android:radius="100dp" />
-    <stroke android:color="#FF8100" android:width="1dp"/>
+    <stroke android:color="@color/my_login_back_color" android:width="1dp"/>
 </shape>

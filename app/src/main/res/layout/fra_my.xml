@@ -9,13 +9,13 @@
         android:id="@+id/myhead"
         layout="@layout/toolbarhead"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y34" />
+        android:layout_height="@dimen/y38" />
 
 
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y50"
+        android:layout_height="@dimen/y54"
         android:layout_below="@+id/myhead"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/x40"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/x20"
-            android:src="@drawable/man"
+            android:src="@mipmap/ic_launcher"
             android:visibility="gone" />
 
         <TextView
@@ -57,8 +57,8 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="@dimen/x154"
-            android:layout_height="@dimen/y27"
+            android:layout_width="@dimen/x146"
+            android:layout_height="@dimen/y25"
             android:layout_centerInParent="true"
             android:background="@drawable/my_button"
             android:text="@string/login"

@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="color_text_selected">#F68A32</color>
-    <color name="my_login_color">#FF8241</color>
+    <color name="my_login_color">#FF8100</color>
+    <color name="my_login_back_color">#FF8241</color>
     <color name="color_text_normal">#777777</color>
     <color name="color_text_ps">#FFC779</color>
     <color name="red">#F44336</color>
