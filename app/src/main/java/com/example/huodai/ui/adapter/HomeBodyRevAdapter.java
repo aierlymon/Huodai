@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,19 +15,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
+import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.widget.CircleImageView;
 import com.example.model.bean.HomeBodyBean;
 
 import java.util.List;
 
-public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.BodyItemHold> implements View.OnClickListener{
+public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.BodyItemHold> implements View.OnClickListener {
 
     private Context mContext;
     private List<HomeBodyBean> homeBodyBeanList;
 
     public interface OnItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 
 
@@ -45,17 +47,16 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(view, (int)view.getTag());
+            mOnItemClickListener.onItemClick(view, (int) view.getTag());
         }
     }
-
 
 
     @NonNull
     @Override
     public BodyItemHold onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BodyItemHold(LayoutInflater.from(mContext)
-                .inflate(R.layout.home_body_item, parent, false),this);
+                .inflate(R.layout.home_body_item, parent, false), this);
     }
 
     @Override
@@ -66,19 +67,24 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         RequestOptions options = new RequestOptions();
         int size = (int) mContext.getResources().getDimension(R.dimen.x30);
         options.override(size, size); //设置加载的图片大小
-        MyLog.i("body item icon: "+icon_url);
+        MyLog.i("body item icon: " + icon_url);
         Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
 
+        //标题名字
         holder.title.setText(homeBodyBean.getName());
-        holder.limit.setText("  " + homeBodyBean.getLimitL());
+
+        holder.limit.setText(""+homeBodyBean.getLimitL());
+
         holder.max.setText("" + homeBodyBean.getLimitH());
-        holder.rate.setText("  "+homeBodyBean.getInterest());
+
+        holder.rate.setText(homeBodyBean.getInterest());
+        holder.date.setText("期限: "+homeBodyBean.getPeriod());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
         holder.btn_request.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取position
-                mOnItemClickListener.onItemClick(view,position);
+                mOnItemClickListener.onItemClick(view, position);
             }
         });
         holder.itemView.setTag(position);
@@ -98,7 +104,10 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         private TextView rate;
         private TextView finaltext;
         private TextView time;
-        private Button btn_request;
+        private ImageButton btn_request;
+        private TextView date;
+        private TextView tx_fast_nouse;
+        private TextView tx_down_nouse;
 
         public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
@@ -111,7 +120,19 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
             finaltext = ((TextView) itemView.findViewById(R.id.finaltext));
             time = ((TextView) itemView.findViewById(R.id.time));
             btn_request = itemView.findViewById(R.id.btn_request);
+            date = ((TextView) itemView.findViewById(R.id.date));
+            tx_fast_nouse = itemView.findViewById(R.id.tx_fast_nouse);
+            tx_down_nouse = ((TextView) itemView.findViewById(R.id.tx_down_nouse));
 
+            limit.setTypeface(ApplicationPrams.typeface);
+            max.setTypeface(ApplicationPrams.typeface);
+            title.setTypeface(ApplicationPrams.typeface);
+            rate.setTypeface(ApplicationPrams.typeface);
+            finaltext.setTypeface(ApplicationPrams.typeface);
+            time.setTypeface(ApplicationPrams.typeface);
+            date.setTypeface(ApplicationPrams.typeface);
+            tx_down_nouse.setTypeface(ApplicationPrams.typeface);
+            tx_fast_nouse.setTypeface(ApplicationPrams.typeface);
         }
     }
 }

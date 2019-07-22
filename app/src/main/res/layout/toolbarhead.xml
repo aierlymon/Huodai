@@ -14,20 +14,30 @@
             android:id="@+id/img_back"
             android:layout_width="@dimen/x20"
             android:layout_height="@dimen/x20"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/x17"
-            android:visibility="gone"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back"
+            android:visibility="gone" />
 
-        <TextView
+
+        <!--<TextView
             android:id="@+id/tx_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="@dimen/sp_my_textsize"
-            android:layout_centerInParent="true"
-            android:textColor="@color/black"
-            android:text="@string/mine"/>
+            android:text="我的"
+            android:textColor="#ff111111"
+            android:layout_centerInParent="t-->rue"
+            android:textSize="18sp" />
+
+          <TextView
+              android:id="@+id/tx_title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textStyle="bold"
+              android:textSize="@dimen/sp_my_textsize"
+              android:layout_centerInParent="true"
+              android:textColor="@color/black"
+              android:text="@string/mine"/>
     </RelativeLayout>
 </LinearLayout>

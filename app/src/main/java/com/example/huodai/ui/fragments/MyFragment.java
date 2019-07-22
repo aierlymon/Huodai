@@ -1,6 +1,7 @@
 package com.example.huodai.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +47,9 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
     @BindView(R.id.exit)
     TextView txExit;
 
+    @BindView(R.id.tx_title)
+    TextView txTitle;
+
     private int[] name = {R.string.any_question, R.string.about_us, R.string.serice_content};
     private int[] icon = {R.drawable.group, R.drawable.about, R.drawable.fuwu};
 
@@ -74,6 +78,10 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     @Override
     protected void initView() {
+
+        txTitle.setTypeface(ApplicationPrams.typeface);
+        txUsername.setTypeface(ApplicationPrams.typeface);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(2));
         List<BaseMulDataModel> myFRFunctionHolders = new ArrayList<>();

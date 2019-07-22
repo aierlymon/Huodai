@@ -1,6 +1,7 @@
 package com.example.huodai;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -47,8 +48,6 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     EditText editCheck;
 
 
-
-
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_login;
@@ -57,11 +56,16 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         ButterKnife.bind(this);
 
+
+        titleName.setTypeface(ApplicationPrams.typeface);
+
         backIcon.setVisibility(View.VISIBLE);
-        Utils.setEditTextHintSize(editCheck,getString(R.string.chek_num),15);
-        Utils.setEditTextHintSize(editNumber,getString(R.string.phone_num),15);
+        Utils.setEditTextHintSize(editCheck, getString(R.string.chek_num), 15);
+        Utils.setEditTextHintSize(editNumber, getString(R.string.phone_num), 15);
         titleName.setText(getResources().getString(R.string.logintxt));
     }
 
@@ -89,7 +93,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if(!NetWorkStateBroadcast.isOnline.get()){
+                if (!NetWorkStateBroadcast.isOnline.get()) {
                     showError(getString(R.string.nonet));
                     break;
                 }
@@ -107,7 +111,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
                 finish();
                 break;
             case R.id.check:
-                if(!NetWorkStateBroadcast.isOnline.get()){
+                if (!NetWorkStateBroadcast.isOnline.get()) {
                     showError(getString(R.string.nonet));
                     break;
                 }
@@ -121,9 +125,10 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
 
 
     private CountDownTimer countDownTimer;
+
     @Override
     public void startTime() {
-        countDownTimer=  new CountDownTimer(60 * 1000, 1000) {
+        countDownTimer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // TODO Auto-generated method stub
@@ -148,7 +153,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }

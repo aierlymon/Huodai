@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="color_text_selected">#F68A32</color>
+    <color name="my_login_color">#FF8241</color>
     <color name="color_text_normal">#777777</color>
     <color name="color_text_ps">#FFC779</color>
     <color name="red">#F44336</color>
@@ -16,4 +17,8 @@
     <color name="webview_title">#26E6E8E7</color>
     <color name="toumin">#00E6E8E7</color>
     <color name="error_request">#222</color>
+    <color name="toolbar_head">#111111</color>
+    <color name="mine_menu_color">#222222</color>
+
+    <color name="frag_body_small_textcolor">#888888</color>
 </resources>

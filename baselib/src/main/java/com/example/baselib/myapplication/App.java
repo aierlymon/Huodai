@@ -2,6 +2,7 @@ package com.example.baselib.myapplication;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Typeface;
 
 import androidx.multidex.MultiDex;
 
@@ -18,7 +19,6 @@ import com.squareup.leakcanary.RefWatcher;
 public class App extends Application {
 
     private  RefWatcher mRefWatcher;
-
     @Override
     public void onCreate() {
         super.onCreate();

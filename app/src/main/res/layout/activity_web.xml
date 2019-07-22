@@ -8,20 +8,21 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/progress_horizontal"
         android:layerType="software" />
 
 
     <RelativeLayout
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:background="@color/color_text_selected">
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/x6"
             android:layout_centerVertical="true"

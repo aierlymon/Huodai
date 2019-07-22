@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -98,6 +99,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     private void init() {
 
+        //拿取字体
+        ApplicationPrams.typeface=Typeface.createFromAsset(getAssets(),"PingFang_Bold.ttf");
 
         //获取权限
         RxPermissionUtil.getInstance().permission(this, permissions);

@@ -96,7 +96,10 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 .subscribe(new MySubscriber<List<HomeBodyBean>>(this) {
                     @Override
                     public void onSuccess(List<HomeBodyBean> homeBodyBeans) {
-                        MyLog.i("请求body成功: " + homeBodyBeans.size());
+                     //   MyLog.i("请求body成功: " + homeBodyBeans.size());
+                    /*    for(int i=0;i<homeBodyBeans.size();i++){
+                           MyLog.i("显示所有body地址: "+homeBodyBeans.get(i).getUrl());
+                        }*/
                         HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
                         homeFRBodyHolder.setHomeBodyBeanList(homeBodyBeans);
                         list.add(homeFRBodyHolder);
