@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.example.baselib.base.BaseMvpActivity;
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.utils.CustomToast;
+import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.mvp.presenters.LoginPresenter;
 import com.example.huodai.mvp.view.LoginViewimpl;
@@ -58,11 +59,10 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
         setStatusBarColor(getResources().getColor(R.color.my_login_color));
         super.onCreate(savedInstanceState);
 
-
         ButterKnife.bind(this);
 
 
-       // titleName.setTypeface(ApplicationPrams.typeface);
+        // titleName.setTypeface(ApplicationPrams.typeface);
 
         backIcon.setVisibility(View.VISIBLE);
         Utils.setEditTextHintSize(editCheck, getString(R.string.chek_num), 15);

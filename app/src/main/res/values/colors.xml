@@ -13,6 +13,9 @@
     <color name="home_recycler_back">#DCDCDC</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
+
+    <color name="login_edittext_color">#F8F8F8</color>
+    <color name="login_edittext_hintcolor">#F8F8F8</color>
     <color name="index_my_color">#F3F1F1</color>
     <color name="textcolor">#141414</color>
     <color name="text_ps_back">#33FBA051</color>

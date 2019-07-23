@@ -35,6 +35,9 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @BindView(R.id.noOnline)
     RelativeLayout relativeLayout;
 
+    @BindView(R.id.tx_title)
+    TextView txTitle;
+
 
     private HomeFragRevAdapyer fragRevAdapyer;
     private List<BaseMulDataModel> baseMulDataModels;
@@ -64,7 +67,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     protected void initView() {
         //不把它放到懒加载
         mPresenter.requestBody();
-
+        txTitle.setText(getResources().getString(R.string.loan_num));
         baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);

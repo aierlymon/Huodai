@@ -1,9 +1,11 @@
 package com.example.huodai.ui.fragments;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +15,7 @@ import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.LoadDialogUtil;
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.Utils;
 import com.example.baselib.widget.CustomDialog;
 import com.example.huodai.ApplicationPrams;
@@ -47,6 +50,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         fragment.setTitle(info);
         return fragment;
     }
+
 
     @Override
     protected HomeFrgPresenter createPresenter() {

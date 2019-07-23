@@ -14,12 +14,15 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.utils.MyLog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import retrofit2.http.FormUrlEncoded;
 
@@ -32,8 +35,6 @@ public class WebActivity extends AppCompatActivity {
     String url;
     private boolean isLoad;
     private ProgressBar mprogressBar;
-    private RelativeLayout relativeLayout;
-    private RelativeLayout backLayout;
     private ImageView mBack;
 
     @Override
@@ -75,7 +76,7 @@ public class WebActivity extends AppCompatActivity {
 
             }
         });
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
@@ -90,8 +91,7 @@ public class WebActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
-            {
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
                 //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
               /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -107,12 +107,15 @@ public class WebActivity extends AppCompatActivity {
         });
 
         mBack = ((ImageView) findViewById(R.id.img_back));
+        mBack.setVisibility(View.VISIBLE);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        ((TextView) findViewById(R.id.tx_title)).setVisibility(View.GONE);
 
     }
 

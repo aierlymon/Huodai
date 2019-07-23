@@ -12,22 +12,11 @@
         android:layerType="software" />
 
 
-    <RelativeLayout
-        android:id="@+id/back_layout"
+    <include
+        android:id="@+id/mywebhead"
+        layout="@layout/toolbarhead"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:layout_alignParentTop="true"
-        android:background="@color/color_text_selected">
-
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/x6"
-            android:layout_centerVertical="true"
-            android:background="@drawable/myback" />
-    </RelativeLayout>
+        android:layout_height="@dimen/toolbar_height" />
 
 
     <ProgressBar
@@ -35,8 +24,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_below="@+id/back_layout"
-        android:progressDrawable="@drawable/progressbar"
-        />
+        android:layout_below="@+id/myloginhead"
+        android:progressDrawable="@drawable/progressbar" />
 
 </RelativeLayout>

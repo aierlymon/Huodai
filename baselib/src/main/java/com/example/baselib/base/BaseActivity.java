@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //设置状态栏的背景颜色
     public void setStatusBarColor(@ColorInt int color) {
-        StatusBarUtil.setColor(this, color, 0);
+        StatusBarUtil.setStatusBarColor(BaseActivity.this, color);
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param dark true: 黑色  false: 白色
      */
     public void setStatusBarIcon(Boolean dark) {
-        StatusBarUtil.setLightStatusBar(this, dark);
+        StatusBarUtil.setStatusBarDarkTheme(this,dark);
     }
 
 

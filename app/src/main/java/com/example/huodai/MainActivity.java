@@ -11,11 +11,14 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,7 +31,9 @@ import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.RxPermissionUtil;
+import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.UpdateUtil;
+import com.example.baselib.widget.StatusBarHeightView;
 import com.example.huodai.mvp.presenters.MainPrsenter;
 import com.example.huodai.mvp.view.MainViewImpl;
 import com.example.huodai.ui.adapter.MainVPAdapter;
@@ -90,8 +95,24 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-       // setStatusBarColor(getResources().getColor(R.color.black));
+
         super.onCreate(savedInstanceState);
+
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        //StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this);
+        //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+        //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
+     /*   if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
+            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+            //这样半透明+白=灰, 状态栏的文字能看得清
+            StatusBarUtil.setStatusBarColor(this,0x55000000);
+        }*/
+
+        StatusBarUtil.setRootViewFitsSystemWindows(this,false);
+
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
@@ -203,24 +224,29 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                 checked= radioButton.isChecked();
                 if (checked) {
                     MyLog.i("我拿去到了颜色:触发  R.id.rb_home");
-                    setStatusBarColor(getResources().getColor(R.color.black));
+                 //   StatusBarUtil.setStatusBarDarkTheme(this,false);
+                    StatusBarUtil.setTranslucentStatus(this);
                     mViewPager.setCurrentItem(0, false);
                 }
                 break;
             case R.id.rb_loan:
-                MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
                 checked=radioButton.isChecked();
                 //展示标题栏
                 if (checked) {
-                    setStatusBarColor(getResources().getColor(R.color.my_login_color));
+                    MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
+                    StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
+                    StatusBarUtil.setStatusBarDarkTheme(this,true);
+                 //   setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(1, false);
                 }
                 break;
             case R.id.rb_my:
                 checked=radioButton.isChecked();
                 if (checked) {
+                    StatusBarUtil.setStatusBarDarkTheme(this,true);
+                    StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
-                    setStatusBarColor(getResources().getColor(R.color.my_login_color));
+                 //   setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(2, false);
                 }
                 break;
