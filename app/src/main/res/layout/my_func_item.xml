@@ -20,7 +20,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/my_text_marigin"
         android:layout_toRightOf="@+id/img_func_icon"
-        android:textSize="@dimen/sp_14"
+        android:textSize="@dimen/x12"
         android:textColor="@color/mine_menu_color"
         android:text="你哈" />
 </RelativeLayout>

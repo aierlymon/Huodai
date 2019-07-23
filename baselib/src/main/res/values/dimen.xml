@@ -14,7 +14,7 @@
 
 
 
-    <dimen name="frg_body_samll_text_sp_12">12sp</dimen>
+    <dimen name="frg_body_samll_text_y10">@dimen/y10</dimen>
     <dimen name="sp_12">12sp</dimen>
     <dimen name="sp_14">14sp</dimen>
     <dimen name="sp_16">16sp</dimen>

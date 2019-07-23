@@ -39,7 +39,7 @@
             android:layout_toRightOf="@+id/user_icon"
             android:text="15914855180"
             android:textColor="@color/toolbar_head"
-            android:textSize="@dimen/sp_my_textsize"
+            android:textSize="@dimen/x16"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -52,7 +52,7 @@
             android:layout_margin="@dimen/x17"
             android:text="@string/exits"
             android:textColor="@color/frag_body_small_textcolor"
-            android:textSize="@dimen/sp_my_textsize"
+            android:textSize="@dimen/x12"
             android:visibility="gone" />
 
         <Button
@@ -63,7 +63,7 @@
             android:background="@drawable/my_button"
             android:text="@string/login"
             android:textColor="@color/my_login_color"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/x12" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

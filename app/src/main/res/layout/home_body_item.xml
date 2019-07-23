@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="153dp"
+    android:layout_height="@dimen/y110"
     android:background="#fff"
     android:orientation="horizontal">
 
@@ -20,9 +20,9 @@
 
             <com.example.huodai.widget.CircleImageView
                 android:id="@+id/icon"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
+                android:layout_marginTop="@dimen/y12"
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:src="@mipmap/ic_launcher"/>
@@ -31,12 +31,12 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_27"
+                android:layout_marginTop="@dimen/y17"
                 android:layout_toRightOf="@+id/icon"
                 android:gravity="center"
                 android:text="bold字体"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/y12"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_alignLeft="@id/title"
-            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginTop="@dimen/y5"
             android:orientation="horizontal">
 
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="3000"
                 android:textColor="@color/red"
-                android:textSize="@dimen/sp_20"
+                android:textSize="@dimen/y14"
                 android:layout_marginLeft="@dimen/dp_20"
                 tools:ignore="RtlCompat" />
 
@@ -64,7 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="- "
-                android:textSize="12sp" />
+                android:textColor="@color/red"
+                android:textSize="@dimen/y14"
+               />
 
             <TextView
                 android:id="@+id/max"
@@ -72,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="5000"
                 android:textColor="@color/red"
-                android:textSize="@dimen/sp_20" />
+                android:textSize="@dimen/y14" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/quota_parent"
             android:layout_alignLeft="@id/title"
-            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginTop="@dimen/y5"
             android:layout_marginLeft="@dimen/dp_20"
             android:orientation="horizontal">
 
@@ -91,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/rixi"
                 android:textColor="@color/frag_body_small_textcolor"
-                android:textSize="@dimen/frg_body_samll_text_sp_12" />
+                android:textSize="@dimen/frg_body_samll_text_y10" />
 
             <TextView
                 android:id="@+id/date"
@@ -101,7 +103,7 @@
                 android:maxWidth="@dimen/dp_89"
                 android:text="期限时间"
                 android:textColor="@color/frag_body_small_textcolor"
-                android:textSize="@dimen/frg_body_samll_text_sp_12"
+                android:textSize="@dimen/frg_body_samll_text_y10"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -111,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rate_parent"
             android:layout_alignLeft="@id/title"
-            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginTop="@dimen/y5"
             android:layout_marginLeft="@dimen/dp_20"
             android:orientation="horizontal">
 
@@ -121,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:text="这个是最后的文本"
                 android:textColor="@color/frag_body_small_textcolor"
-                android:textSize="@dimen/frg_body_samll_text_sp_12" />
+                android:textSize="@dimen/frg_body_samll_text_y10"  />
         </LinearLayout>
     </LinearLayout>
 
@@ -151,7 +153,7 @@
                     android:gravity="center"
                     android:text="@string/pre"
                     android:textColor="@color/frag_body_small_textcolor"
-                    android:textSize="@dimen/frg_body_samll_text_sp_12" />
+                    android:textSize="@dimen/frg_body_samll_text_y10" />
 
                 <TextView
                     android:id="@+id/time"
@@ -159,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/frag_body_small_textcolor"
-                    android:textSize="@dimen/frg_body_samll_text_sp_12" />
+                    android:textSize="@dimen/frg_body_samll_text_y10" />
 
                 <TextView
                     android:id="@+id/tx_down_nouse"
@@ -168,19 +170,19 @@
                     android:gravity="center"
                     android:text="@string/end"
                     android:textColor="@color/frag_body_small_textcolor"
-                    android:textSize="@dimen/frg_body_samll_text_sp_12" />
+                    android:textSize="@dimen/frg_body_samll_text_y10" />
             </LinearLayout>
 
             <View
                 android:id="@+id/index_view"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
+                android:layout_height="@dimen/y2"
                 android:layout_centerInParent="true" />
 
             <ImageButton
                 android:id="@+id/btn_request"
-                android:layout_width="84dp"
-                android:layout_height="28dp"
+                android:layout_width="@dimen/x78"
+                android:layout_height="@dimen/y24"
                 android:layout_below="@+id/index_view"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/frg_body_btn"
