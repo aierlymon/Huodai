@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/menu_icon"
-        android:layout_width="@dimen/x45"
-        android:layout_height="@dimen/x45"
+        android:layout_width="@dimen/x42"
+        android:layout_height="@dimen/x42"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

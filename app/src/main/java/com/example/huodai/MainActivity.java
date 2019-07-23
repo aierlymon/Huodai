@@ -90,7 +90,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setStatusBarColor(Color.BLACK);
+       // setStatusBarColor(getResources().getColor(R.color.black));
         super.onCreate(savedInstanceState);
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -196,22 +196,31 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @OnCheckedChanged({R.id.rb_home, R.id.rb_loan, R.id.rb_my})
     public void onCheckChange(RadioButton radioButton) {
-        boolean checked = radioButton.isChecked();
+        boolean checked =false;
 
         switch (radioButton.getId()) {
             case R.id.rb_home:
+                checked= radioButton.isChecked();
                 if (checked) {
+                    MyLog.i("我拿去到了颜色:触发  R.id.rb_home");
+                    setStatusBarColor(getResources().getColor(R.color.black));
                     mViewPager.setCurrentItem(0, false);
                 }
                 break;
             case R.id.rb_loan:
+                MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
+                checked=radioButton.isChecked();
                 //展示标题栏
                 if (checked) {
+                    setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(1, false);
                 }
                 break;
             case R.id.rb_my:
+                checked=radioButton.isChecked();
                 if (checked) {
+                    MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
+                    setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(2, false);
                 }
                 break;

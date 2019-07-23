@@ -55,8 +55,9 @@ public class StatusBarUtil {
     public static void setColor(Activity activity, @ColorInt int color, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         //21以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            MyLog.i("我拿去到了颜色: "+color);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(calculateStatusColor(color, statusBarAlpha));
             //19到21
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

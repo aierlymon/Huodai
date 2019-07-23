@@ -14,7 +14,8 @@
             android:id="@+id/myloginhead"
             layout="@layout/toolbarhead"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height" />
+            android:layout_height="@dimen/toolbar_height"
+            />
 
 
         <com.example.huodai.widget.CircleImageView
@@ -51,8 +52,8 @@
             <EditText
                 android:id="@+id/edit_num"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="@dimen/y10"
+                android:layout_height="@dimen/y34"
+                android:layout_marginBottom="@dimen/y13"
                 android:background="@drawable/edittext_back"
                 android:hint="@string/phone_num"
                 android:inputType="phone"
@@ -66,7 +67,7 @@
             <EditText
                 android:id="@+id/edit_check"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/y34"
                 android:layout_marginBottom="@dimen/y20"
                 android:background="@drawable/edittext_back"
                 android:hint="@string/chek_num"
@@ -80,18 +81,19 @@
             <!-- android:textSize="@dimen/x12"-->
             <TextView
                 android:id="@+id/check"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y34"
                 android:layout_marginRight="@dimen/x2"
                 android:gravity="center"
-                android:paddingRight="@dimen/x8"
                 android:text="@string/getcheck"
                 android:textAlignment="center"
-                android:textColor="@color/color_text_ps"
-                android:textSize="@dimen/sp_14"
+                android:textColor="@color/my_login_color"
+                android:textSize="@dimen/x12"
+                android:background="@drawable/my_check_button"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_check"
                 app:layout_constraintRight_toRightOf="@+id/edit_num"
-                app:layout_constraintTop_toTopOf="@+id/edit_check" />
+                app:layout_constraintTop_toTopOf="@+id/edit_check"
+                app:layout_constraintWidth_percent="0.25"/>
 
             <Button
                 android:id="@+id/btn_login"
