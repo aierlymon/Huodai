@@ -66,7 +66,7 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     @Override
     public void onBindViewHolder(@NonNull MenuItemHolder holder, int position) {
         Glide.with(mContext).load(HttpConstant.BASE_URL+mulDataModelList.get(position).getIcon()).into(holder.image);
-        holder.name.setTypeface(ApplicationPrams.typeface);
+       // holder.name.setTypeface(ApplicationPrams.typeface);
         holder.name.setText(mulDataModelList.get(position).getName());
         holder.itemView.setTag(position);
         holder.image.setOnClickListener(new View.OnClickListener() {

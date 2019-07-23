@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,7 +77,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         holder.max.setText("" + homeBodyBean.getLimitH());
 
         holder.rate.setText(homeBodyBean.getInterest());
-        holder.date.setText("期限: "+homeBodyBean.getPeriod());
+        holder.date.setText(homeBodyBean.getPeriod());
         holder.finaltext.setText(homeBodyBean.getProfile());
         holder.time.setText(homeBodyBean.getSpeed());
         holder.btn_request.setOnClickListener(view -> {
@@ -104,10 +103,10 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         private TextView rate;
         private TextView finaltext;
         private TextView time;
-        private ImageButton btn_request;
+        private ImageView btn_request;
         private TextView date;
-        private TextView tx_fast_nouse;
-        private TextView tx_down_nouse;
+    /*    private TextView tx_fast_nouse;
+        private TextView tx_down_nouse;*/
 
         public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
@@ -121,18 +120,18 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
             time = ((TextView) itemView.findViewById(R.id.time));
             btn_request = itemView.findViewById(R.id.btn_request);
             date = ((TextView) itemView.findViewById(R.id.date));
-            tx_fast_nouse = itemView.findViewById(R.id.tx_fast_nouse);
-            tx_down_nouse = ((TextView) itemView.findViewById(R.id.tx_down_nouse));
+        //    tx_fast_nouse = itemView.findViewById(R.id.tx_fast_nouse);
+         //   tx_down_nouse = ((TextView) itemView.findViewById(R.id.tx_down_nouse));
 
-            limit.setTypeface(ApplicationPrams.typeface);
+          /*  limit.setTypeface(ApplicationPrams.typeface);
             max.setTypeface(ApplicationPrams.typeface);
             title.setTypeface(ApplicationPrams.typeface);
             rate.setTypeface(ApplicationPrams.typeface);
             finaltext.setTypeface(ApplicationPrams.typeface);
             time.setTypeface(ApplicationPrams.typeface);
-            date.setTypeface(ApplicationPrams.typeface);
-            tx_down_nouse.setTypeface(ApplicationPrams.typeface);
-            tx_fast_nouse.setTypeface(ApplicationPrams.typeface);
+            date.setTypeface(ApplicationPrams.typeface);*/
+       //     tx_down_nouse.setTypeface(ApplicationPrams.typeface);
+       //     tx_fast_nouse.setTypeface(ApplicationPrams.typeface);
         }
     }
 }

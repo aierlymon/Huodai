@@ -59,7 +59,7 @@ public class IndicatorView extends LinearLayout {
             LayoutParams layoutParams=new LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity= Gravity.CENTER;
-            layoutParams.rightMargin=6;
+            layoutParams.rightMargin=12;
             imageView.setLayoutParams(layoutParams);
             if(i==0){
                 imageView.setImageResource(this.loopNowIndicatorImg);

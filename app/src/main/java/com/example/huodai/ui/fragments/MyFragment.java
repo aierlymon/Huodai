@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMVPFragment;
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.LoginActivity;
 import com.example.huodai.R;
@@ -79,8 +80,8 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
     @Override
     protected void initView() {
 
-        txTitle.setTypeface(ApplicationPrams.typeface);
-        txUsername.setTypeface(ApplicationPrams.typeface);
+      /*  txTitle.setTypeface(ApplicationPrams.typeface);
+        txUsername.setTypeface(ApplicationPrams.typeface);*/
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(2));
@@ -119,6 +120,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         Intent intent;
         switch (v.getId()) {
             case R.id.btn_login:
+                if(Utils.isFastClick())
                 EventBus.getDefault().post(false);
               /*  intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);*/

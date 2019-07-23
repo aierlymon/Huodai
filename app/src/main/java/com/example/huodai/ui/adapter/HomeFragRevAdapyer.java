@@ -161,7 +161,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
                 go(view, position, dataModel.getHomeBodyBeanList().get(position1));
             });
-            recyclerView.addItemDecoration(new SpaceItemDecoration(2));
+          //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
             recyclerView.setAdapter(homeBodyRevAdapter);
         }
     }

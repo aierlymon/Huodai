@@ -9,5 +9,5 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ApplicationPrams {
    public static LoginCallBackBean loginCallBackBean;
    public static  boolean isLogin;
-   public static Typeface typeface;
+   //public static Typeface typeface;
 }

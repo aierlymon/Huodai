@@ -92,6 +92,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setStatusBarColor(Color.BLACK);
         super.onCreate(savedInstanceState);
+        //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            finish();
+            return;
+        }
         init();
     }
 
@@ -100,7 +105,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     private void init() {
 
         //拿取字体
-        ApplicationPrams.typeface=Typeface.createFromAsset(getAssets(),"PingFang_Bold.ttf");
+        //ApplicationPrams.typeface=Typeface.createFromAsset(getAssets(),"PingFang_Bold.ttf");
 
         //获取权限
         RxPermissionUtil.getInstance().permission(this, permissions);
@@ -164,7 +169,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

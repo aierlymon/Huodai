@@ -10,6 +10,7 @@
     <color name="color_text_ps">#FFC779</color>
     <color name="red">#F44336</color>
     <color name="index_color">#B4AEAE</color>
+    <color name="home_recycler_back">#DCDCDC</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
     <color name="index_my_color">#F3F1F1</color>

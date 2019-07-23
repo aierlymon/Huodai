@@ -53,6 +53,14 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.mBottom = mBottom;
     }
 
+    public SpaceItemDecoration(int mLeft,int mRight) {
+
+        this.mLeft = mLeft;
+        this.mRight = mRight;
+       /* this.mBottom = mBottom;
+        this.mTop=mTop;*/
+    }
+
     public SpaceItemDecoration(int mLeft) {
         this.mLeft = mLeft;
         this.mRight = mLeft;

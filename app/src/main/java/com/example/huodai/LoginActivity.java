@@ -61,7 +61,7 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
         ButterKnife.bind(this);
 
 
-        titleName.setTypeface(ApplicationPrams.typeface);
+       // titleName.setTypeface(ApplicationPrams.typeface);
 
         backIcon.setVisibility(View.VISIBLE);
         Utils.setEditTextHintSize(editCheck, getString(R.string.chek_num), 15);
