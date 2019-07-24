@@ -234,19 +234,17 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                 //展示标题栏
                 if (checked) {
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
-                    StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
-                    StatusBarUtil.setStatusBarDarkTheme(this,true);
-                 //   setStatusBarColor(getResources().getColor(R.color.my_login_color));
+               //     StatusBarUtil.setStatusBarDarkTheme(this,true);
+                //    setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(1, false);
                 }
                 break;
             case R.id.rb_my:
                 checked=radioButton.isChecked();
                 if (checked) {
-                    StatusBarUtil.setStatusBarDarkTheme(this,true);
-                    StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
+                 //   StatusBarUtil.setStatusBarDarkTheme(this,true);
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
-                 //   setStatusBarColor(getResources().getColor(R.color.my_login_color));
+              //      setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(2, false);
                 }
                 break;

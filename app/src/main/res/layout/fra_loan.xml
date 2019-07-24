@@ -1,87 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    app:use_type="use_padding_top">
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--外部用来填充的颜色-->
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/my_login_color"/>
 
-        <include
-            android:id="@+id/noOnline"
-            layout="@layout/refrsh_request"
+    <com.example.baselib.widget.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:use_type="use_padding_top">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--    <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/color_text_selected">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/toolbar_height"
-                        android:textSize="@dimen/sp_my_textsize"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/loan_num"/>
-                </RelativeLayout>-->
-
             <include
-                android:id="@+id/myhead"
-                layout="@layout/toolbarhead"
+                android:id="@+id/noOnline"
+                layout="@layout/refrsh_request"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height" />
-
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-                <!--放类型选择的-->
-            </LinearLayout>
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#fff">
+                <!--    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_text_selected">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/toolbar_height"
+                            android:textSize="@dimen/sp_my_textsize"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/loan_num"/>
+                    </RelativeLayout>-->
+
+                <include
+                    android:id="@+id/myhead"
+                    layout="@layout/toolbarhead"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toolbar_height" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <!--放类型选择的-->
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/y30"
-                    android:background="@color/text_ps_back">
+                    android:layout_height="match_parent"
+                    android:background="#fff">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/ps"
-                        android:textAlignment="center"
-                        android:textColor="@color/color_text_selected"
-                        android:textSize="12sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30"
+                        android:background="@color/text_ps_back">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/ps"
+                            android:textAlignment="center"
+                            android:textColor="@color/color_text_selected"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
                 </RelativeLayout>
-            </RelativeLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recv_loan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:background="@color/index_my_color" />
 
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recv_loan"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:background="@color/index_my_color" />
-
-    </LinearLayout>
-</com.example.baselib.widget.StatusBarHeightView>
+    </com.example.baselib.widget.StatusBarHeightView>
+</RelativeLayout>

@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.StatusBarUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Text;
@@ -39,6 +40,7 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         Intent intent = getIntent();

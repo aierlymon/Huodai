@@ -21,8 +21,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,15 +31,12 @@
 
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
+            android:launchMode="singleTop">
         </activity>
 
         <activity
             android:name=".WebActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:launchMode="singleTop"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
