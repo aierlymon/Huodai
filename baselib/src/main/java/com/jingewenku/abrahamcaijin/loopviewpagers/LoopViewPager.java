@@ -1,5 +1,6 @@
 package com.jingewenku.abrahamcaijin.loopviewpagers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -63,6 +64,7 @@ public class LoopViewPager<T> extends FrameLayout {
 
     private int loopNowIndicatorImg= R.drawable.ic_check;
     private int loopIndicatorImg= R.drawable.ic_uncheck;
+    private Activity mConttext;
 
 
     public Handler getmHandler() {
@@ -143,11 +145,21 @@ public class LoopViewPager<T> extends FrameLayout {
         } else {
             viewPager.setId(View.generateViewId());
         }
-        loopRunnable=new Runnable() {
-            @Override
-            public void run() {
-                viewPager.setCurrentItem(currentItem);
-                currentItem++;
+        loopRunnable= () -> {
+
+            MyLog.i("执行了定时操作");
+            viewPager.setCurrentItem(currentItem);
+            currentItem++;
+            if(mConttext!=null&&mConttext.isFinishing()){
+                mHandler.removeCallbacksAndMessages(null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    mHandler.getLooper().quitSafely();
+                }else{
+                    mHandler.getLooper().quit();
+                }
+                mHandler=null;
+                mConttext=null;
+            }else{
                 mHandler.postDelayed(loopRunnable,delayTime);
             }
         };
@@ -203,8 +215,14 @@ public class LoopViewPager<T> extends FrameLayout {
         viewPager.setAdapter(loopViewPagerAdapter);
     }
 
+    public void setData(Activity context, List<T> mData, UpdateImage updateImage){
+        mConttext=context;
+        setData(mData,updateImage);
+    }
+
 
     public void setData(List<T> mData,final UpdateImage updateImage){
+
         viewNumber=mData.size();
         initIndicator(getContext());
         LoopViewPagerAdapter loopViewPagerAdapter=new LoopViewPagerAdapter(getContext(), mData, new CreateView() {
@@ -245,7 +263,7 @@ public class LoopViewPager<T> extends FrameLayout {
                 parent.removeView(indicatorView);
             }
             addView(indicatorView,layoutParams);
-            MyLog.i("执行了多少次呢");
+            MyLog.i("initIndicator执行了多少次呢!!");
             indicatorView.initView(viewNumber);
         }
     }
@@ -297,13 +315,12 @@ public class LoopViewPager<T> extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        startBanner();
+        MyLog.i("执行了onAttachedToWindow");
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mHandler.removeCallbacksAndMessages(null);
-        viewPager.setCurrentItem(currentItem);
+        MyLog.i("执行了onDetachedFromWindow");
     }
 }

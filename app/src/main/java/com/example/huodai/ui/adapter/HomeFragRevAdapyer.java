@@ -98,6 +98,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             super(itemView);
             loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
             loopViewPager.showIndicator(true);
+            loopViewPager.startBanner();
         }
 
         @Override
