@@ -22,9 +22,8 @@ import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
-import com.example.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.example.model.bean.HomeBodyBean;
-import com.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -1,4 +1,4 @@
-package com.jingewenku.abrahamcaijin.loopviewpagers;
+package com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,14 +21,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.baselib.R;
 import com.example.baselib.utils.MyLog;
-import com.jingewenku.abrahamcaijin.loopviewpagers.adapter.LoopFragmentPagerAdapter;
-import com.jingewenku.abrahamcaijin.loopviewpagers.adapter.LoopViewPagerAdapter;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.CreateView;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.IndicatorAnimator;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.OnPageClickListener;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.UpdateImage;
-import com.jingewenku.abrahamcaijin.loopviewpagers.util.DensityUtils;
-import com.jingewenku.abrahamcaijin.loopviewpagers.util.LoopViewPagerScroller;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.adapter.LoopFragmentPagerAdapter;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.adapter.LoopViewPagerAdapter;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces.CreateView;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces.IndicatorAnimator;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces.OnPageClickListener;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces.UpdateImage;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.util.DensityUtils;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.util.LoopViewPagerScroller;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ import java.util.List;
  * 主要功能:
  *
  * @Prject: LoopViewPager
- * @Package: com.jingewenku.abrahamcaijin.loopviewpagers
+ * @Package: com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers
  * @author: Abraham
  * @date: 2019年04月20日 14:07
  * @Copyright: 个人版权所有
@@ -150,18 +150,7 @@ public class LoopViewPager<T> extends FrameLayout {
             MyLog.i("执行了定时操作");
             viewPager.setCurrentItem(currentItem);
             currentItem++;
-            if(mConttext!=null&&mConttext.isFinishing()){
-                mHandler.removeCallbacksAndMessages(null);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    mHandler.getLooper().quitSafely();
-                }else{
-                    mHandler.getLooper().quit();
-                }
-                mHandler=null;
-                mConttext=null;
-            }else{
-                mHandler.postDelayed(loopRunnable,delayTime);
-            }
+
         };
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -321,6 +310,17 @@ public class LoopViewPager<T> extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        MyLog.i("执行了onDetachedFromWindow");
+        if(mConttext!=null&&mConttext.isFinishing()){
+            mHandler.removeCallbacksAndMessages(null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mHandler.getLooper().quitSafely();
+            }else{
+                mHandler.getLooper().quit();
+            }
+            mHandler=null;
+            mConttext=null;
+        }else{
+            mHandler.postDelayed(loopRunnable,delayTime);
+        }
     }
 }

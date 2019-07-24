@@ -1,4 +1,4 @@
-package com.jingewenku.abrahamcaijin.loopviewpagers.interfaces;
+package com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces;
 
 import android.widget.ImageView;
 
@@ -6,7 +6,7 @@ import android.widget.ImageView;
  * 主要功能:
  *
  * @Prject: LoopViewPager
- * @Package: com.jingewenku.abrahamcaijin.loopviewpagers.interfaces
+ * @Package: com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces
  * @author: Abraham
  * @date: 2019年04月20日 14:05
  * @Copyright: 个人版权所有

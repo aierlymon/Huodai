@@ -1,4 +1,4 @@
-package com.jingewenku.abrahamcaijin.loopviewpagers;
+package com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,14 +9,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import com.example.baselib.utils.MyLog;
-import com.jingewenku.abrahamcaijin.loopviewpagers.interfaces.IndicatorAnimator;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.interfaces.IndicatorAnimator;
 
 /**
  * 主要功能:
  *
  * @Prject: LoopViewPager
- * @Package: com.jingewenku.abrahamcaijin.loopviewpagers
+ * @Package: com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers
  * @author: Abraham
  * @date: 2019年04月20日 14:07
  * @Copyright: 个人版权所有

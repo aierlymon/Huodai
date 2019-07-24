@@ -1,4 +1,4 @@
-package com.jingewenku.abrahamcaijin.loopviewpagers.util;
+package com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.util;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -7,7 +7,7 @@ import android.util.TypedValue;
  * 主要功能:
  *
  * @Prject: LoopViewPager
- * @Package: com.jingewenku.abrahamcaijin.loopviewpagers.util
+ * @Package: com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.util
  * @author: Abraham
  * @date: 2019年04月20日 14:06
  * @Copyright: 个人版权所有

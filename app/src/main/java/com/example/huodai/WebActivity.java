@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 
@@ -32,7 +33,7 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.my_login_color));
+        StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.my_login_color));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         Intent intent = getIntent();
@@ -44,15 +45,19 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setBlockNetworkImage(true);
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (NetWorkStateBroadcast.isOnline.get()) {
+            webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
-      /*  String cacheDirPath = getFilesDir().getAbsolutePath() + "/webcache";
+        String cacheDirPath = getFilesDir().getAbsolutePath() + "/webcache";
         //设置数据库缓存路径
         webSettings.setDatabasePath(cacheDirPath);
         //设置  Application Caches 缓存目录
         webSettings.setAppCachePath(cacheDirPath);
         //开启 Application Caches 功能
-        webSettings.setAppCacheEnabled(true);*/
+        webSettings.setAppCacheEnabled(true);
 
         mprogressBar = ((ProgressBar) findViewById(R.id.progress_horizontal));
         webView.setWebChromeClient(new WebChromeClient() {

@@ -1,4 +1,4 @@
-package com.jingewenku.abrahamcaijin.loopviewpagers.adapter;
+package com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.adapter;
 
 
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import java.util.List;
  * 主要功能:
  *
  * @Prject: LoopViewPager
- * @Package: com.jingewenku.abrahamcaijin.loopviewpagers.adapter
+ * @Package: com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.adapter
  * @author: Abraham
  * @date: 2019年04月20日 14:05
  * @Copyright: 个人版权所有
