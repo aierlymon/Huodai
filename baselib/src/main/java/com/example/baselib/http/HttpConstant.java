@@ -19,5 +19,6 @@ public abstract class HttpConstant {
 
     public static  final String cacheFileName="httpcaches";
 
+    public static String MINE_BASE_URL="http://ihoufeng.com/app/html/apphtml/";
     //http://tuershiting.com/api/banners?filter[where][open]=true
 }

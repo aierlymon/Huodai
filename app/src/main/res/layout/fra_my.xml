@@ -44,7 +44,7 @@
                     android:layout_height="@dimen/x40"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/x20"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@mipmap/start_back"
                     android:visibility="gone" />
 
                 <TextView

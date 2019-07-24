@@ -1,7 +1,6 @@
 package com.example.huodai.ui.fragments;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,11 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMVPFragment;
+import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
-import com.example.huodai.LoginActivity;
 import com.example.huodai.R;
+import com.example.huodai.WebActivity;
 import com.example.huodai.mvp.model.MyFRFunctionHolder;
 import com.example.huodai.mvp.presenters.MyFrgPresenter;
 import com.example.huodai.mvp.view.MyViewImpl;
@@ -53,7 +53,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     private int[] name = {R.string.any_question, R.string.about_us, R.string.serice_content};
     private int[] icon = {R.drawable.group, R.drawable.about, R.drawable.fuwu};
-
+    private String[] urls = {"help.html", "about.html", "treaty.html"};
 
     public static MyFragment newInstance(String info) {
         MyFragment fragment = new MyFragment();
@@ -89,10 +89,15 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         for (int i = 0; i < 3; i++) {
             MyFRFunctionHolder myFRFunctionHolder = new MyFRFunctionHolder();
             myFRFunctionHolder.setF_icon(icon[i]);
+            myFRFunctionHolder.setUrl(HttpConstant.MINE_BASE_URL+urls[i]);
             myFRFunctionHolder.setF_name(getResources().getString(name[i]));
             myFRFunctionHolders.add(myFRFunctionHolder);
         }
         MyRevAdapter myRevAdapter = new MyRevAdapter(myFRFunctionHolders, getContext());
+        myRevAdapter.setOnItemClickListener((view, position) ->{
+            MyLog.i("响应了我的点击事件");
+            EventBus.getDefault().post(((MyFRFunctionHolder) myFRFunctionHolders.get(position)).getUrl());
+        });
         recyclerView.setAdapter(myRevAdapter);
 
         if(ApplicationPrams.isLogin){

@@ -16,11 +16,13 @@ import com.example.huodai.mvp.model.MyFRFunctionHolder;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
 
-public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> {
+public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> implements View.OnClickListener {
 
     private List<BaseMulDataModel> list;
     private Context mContext;
@@ -30,16 +32,35 @@ public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> {
         this.mContext = mContext;
     }
 
+     public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.my_func_item,parent,false));
+                .inflate(R.layout.my_func_item,parent,false),this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseMulViewHolder holder, int position) {
         holder.bindData(list.get(position),position);
+
     }
 
 
@@ -56,12 +77,14 @@ public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> {
         @BindView(R.id.tx_func_name)
         TextView tx_func_name;
 
-        public MyHolder(View itemView) {
+        public MyHolder(View itemView, View.OnClickListener listener) {
             super(itemView);
+            itemView.setOnClickListener(listener);
         }
 
         @Override
         public void bindData(MyFRFunctionHolder dataModel, int position) {
+            itemView.setTag(position);
             Glide.with(mContext).load(dataModel.getF_icon()).into(img_func_icon);
             tx_func_name.setText(dataModel.getF_name());
         }

@@ -13,12 +13,12 @@
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="@dimen/x20"
-            android:layout_height="@dimen/x20"
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/x30"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x17"
-            android:src="@drawable/login_back"
+            android:layout_marginLeft="@dimen/x10"
+            android:background="@drawable/jiantou_left"
             android:visibility="gone" />
 
 

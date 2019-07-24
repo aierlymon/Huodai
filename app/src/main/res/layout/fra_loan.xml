@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/my_login_color"/>
+        android:background="@color/my_login_color" />
 
     <com.example.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
@@ -33,20 +33,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/color_text_selected">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/toolbar_height"
-                            android:textSize="@dimen/sp_my_textsize"
-                            android:layout_centerInParent="true"
-                            android:gravity="center"
-                            android:text="@string/loan_num"/>
-                    </RelativeLayout>-->
-
+                <!--这个就是头部的toolbar-->
                 <include
                     android:id="@+id/myhead"
                     layout="@layout/toolbarhead"
@@ -55,11 +42,20 @@
 
 
                 <LinearLayout
+                    android:id="@+id/spinner_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-                    <!--放类型选择的-->
+                    android:orientation="horizontal">
+
+                    <!--这个就是spinner的那一栏-->
+                    <!--如果内部要设置id要与里面的根控件id一致-->
+
+                    <include
+                        android:id="@+id/banner_type"
+                        layout="@layout/fra_loan_spinnerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
                 </LinearLayout>
 
                 <RelativeLayout

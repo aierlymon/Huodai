@@ -13,6 +13,8 @@
     <string name="loan_num">货款</string>
     <string name="exits">退出</string>
     <string name="login">点击登录</string>
+    <string name="all">全部</string>
+
 
     <string name="logintxt">登录</string>
     <string name="any_question">常见问题</string>
@@ -30,4 +32,9 @@
     <string name="back">返回</string>
     <string name="nonet">当前没有网络</string>
     <string name="error_requwt">访问服务器失败,请刷新重试</string>
+
+
+    <string name="type">类型</string>
+    <string name="num">金额</string>
+    <string name="order">综合排序</string>
 </resources>

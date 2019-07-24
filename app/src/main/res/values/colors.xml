@@ -26,4 +26,7 @@
     <color name="mine_menu_color">#222222</color>
 
     <color name="frag_body_small_textcolor">#888888</color>
+
+    //#26E6E8E7
+    <color name="ban_toumin">#80000000</color>
 </resources>

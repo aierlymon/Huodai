@@ -3,6 +3,7 @@ package com.example.baselib.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.PhoneNumberUtils;
@@ -12,6 +13,8 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
@@ -168,5 +171,22 @@ public class Utils {
         AbsoluteSizeSpan ass = new AbsoluteSizeSpan(size,true);//设置字体大小 true表示单位是sp
         ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         editText.setHint(new SpannedString(ss));
+    }
+
+    public static boolean isContaint(View v, Point point) {
+        if (v != null) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            MyLog.i("xy区域的左边： left: "+left+"  top: "+top+"  right: "+right+"  bottom: "+bottom+"  point x: "+point.x+"  point.y: "+point.y);
+
+            return (point.x > left && point.x < right
+                    && point.y > top && point.y < bottom);
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return true;
     }
 }

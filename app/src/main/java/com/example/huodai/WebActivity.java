@@ -2,9 +2,7 @@ package com.example.huodai;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -13,7 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,11 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.w3c.dom.Text;
-
-import retrofit2.http.FormUrlEncoded;
 
 /**
  * createBy ${huanghao}
@@ -52,15 +44,15 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setBlockNetworkImage(true);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
-        String cacheDirPath = getFilesDir().getAbsolutePath() + "/webcache";
+      /*  String cacheDirPath = getFilesDir().getAbsolutePath() + "/webcache";
         //设置数据库缓存路径
         webSettings.setDatabasePath(cacheDirPath);
         //设置  Application Caches 缓存目录
         webSettings.setAppCachePath(cacheDirPath);
         //开启 Application Caches 功能
-        webSettings.setAppCacheEnabled(true);
+        webSettings.setAppCacheEnabled(true);*/
 
         mprogressBar = ((ProgressBar) findViewById(R.id.progress_horizontal));
         webView.setWebChromeClient(new WebChromeClient() {
