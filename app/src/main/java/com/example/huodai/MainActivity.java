@@ -34,6 +34,7 @@ import com.example.baselib.utils.RxPermissionUtil;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.UpdateUtil;
 import com.example.baselib.widget.StatusBarHeightView;
+import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.mvp.presenters.MainPrsenter;
 import com.example.huodai.mvp.view.MainViewImpl;
 import com.example.huodai.ui.adapter.MainVPAdapter;
@@ -111,7 +112,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             StatusBarUtil.setStatusBarColor(this,0x55000000);
         }*/
 
-        StatusBarUtil.setRootViewFitsSystemWindows(this,false);
+        //这个就是设施沉浸式状态栏的主要方法了
+        StatusBarUtil.setRootViewFitsSystemWindows(this, false);
 
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -143,6 +145,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             public void onNetWorkFail() {
             }
         });
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -155,7 +158,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         String obj = preferences.getString("obj", null);
         if (!TextUtils.isEmpty(obj)) {
             Gson gson = new Gson();
-            ApplicationPrams.loginCallBackBean = gson.fromJson(obj, LoginCallBackBean.class);
+            ApplicationPrams.loginCallBackBean = gson.fromJson(obj, LoginCallBackBean.UserBean.class);
             ApplicationPrams.isLogin = true;
         }
         //butterknife的绑定
@@ -199,7 +202,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     public void run() {
                         imageViewBack.setVisibility(View.GONE);
                         //检测更新
-                        if (NetWorkStateBroadcast.isOnline.get()&&mPresenter!=null)
+                        if (NetWorkStateBroadcast.isOnline.get() && mPresenter != null)
                             mPresenter.checkUpdate(MainActivity.this);
                     }
                 });
@@ -217,34 +220,34 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @OnCheckedChanged({R.id.rb_home, R.id.rb_loan, R.id.rb_my})
     public void onCheckChange(RadioButton radioButton) {
-        boolean checked =false;
+        boolean checked = false;
 
         switch (radioButton.getId()) {
             case R.id.rb_home:
-                checked= radioButton.isChecked();
+                checked = radioButton.isChecked();
                 if (checked) {
                     MyLog.i("我拿去到了颜色:触发  R.id.rb_home");
-                 //   StatusBarUtil.setStatusBarDarkTheme(this,false);
+                    //   StatusBarUtil.setStatusBarDarkTheme(this,false);
                     StatusBarUtil.setTranslucentStatus(this);
                     mViewPager.setCurrentItem(0, false);
                 }
                 break;
             case R.id.rb_loan:
-                checked=radioButton.isChecked();
+                checked = radioButton.isChecked();
                 //展示标题栏
                 if (checked) {
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
-               //     StatusBarUtil.setStatusBarDarkTheme(this,true);
-                //    setStatusBarColor(getResources().getColor(R.color.my_login_color));
+                    //     StatusBarUtil.setStatusBarDarkTheme(this,true);
+                    //    setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(1, false);
                 }
                 break;
             case R.id.rb_my:
-                checked=radioButton.isChecked();
+                checked = radioButton.isChecked();
                 if (checked) {
-                 //   StatusBarUtil.setStatusBarDarkTheme(this,true);
+                    //   StatusBarUtil.setStatusBarDarkTheme(this,true);
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
-              //      setStatusBarColor(getResources().getColor(R.color.my_login_color));
+                    //      setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(2, false);
                 }
                 break;
@@ -271,6 +274,10 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         return true;
     }
 
+
+    //这个事件总线是检测登录页面的操作，
+    // false 跳转到登录页面，这个时候就要清空保存到本地的文件
+    //true 已经登录，这个时候就要保存数据到本地文件
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginstate(Boolean isState) {
         if (!isState) {
@@ -299,10 +306,12 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     }
 
+    //WebActivity页面的跳转
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void webState(String url) {
+    public void webState(WebViewBean webViewBean) {
         Intent intent = new Intent(this, WebActivity.class);
-        intent.putExtra("url", url);
+        intent.putExtra("url", webViewBean.getUrl());
+        intent.putExtra("tag", webViewBean.getTag());
         startActivity(intent);
     }
 
@@ -315,7 +324,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MyLog.i("activity isFinish "+isFinishing());
+        MyLog.i("activity isFinish " + isFinishing());
         //取消注册广播
         if (netWorkStateBroadcast != null)
             unregisterReceiver(netWorkStateBroadcast);
@@ -385,14 +394,13 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         startActivity(intent);
     }
 
+    //intent的跳转动画
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
         if (intent.getBooleanExtra("isAnim", false))
             overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
     }
-
-
 
 
 }

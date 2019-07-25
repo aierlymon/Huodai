@@ -2,7 +2,9 @@ package com.example.huodai;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -24,12 +26,14 @@ import com.example.baselib.utils.StatusBarUtil;
  * createBy ${huanghao}
  * on 2019/7/20
  */
+//这里没什么其他逻辑，就这样子写了，哈哈哈哈！！！
 public class WebActivity extends AppCompatActivity {
     WebView webView;
     String url;
     private boolean isLoad;
     private ProgressBar mprogressBar;
     private ImageView mBack;
+    private TextView txTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +42,19 @@ public class WebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        MyLog.i("web url: " + url);
+        String tag = intent.getStringExtra("tag");
+
+        //设置标题名字
+        txTitle = ((TextView) findViewById(R.id.tx_title));
+        if (!TextUtils.isEmpty(tag)) {
+            txTitle.setText(tag);
+        }else{
+            txTitle.setVisibility(View.GONE);
+        }
+
+        MyLog.i("web url: " + url + "  tag: " + tag);
+
+        //配置webview
         webView = ((WebView) findViewById(R.id.webview));
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -59,6 +75,7 @@ public class WebActivity extends AppCompatActivity {
         //开启 Application Caches 功能
         webSettings.setAppCacheEnabled(true);
 
+        //更新读条
         mprogressBar = ((ProgressBar) findViewById(R.id.progress_horizontal));
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -105,6 +122,7 @@ public class WebActivity extends AppCompatActivity {
 
         });
 
+        //返回键
         mBack = ((ImageView) findViewById(R.id.img_back));
         mBack.setVisibility(View.VISIBLE);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -114,14 +132,13 @@ public class WebActivity extends AppCompatActivity {
             }
         });
 
-        ((TextView) findViewById(R.id.tx_title)).setVisibility(View.GONE);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         MyLog.i("执行到了onStart");
+        //这个是之前好像遇到一直加载，一直加载的情况，加上去的，以后留待有缘人看看是否需要解除
         if (!isLoad)
             webView.loadUrl(url);
         isLoad = true;

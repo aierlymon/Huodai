@@ -21,6 +21,11 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
         return false;
     }
 
+    @Override
+    public void showError(String msg) {
+        getView().showError("连接错误: " + msg);
+    }
+
     private UpdateUtil updateUtil;
 
     public void checkUpdate(Activity context){
@@ -61,7 +66,7 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
         updateBean.setUpdateLog("测试用例");
 
         //updateUtil.setAppPackName("com.example.huodai");
-        updateUtil.testUpdate(context,updateBean);
+       // updateUtil.testUpdate(context,updateBean);
     }
 
     public void cancelIUpdate(){

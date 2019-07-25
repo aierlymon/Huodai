@@ -2,40 +2,83 @@ package com.example.model.bean;
 
 import java.util.List;
 
-public class NewHomeBannerBean<T> {
-
-    /**
-     * data : {"banners":[{"id":3,"title":"快速下款","icon":"/group1/default/20190630/22/32/8/微信图片_20190417112246.png","url":"http://tang.rontloan.cn/yuan?inviteCode=xiaxia1123","open":true,"createTime":1561905152},{"id":5,"title":"身份证审核，快速放款","icon":"/group1/default/20190715/13/54/8/49066eb29cc24f95b9354a897fecc1f8_th.png","url":"http://tuershiting.com/h5/#/?from=neibutest","open":true,"createTime":1563170284},{"id":6,"title":"低利息","icon":"/group1/default/20190715/14/20/8/微信图片_20190715141959.jpg","url":"","open":true,"createTime":1563171647}]}
-     * statusCode : 200
-     * msg : 获取成功！
-     */
-
-    private T data;
-    private int statusCode;
-    private String msg;
+public class NewHomeBannerBean {
 
 
-    public int getStatusCode() {
-        return statusCode;
+    private List<BannersBean> banners;
+
+    public List<BannersBean> getBanners() {
+        return banners;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setBanners(List<BannersBean> banners) {
+        this.banners = banners;
     }
 
-    public String getMsg() {
-        return msg;
+    public static class BannersBean {
+        /**
+         * id : 3
+         * title : 快速下款
+         * icon : /group1/default/20190630/22/32/8/微信图片_20190417112246.png
+         * url : http://tang.rontloan.cn/yuan?inviteCode=xiaxia1123
+         * open : true
+         * createTime : 1561905152
+         */
+
+        private int id;
+        private String title;
+        private String icon;
+        private String url;
+        private boolean open;
+        private int createTime;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public boolean isOpen() {
+            return open;
+        }
+
+        public void setOpen(boolean open) {
+            this.open = open;
+        }
+
+        public int getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(int createTime) {
+            this.createTime = createTime;
+        }
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

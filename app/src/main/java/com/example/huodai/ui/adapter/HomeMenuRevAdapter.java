@@ -1,7 +1,6 @@
 package com.example.huodai.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.baselib.http.HttpConstant;
-import com.example.baselib.utils.MyLog;
-import com.example.baselib.utils.Utils;
-import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
-import com.example.model.bean.HomeBodyBean;
-import com.example.model.bean.HomeMenuBean;
-
-import org.greenrobot.eventbus.EventBus;
+import com.example.model.bean.NewHomeMenuBean;
 
 import java.util.List;
 
-public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.MenuItemHolder> implements View.OnClickListener{
+public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.MenuItemHolder> implements View.OnClickListener {
 
-    List<HomeMenuBean> mulDataModelList;
+    List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
 
@@ -34,12 +27,12 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(view, (int)view.getTag());
+            mOnItemClickListener.onItemClick(view, (int) view.getTag());
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 
 
@@ -47,12 +40,12 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public HomeMenuRevAdapter(Context mContext, List<HomeMenuBean> mulDataModelList) {
+    public HomeMenuRevAdapter(Context mContext, List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList) {
         this.mulDataModelList = mulDataModelList;
         this.mContext = mContext;
     }
 
-    public void setMulDataModelList(List<HomeMenuBean> mulDataModelList) {
+    public void setMulDataModelList(List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList) {
         this.mulDataModelList = mulDataModelList;
     }
 
@@ -60,22 +53,19 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     @Override
     public MenuItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MenuItemHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.home_menu_item, parent, false),this);
+                .inflate(R.layout.home_menu_item, parent, false), this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MenuItemHolder holder, int position) {
-        Glide.with(mContext).load(HttpConstant.BASE_URL+mulDataModelList.get(position).getIcon()).into(holder.image);
-       // holder.name.setTypeface(ApplicationPrams.typeface);
+        Glide.with(mContext).load(HttpConstant.BASE_URL + mulDataModelList.get(position).getIcon()).into(holder.image);
+        // holder.name.setTypeface(ApplicationPrams.typeface);
         holder.name.setText(mulDataModelList.get(position).getName());
         holder.itemView.setTag(position);
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOnItemClickListener != null) {
-                    //注意这里使用getTag方法获取position
-                    mOnItemClickListener.onItemClick(view, position);
-                }
+        holder.image.setOnClickListener(view -> {
+            if (mOnItemClickListener != null) {
+                //注意这里使用getTag方法获取position
+                mOnItemClickListener.onItemClick(view, position);
             }
         });
 

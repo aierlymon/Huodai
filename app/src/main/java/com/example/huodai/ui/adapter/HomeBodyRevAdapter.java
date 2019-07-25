@@ -14,17 +14,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
-import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.widget.CircleImageView;
-import com.example.model.bean.HomeBodyBean;
+import com.example.model.bean.NewHomeBodyBean;
 
 import java.util.List;
 
 public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.BodyItemHold> implements View.OnClickListener {
 
     private Context mContext;
-    private List<HomeBodyBean> homeBodyBeanList;
+    private List<NewHomeBodyBean.LoanProductBean> homeBodyBeanList;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
@@ -37,7 +36,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
 
     private OnItemClickListener mOnItemClickListener;
 
-    public HomeBodyRevAdapter(Context mContext, List<HomeBodyBean> homeBodyBeanList) {
+    public HomeBodyRevAdapter(Context mContext, List<NewHomeBodyBean.LoanProductBean> homeBodyBeanList) {
         this.mContext = mContext;
         this.homeBodyBeanList = homeBodyBeanList;
     }
@@ -60,7 +59,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull BodyItemHold holder, int position) {
-        HomeBodyBean homeBodyBean = homeBodyBeanList.get(position);
+        NewHomeBodyBean.LoanProductBean  loanProductBean= homeBodyBeanList.get(position);
         String icon_url = HttpConstant.BASE_URL + homeBodyBeanList.get(position).getIcon();
 
         RequestOptions options = new RequestOptions();
@@ -70,16 +69,16 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
 
         //标题名字
-        holder.title.setText(homeBodyBean.getName());
+        holder.title.setText(loanProductBean.getName());
 
-        holder.limit.setText(""+homeBodyBean.getLimitL());
+        holder.limit.setText(""+loanProductBean.getLimitL());
 
-        holder.max.setText("" + homeBodyBean.getLimitH());
+        holder.max.setText("" + loanProductBean.getLimitH());
 
-        holder.rate.setText(homeBodyBean.getInterest());
-        holder.date.setText(homeBodyBean.getPeriod());
-        holder.finaltext.setText(homeBodyBean.getProfile());
-        holder.time.setText(homeBodyBean.getSpeed());
+        holder.rate.setText(loanProductBean.getInterest());
+        holder.date.setText(loanProductBean.getPeriod());
+        holder.finaltext.setText(loanProductBean.getProfile());
+        holder.time.setText(loanProductBean.getSpeed());
         holder.btn_request.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取position
@@ -105,8 +104,6 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         private TextView time;
         private ImageView btn_request;
         private TextView date;
-    /*    private TextView tx_fast_nouse;
-        private TextView tx_down_nouse;*/
 
         public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
@@ -120,18 +117,6 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
             time = ((TextView) itemView.findViewById(R.id.time));
             btn_request = itemView.findViewById(R.id.btn_request);
             date = ((TextView) itemView.findViewById(R.id.date));
-        //    tx_fast_nouse = itemView.findViewById(R.id.tx_fast_nouse);
-         //   tx_down_nouse = ((TextView) itemView.findViewById(R.id.tx_down_nouse));
-
-          /*  limit.setTypeface(ApplicationPrams.typeface);
-            max.setTypeface(ApplicationPrams.typeface);
-            title.setTypeface(ApplicationPrams.typeface);
-            rate.setTypeface(ApplicationPrams.typeface);
-            finaltext.setTypeface(ApplicationPrams.typeface);
-            time.setTypeface(ApplicationPrams.typeface);
-            date.setTypeface(ApplicationPrams.typeface);*/
-       //     tx_down_nouse.setTypeface(ApplicationPrams.typeface);
-       //     tx_fast_nouse.setTypeface(ApplicationPrams.typeface);
         }
     }
 }

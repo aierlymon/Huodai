@@ -3,8 +3,8 @@ package com.example.model.bean;
 public class LoginCallBackBean {
 
     /**
-     * user : {"id":21,"phone":"15914855180","nick":"用户8629160","name":null,"card":null,"clientType":"android","channelId":"2","status":1,"activeTime":1563340488,"createTime":1563328362,"ip":"223.104.1.244"}
-     * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInBob25lIjoiMTU5MTQ4NTUxODAiLCJuYW1lIjpudWxsLCJpYXQiOjE1NjM1MjIxNzF9.JXimuW6kk4v6tGVpBpHevS37gOl_fgAiGm9Z62wfRLc
+     * user : {"id":29,"phone":"13060600609","password":"123456","nick":"用户7898917","name":null,"card":null,"clientType":null,"createTime":1563955874,"activeTime":1563955874,"channelId":1,"status":1,"ip":"127.0.0.1"}
+     * token :
      */
 
     private UserBean user;
@@ -28,29 +28,31 @@ public class LoginCallBackBean {
 
     public static class UserBean {
         /**
-         * id : 21
-         * phone : 15914855180
-         * nick : 用户8629160
+         * id : 29
+         * phone : 13060600609
+         * password : 123456
+         * nick : 用户7898917
          * name : null
          * card : null
-         * clientType : android
-         * channelId : 2
+         * clientType : null
+         * createTime : 1563955874
+         * activeTime : 1563955874
+         * channelId : 1
          * status : 1
-         * activeTime : 1563340488
-         * createTime : 1563328362
-         * ip : 223.104.1.244
+         * ip : 127.0.0.1
          */
 
         private int id;
         private String phone;
+        private String password;
         private String nick;
         private Object name;
         private Object card;
-        private String clientType;
-        private String channelId;
-        private int status;
-        private int activeTime;
+        private Object clientType;
         private int createTime;
+        private int activeTime;
+        private int channelId;
+        private int status;
         private String ip;
 
         public int getId() {
@@ -67,6 +69,14 @@ public class LoginCallBackBean {
 
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
 
         public String getNick() {
@@ -93,28 +103,20 @@ public class LoginCallBackBean {
             this.card = card;
         }
 
-        public String getClientType() {
+        public Object getClientType() {
             return clientType;
         }
 
-        public void setClientType(String clientType) {
+        public void setClientType(Object clientType) {
             this.clientType = clientType;
         }
 
-        public String getChannelId() {
-            return channelId;
+        public int getCreateTime() {
+            return createTime;
         }
 
-        public void setChannelId(String channelId) {
-            this.channelId = channelId;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
+        public void setCreateTime(int createTime) {
+            this.createTime = createTime;
         }
 
         public int getActiveTime() {
@@ -125,12 +127,20 @@ public class LoginCallBackBean {
             this.activeTime = activeTime;
         }
 
-        public int getCreateTime() {
-            return createTime;
+        public int getChannelId() {
+            return channelId;
         }
 
-        public void setCreateTime(int createTime) {
-            this.createTime = createTime;
+        public void setChannelId(int channelId) {
+            this.channelId = channelId;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
 
         public String getIp() {

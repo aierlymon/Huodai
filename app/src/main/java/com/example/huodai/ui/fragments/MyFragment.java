@@ -16,6 +16,7 @@ import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.WebActivity;
 import com.example.huodai.mvp.model.MyFRFunctionHolder;
+import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.mvp.presenters.MyFrgPresenter;
 import com.example.huodai.mvp.view.MyViewImpl;
 import com.example.huodai.ui.adapter.MyRevAdapter;
@@ -51,6 +52,8 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
     @BindView(R.id.tx_title)
     TextView txTitle;
 
+    private WebViewBean webViewBean;
+
     private int[] name = {R.string.any_question, R.string.about_us, R.string.serice_content};
     private int[] icon = {R.drawable.group, R.drawable.about, R.drawable.fuwu};
     private String[] urls = {"help.html", "about.html", "treaty.html"};
@@ -79,7 +82,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     @Override
     protected void initView() {
-
+        webViewBean = new WebViewBean();
       /*  txTitle.setTypeface(ApplicationPrams.typeface);
         txUsername.setTypeface(ApplicationPrams.typeface);*/
 
@@ -89,18 +92,20 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         for (int i = 0; i < 3; i++) {
             MyFRFunctionHolder myFRFunctionHolder = new MyFRFunctionHolder();
             myFRFunctionHolder.setF_icon(icon[i]);
-            myFRFunctionHolder.setUrl(HttpConstant.MINE_BASE_URL+urls[i]);
+            myFRFunctionHolder.setUrl(HttpConstant.MINE_BASE_URL + urls[i]);
             myFRFunctionHolder.setF_name(getResources().getString(name[i]));
             myFRFunctionHolders.add(myFRFunctionHolder);
         }
         MyRevAdapter myRevAdapter = new MyRevAdapter(myFRFunctionHolders, getContext());
-        myRevAdapter.setOnItemClickListener((view, position) ->{
-            MyLog.i("响应了我的点击事件");
-            EventBus.getDefault().post(((MyFRFunctionHolder) myFRFunctionHolders.get(position)).getUrl());
+        myRevAdapter.setOnItemClickListener((view, position) -> {
+            MyLog.i("响应了我的MyFragment点击事件");
+            webViewBean.setUrl(((MyFRFunctionHolder) myFRFunctionHolders.get(position)).getUrl());
+            webViewBean.setTag(getString(name[position]));
+            EventBus.getDefault().post(webViewBean);
         });
         recyclerView.setAdapter(myRevAdapter);
 
-        if(ApplicationPrams.isLogin){
+        if (ApplicationPrams.isLogin) {
             loginSuceesee();
         }
     }
@@ -125,8 +130,8 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         Intent intent;
         switch (v.getId()) {
             case R.id.btn_login:
-                if(Utils.isFastClick())
-                EventBus.getDefault().post(false);
+                if (Utils.isFastClick())
+                    EventBus.getDefault().post(false);
               /*  intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);*/
                 break;
@@ -140,11 +145,11 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
     }
 
     private void noLogin() {
-        ApplicationPrams.isLogin=false;
+        ApplicationPrams.isLogin = false;
         btnLogin.setVisibility(View.VISIBLE);
         imgIcon.setVisibility(View.GONE);
         txUsername.setVisibility(View.GONE);
-        txUsername.setText(ApplicationPrams.loginCallBackBean.getUser().getPhone());
+        txUsername.setText(ApplicationPrams.loginCallBackBean.getPhone());
         txExit.setVisibility(View.GONE);
     }
 
@@ -159,7 +164,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         btnLogin.setVisibility(View.GONE);
         imgIcon.setVisibility(View.VISIBLE);
         txUsername.setVisibility(View.VISIBLE);
-        txUsername.setText(ApplicationPrams.loginCallBackBean.getUser().getPhone());
+        txUsername.setText(ApplicationPrams.loginCallBackBean.getPhone());
         txExit.setVisibility(View.VISIBLE);
     }
 }

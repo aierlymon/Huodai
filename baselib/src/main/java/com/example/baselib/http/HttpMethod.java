@@ -1,20 +1,20 @@
 package com.example.baselib.http;
 
-import com.example.baselib.BuildConfig;
+import android.os.Build;
+
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
 import com.example.baselib.http.interrceptorebean.RetryInterceptor;
-import com.example.model.bean.HomeBannerBean;
-import com.example.model.bean.HomeBodyBean;
-import com.example.model.bean.HomeMenuBean;
 import com.example.model.bean.LoginCallBackBean;
-import com.example.model.bean.TestBean;
+import com.example.model.bean.NewHomeBannerBean;
+import com.example.model.bean.NewHomeBodyBean;
+import com.example.model.bean.NewHomeMenuBean;
 import com.example.model.bean.UpdateBean;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -97,28 +97,31 @@ public class HttpMethod {
         return mMovieService.checkUpdate();
     }
 
-    //测试用的
-    public Observable<TestBean> getCityWeather(String cityId) {
-        return mMovieService.loadCityDate(cityId);
-    }
 
-    public Observable<List<HomeBannerBean>> loadHomeBanner() {
+    public Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner() {
         return mMovieService.loadHomeBanner();
     }
 
-    public Observable<List<HomeMenuBean>> loadHomeMenu() {
+    public Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu() {
         return mMovieService.loadHomeMenu();
     }
 
-    public Observable<List<HomeBodyBean>> loadBody() {
+    public Observable<HttpResult<NewHomeBodyBean>> loadBody() {
         return mMovieService.loadHomeBody();
     }
 
-    public Observable<String> getVerificationCode(String number) {
-        return mMovieService.getVerificationCode(number);
+    public Observable<HttpResult<JsonObject>> getVerificationCode(String number) {
+        JSONObject root = new JSONObject();
+        try {
+            root.put("phone", number);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
+        return mMovieService.getVerificationCode(requestBody);
     }
 
-    public Observable<LoginCallBackBean> requestLogin(String number, String code) {
+    public Observable<HttpResult<LoginCallBackBean>> requestLogin(String number, String code) {
         JSONObject root = new JSONObject();
         try {
             root.put("code", code);
@@ -127,9 +130,6 @@ public class HttpMethod {
             e.printStackTrace();
         }
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
-    /*    Map<String,String> map=new HashMap<>();
-        map.put("code", "4588");
-        map.put("phone","15622762654" );*/
         return mMovieService.requestLogin(requestBody);
     }
 }

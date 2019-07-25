@@ -1,18 +1,18 @@
 package com.example.huodai.mvp.model;
 
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
-import com.example.model.bean.HomeBodyBean;
+import com.example.model.bean.NewHomeBodyBean;
 
 import java.util.List;
 
 public class HomeFRBodyHolder extends BaseMulDataModel {
-    List<HomeBodyBean> homeBodyBeanList;
+    List<NewHomeBodyBean.LoanProductBean> homeBodyBeanList;
 
-    public List<HomeBodyBean> getHomeBodyBeanList() {
+    public List<NewHomeBodyBean.LoanProductBean> getHomeBodyBeanList() {
         return homeBodyBeanList;
     }
 
-    public void setHomeBodyBeanList(List<HomeBodyBean> homeBodyBeanList) {
+    public void setHomeBodyBeanList(List<NewHomeBodyBean.LoanProductBean> homeBodyBeanList) {
         this.homeBodyBeanList = homeBodyBeanList;
     }
 }

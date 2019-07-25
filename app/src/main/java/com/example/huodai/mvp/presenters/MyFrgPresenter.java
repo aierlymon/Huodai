@@ -14,6 +14,12 @@ public class MyFrgPresenter extends BasePresenter<MyViewImpl> {
         return true;
     }
 
+
+    @Override
+    public void showError(String msg) {
+        getView().showError("连接错误: " + msg);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginstate(Boolean isState){
         MyLog.i("收到了已经登陆");

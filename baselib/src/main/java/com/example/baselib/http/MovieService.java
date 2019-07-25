@@ -1,14 +1,12 @@
 package com.example.baselib.http;
 
 
-import com.example.model.bean.HomeBannerBean;
-import com.example.model.bean.HomeBodyBean;
-import com.example.model.bean.HomeMenuBean;
 import com.example.model.bean.LoginCallBackBean;
-import com.example.model.bean.TestBean;
+import com.example.model.bean.NewHomeBannerBean;
+import com.example.model.bean.NewHomeBodyBean;
+import com.example.model.bean.NewHomeMenuBean;
 import com.example.model.bean.UpdateBean;
-
-import java.util.List;
+import com.google.gson.JsonObject;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -16,8 +14,6 @@ import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -27,37 +23,34 @@ import retrofit2.http.Url;
  */
 public interface MovieService {
 
-    //这个是以后也不能删除的
+    //这个是以后也不能删除的，更新通用的！！！！！
     @GET("adat/sk/")
     Observable<UpdateBean> checkUpdate();
 
-    //这个是以后都不能删除的
+    //这个是以后都不能删除的，更新通用的！！！！！
     @Streaming
     @GET
     Observable<ResponseBody> download(@Url String url);
 
 
-    // http://www.weather.com.cn/adat/sk/101190201.html
-    //加载天气
-    @GET("adat/sk/{cityId}.html")
-    Observable<TestBean> loadCityDate(@Path("cityId") String cityId);
-
+    //就是home页的轮播图banner数据
     @GET("banners")
-    Observable<List<HomeBannerBean>> loadHomeBanner();
+    Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner();
 
-    //http://tuershiting.com/api/loanCategories
+    //这个是读取home界面的menu选项卡的请求
     @GET("loanCategories")
-    Observable<List<HomeMenuBean>> loadHomeMenu();
+    Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu();
 
-    @GET("loanProducts?filter={\"limit\":30, \"order\": [\"top DESC\", \"sortNum DESC\"], \"where\": {\"online\": true, \"allowClient\": {\"inq\": [0,1]}}}")
-    Observable<List<HomeBodyBean>> loadHomeBody();
+    //或取home页内容最多的body内容
+    @GET("loanProducts")
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody();
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
-    @GET("sendVerifyCode")
-    Observable<String> getVerificationCode(@Query("phone") String number);
+    @POST("sendVerifyCode")
+    Observable<HttpResult<JsonObject>> getVerificationCode(@Body RequestBody requestBody);
 
-    @POST("users/quickLogin")
-    Observable<LoginCallBackBean> requestLogin(@Body RequestBody requestBody);
+    @POST("quickLogin")
+    Observable<HttpResult<LoginCallBackBean>> requestLogin(@Body RequestBody requestBody);
 
    /* @FormUrlEncoded
     @Headers({"Content-type:application/json;charset=UTF-8"})

@@ -1,6 +1,7 @@
 package com.example.huodai.mvp.presenters;
 
 import com.example.baselib.http.HttpMethod;
+import com.example.baselib.http.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;
@@ -8,6 +9,7 @@ import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.mvp.view.LoginViewimpl;
 import com.example.model.bean.LoginCallBackBean;
+import com.google.gson.JsonObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -18,6 +20,11 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
         return false;
     }
 
+    @Override
+    public void showError(String msg) {
+        MyLog.i("!!!msg: "+msg);
+        getView().showError("连接错误: " + msg);
+    }
 
     public boolean checkTelPhoneNumber(String number) {
         number.replaceAll(" ", "");
@@ -32,21 +39,19 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
             HttpMethod.getInstance().getVerificationCode(number)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new MySubscriber<String>(this) {
+                    .subscribe(new MySubscriber<HttpResult<JsonObject>>(this) {
                         @Override
-                        public void onSuccess(String s) {
-                            MyLog.i("获取消息: " + s);
-                            if ("ok".equals(s)) {
+                        public void onSuccess(HttpResult<JsonObject> httpResult) {
+                            if (httpResult.getStatusCode()==200) {
                                 //拿去到了验证吗
-                                MyLog.i("通知成功");
                             } else {
-                                getView().showError("获取验证码失败");
+                                showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                             }
                         }
 
                         @Override
                         public void onFail(Throwable e) {
-                            MyLog.i("获取消息: onFail" + e.getMessage());
+                            showError(e.getMessage());
                         }
 
                         @Override
@@ -70,16 +75,23 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
         HttpMethod.getInstance().requestLogin(number, code)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<LoginCallBackBean>(this) {
+                .subscribe(new MySubscriber<HttpResult<LoginCallBackBean>>(this) {
                     @Override
-                    public void onSuccess(LoginCallBackBean loginCallBackBean) {
-                        ApplicationPrams.loginCallBackBean = loginCallBackBean;
-                        getView().loginSuccess();
+                    public void onSuccess(HttpResult<LoginCallBackBean> httpResult) {
+                        if (httpResult.getStatusCode()==200) {
+                            //拿去到了验证吗
+                            ApplicationPrams.loginCallBackBean = httpResult.getData().getUser();
+                            getView().loginSuccess();
+                        }else{
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+
                     }
 
                     @Override
                     public void onFail(Throwable e) {
-                        MyLog.i("我失败了");
+                        MyLog.i("我失败了: "+e.getMessage());
+                        showError(e.getMessage());
                         getView().showError("验证码不正确");
                     }
 
