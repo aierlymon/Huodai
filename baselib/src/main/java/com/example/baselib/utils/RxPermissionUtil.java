@@ -11,9 +11,11 @@ import android.view.View;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.baselib.R;
+import com.example.baselib.myapplication.App;
 import com.example.baselib.widget.PermissionDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,8 +55,10 @@ public class RxPermissionUtil {
 
     private PermissionDialog build;
 
+    private WeakReference<Activity> weakReference;
+
     public void permission(Activity activity, String[] list) {
-        builder.delete(0, builder.length());
+        weakReference = new WeakReference<>(activity);
         RxPermissions rxPermissions = new RxPermissions((FragmentActivity) activity);
         rxPermissions.requestEach(list).subscribe(permission -> {
 
@@ -72,11 +76,10 @@ public class RxPermissionUtil {
                 MyLog.i("应该需要获取" + permission.name + "权限");
             } else {
             }
-            //判断是否最后一个权限请求，是的话就弹出权限提示
 
             if (leng != 0 && leng == list.length) {
                 if (!TextUtils.isEmpty(builder.toString())) {
-                    build = PermissionDialog.Builder(activity)
+                    build = PermissionDialog.Builder(weakReference.get())
                             .setTitle(activity.getString(R.string.power_ps))
                             .setMessage("需要获取" + builder.toString())
                             .setOnConfirmClickListener("去设置", view -> {
@@ -92,7 +95,7 @@ public class RxPermissionUtil {
                                     localIntent.putExtra("com.android.settings.ApplicationPkgName", activity.getPackageName());
                                 }
                                 build.dismiss();
-                                activity.startActivity(localIntent);
+                                weakReference.get().startActivity(localIntent);
                             }).build();
                     build.setOnKeyListener((dialog, keyCode, event) -> {
                         if (keyCode == KeyEvent.KEYCODE_BACK) {

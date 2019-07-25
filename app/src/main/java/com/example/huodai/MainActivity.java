@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.baselib.base.BaseMvpActivity;
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
+import com.example.baselib.myapplication.App;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.RxPermissionUtil;
@@ -385,6 +386,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         pd.dismiss();
         startActivity(intent);
     }
+
 
     //intent的跳转动画
     @Override
