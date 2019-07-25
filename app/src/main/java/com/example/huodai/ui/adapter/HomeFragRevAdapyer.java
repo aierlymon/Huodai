@@ -102,7 +102,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            loopViewPager.setData(dataModel.getIcon_urls(), (view, position1, item) -> {
+            loopViewPager.setData(mContext,dataModel.getIcon_urls(), (view, position1, item) -> {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setOnClickListener(view1 -> {
                     MyLog.i("banner 点击之后: "+dataModel.getUrls().get(position1));

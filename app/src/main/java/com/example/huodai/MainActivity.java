@@ -315,6 +315,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MyLog.i("activity isFinish "+isFinishing());
         //取消注册广播
         if (netWorkStateBroadcast != null)
             unregisterReceiver(netWorkStateBroadcast);
@@ -390,6 +391,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         if (intent.getBooleanExtra("isAnim", false))
             overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
     }
+
+
 
 
 }

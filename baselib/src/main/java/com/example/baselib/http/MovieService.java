@@ -42,7 +42,7 @@ public interface MovieService {
     @GET("adat/sk/{cityId}.html")
     Observable<TestBean> loadCityDate(@Path("cityId") String cityId);
 
-    @GET("banners?filter[where][open]=true")
+    @GET("banners")
     Observable<List<HomeBannerBean>> loadHomeBanner();
 
     //http://tuershiting.com/api/loanCategories
