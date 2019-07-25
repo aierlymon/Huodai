@@ -6,6 +6,7 @@ import com.example.baselib.http.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;
+import com.example.huodai.ApplicationPrams;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
@@ -37,7 +38,6 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     List<BaseMulDataModel> list = new ArrayList<>();
 
 
-
     //这个是banner头部的请求，就是轮播图
     public void requestHead() {
         HttpMethod.getInstance().loadHomeBanner()
@@ -47,19 +47,9 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onSuccess(HttpResult<NewHomeBannerBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
-                            List<String> urls = new ArrayList<>();
-                            List<String> icon_urls = new ArrayList<>();
                             NewHomeBannerBean homeHeadBean = httpResult.getData();
-                            List<NewHomeBannerBean.BannersBean> bannersBeanList = homeHeadBean.getBanners();
-                            for (NewHomeBannerBean.BannersBean bannersBean : bannersBeanList) {
-                                MyLog.i("看一看数据:=========> " + homeHeadBean);
-                                ///group1/default/20190630/22/32/8/微信图片_20190417112246.png
-                                icon_urls.add(HttpConstant.BASE_URL + bannersBean.getIcon());
-                                urls.add(bannersBean.getUrl());
-                            }
                             HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
-                            homeFRBannerHolder.setIcon_urls(icon_urls);
-                            homeFRBannerHolder.setUrls(urls);
+                            homeFRBannerHolder.setNewHomeBannerBean(homeHeadBean);//这个预留出来的page,pageCout而已，其实都一样最好的
                             list.add(homeFRBannerHolder);
                             getView().refreshHome(list);
                         } else {
@@ -90,8 +80,12 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
+                            MyLog.i("requestMenuc成功了");
                             HomeFRMenuHolder homeFRMenuHolder = new HomeFRMenuHolder();
-                            homeFRMenuHolder.setUrls(httpResult.getData().getLoanCategories());
+                            //这个地方因为和商品的筛选是动态的，所以这个也要是动态
+
+                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
+                            homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
                             list.add(homeFRMenuHolder);
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());

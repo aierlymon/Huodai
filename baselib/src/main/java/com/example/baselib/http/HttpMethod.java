@@ -103,12 +103,19 @@ public class HttpMethod {
     }
 
     public Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu() {
-        return mMovieService.loadHomeMenu();
+        return mMovieService.loadHomeMenu(1);
     }
 
+
+
     public Observable<HttpResult<NewHomeBodyBean>> loadBody() {
-        return mMovieService.loadHomeBody();
+        return mMovieService.loadHomeBody(1);
     }
+
+    public Observable<HttpResult<NewHomeBodyBean>> loadBody(int id) {
+        return mMovieService.loadHomeBody(1,id);
+    }
+
 
     public Observable<HttpResult<JsonObject>> getVerificationCode(String number) {
         JSONObject root = new JSONObject();

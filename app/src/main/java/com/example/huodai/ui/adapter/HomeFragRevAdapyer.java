@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
@@ -19,13 +20,17 @@ import com.example.huodai.R;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
+import com.example.huodai.mvp.model.postbean.LoanFraFliterBean;
+import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
+import com.example.model.bean.NewHomeBannerBean;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,8 +51,10 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
 
-    public List<BaseMulDataModel> getModelList() {
-        return modelList;
+
+
+    public void setModelList(List<BaseMulDataModel> modelList) {
+        this.modelList = modelList;
     }
 
     @NonNull
@@ -69,6 +76,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BaseMulViewHolder baseMulViewHolder, int position) {
+        MyLog.i("requestBody(int id) onBindViewHolder:　　"+modelList.size());
         baseMulViewHolder.bindData(modelList.get(position), position);
     }
 
@@ -93,22 +101,35 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.banner_viewpager)
         LoopViewPager loopViewPager;
 
+        private List<String> dataList;
+
         public BannerHolder(View itemView) {
             super(itemView);
+            dataList = new ArrayList<>();
+
         }
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-            if(dataModel.getIcon_urls().size()>1){
+
+            MyLog.i("调用了多少次");
+            for (NewHomeBannerBean.BannersBean bannersBean : dataModel.getNewHomeBannerBean().getBanners()) {
+                dataList.add(HttpConstant.BASE_URL + bannersBean.getIcon());
+            }
+
+            if (dataList.size() > 1) {
                 loopViewPager.showIndicator(true);
                 loopViewPager.startBanner();
                 loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
             }
-            loopViewPager.setData(mContext, dataModel.getIcon_urls(), (view, position1, item) -> {
+
+            if (dataList.size() == 0) return;
+
+            loopViewPager.setData(mContext, dataList, (view, position1, item) -> {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setOnClickListener(view1 -> {
-                    MyLog.i("banner 点击之后: " + dataModel.getUrls().get(position1));
-                    webViewBean.setUrl(dataModel.getUrls().get(position1));
+                    MyLog.i("banner 点击之后: " + dataModel.getNewHomeBannerBean().getBanners().get(position1).getUrl());
+                    webViewBean.setUrl(dataModel.getNewHomeBannerBean().getBanners().get(position1).getUrl());
                     webViewBean.setTag(null);
                     go(view, -100, webViewBean);
                 });
@@ -126,25 +147,31 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.tx_ps)
         TextView tx;
 
+
         private HomeMenuRevAdapter homeMenuRevAdapter;
 
         public MenuHolder(View itemView) {
             super(itemView);
+
             LinearLayoutManager manager = new LinearLayoutManager(mContext);
             manager.setOrientation(RecyclerView.HORIZONTAL);
             recyclerView.setLayoutManager(manager);
             homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
-            homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
-                go(view, -1, null);
-            });
             recyclerView.setAdapter(homeMenuRevAdapter);
 
         }
 
         @Override
         public void bindData(HomeFRMenuHolder dataModel, int position) {
-            homeMenuRevAdapter.setMulDataModelList(dataModel.getUrls());
+            homeMenuRevAdapter.setMulDataModelList(dataModel.getLoanCategoriesBean());
             homeMenuRevAdapter.notifyDataSetChanged();
+            homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
+                MyLog.i("MenuHolder id: " + dataModel.getLoanCategoriesBean().get(position1).getId());
+                LoanFraTypeBean loanFraTypeBean=new LoanFraTypeBean();
+                loanFraTypeBean.setId(dataModel.getLoanCategoriesBean().get(position1).getId());
+                loanFraTypeBean.setName(dataModel.getLoanCategoriesBean().get(position1).getName());
+                go(view, -100, loanFraTypeBean);
+            });
         }
     }
 
@@ -165,14 +192,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
                 webViewBean.setUrl(dataModel.getHomeBodyBeanList().get(position1).getUrl());
                 webViewBean.setTag(null);
-                go(view, position, webViewBean);
+                go(view, -100, webViewBean);
             });
             //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
             recyclerView.setAdapter(homeBodyRevAdapter);
         }
     }
 
-    public <T> void go(View view, int position, T object) {
+    public <T> void go(View view, int pos, T object) {
         if (Utils.isFastClick()) {
             if (ApplicationPrams.loginCallBackBean == null) {
                 MyLog.i("点击了go");
@@ -184,8 +211,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 EventBus.getDefault().post(((WebViewBean) object));
             }
 
-            if (position == -1) {
-                EventBus.getDefault().post(1);
+            if(object instanceof LoanFraTypeBean){
+                EventBus.getDefault().post(((LoanFraTypeBean) object));
             }
         }
     }

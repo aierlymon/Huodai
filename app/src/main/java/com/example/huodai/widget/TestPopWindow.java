@@ -12,9 +12,15 @@ import android.widget.PopupWindow;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.R;
+import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
+import com.example.huodai.mvp.model.postbean.LoanMoneyBean;
 import com.example.huodai.ui.adapter.LoanSpinnerRevAdapter;
+import com.example.huodai.ui.adapter.base.BaseMulDataModel;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,24 +41,19 @@ public class TestPopWindow extends PopupWindow {
     @BindView(R.id.spinner_back_img)
     ImageView imageView_back;
 
-    List<String> typeList;
-    List<String> loadNums;
+    List<BaseMulDataModel> loadNums;
 
     private LoanSpinnerRevAdapter loanSpinnerRevAdapter;
 
     public TestPopWindow(Context context) {
         super(context);
-
-        String[] typeArray = context.getResources().getStringArray(R.array.type);
+        loadNums=new ArrayList<>();
         String[] loanNumArray = context.getResources().getStringArray(R.array.loan_num);
-
-        typeList = new ArrayList<>();
-        typeList.addAll(Arrays.asList(typeArray));
-
-        loadNums = new ArrayList<>();
-        loadNums.addAll(Arrays.asList(loanNumArray));
-
-
+        for(int i=0;i<loanNumArray.length;i++){
+            LoanMoneyBean loanMoneyBean=new LoanMoneyBean();
+            loanMoneyBean.setName(loanNumArray[i]);
+            loadNums.add(loanMoneyBean);
+        }
 
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -69,8 +70,16 @@ public class TestPopWindow extends PopupWindow {
         loanSpinnerRevAdapter = new LoanSpinnerRevAdapter(context);
         loanSpinnerRevAdapter.setOnItemClickListener(new LoanSpinnerRevAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, BaseMulDataModel model) {
 
+                if(model instanceof LoanFraTypeBean){
+                    MyLog.i("数据: "+ model.toString());
+                    EventBus.getDefault().post((LoanFraTypeBean) model);
+                }else{
+                    MyLog.i("数据: "+ model.toString());
+                    EventBus.getDefault().post((LoanMoneyBean) model);
+                }
+                dismiss();
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -101,10 +110,10 @@ public class TestPopWindow extends PopupWindow {
         return anchorLoc;
     }
 
-    public void selectType(int type) {
+    public  void selectType(int type,List<BaseMulDataModel> contentList) {
         switch (type) {
             case TYPE:
-                loanSpinnerRevAdapter.setInfoList(typeList);
+                loanSpinnerRevAdapter.setInfoList( contentList);
                 break;
             case LOAN:
                 loanSpinnerRevAdapter.setInfoList(loadNums);

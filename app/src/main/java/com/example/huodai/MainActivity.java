@@ -35,6 +35,8 @@ import com.example.baselib.utils.RxPermissionUtil;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.UpdateUtil;
 import com.example.baselib.widget.StatusBarHeightView;
+import com.example.huodai.mvp.model.postbean.LoanFraFliterBean;
+import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.mvp.presenters.MainPrsenter;
 import com.example.huodai.mvp.view.MainViewImpl;
@@ -46,6 +48,7 @@ import com.example.huodai.widget.CustomScrollViewPager;
 import com.example.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -308,10 +311,12 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         startActivity(intent);
     }
 
+
+    //这个是跳转到商品页面，并且选择筛选,以后int的时间总线专属LoanFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void checkRadio(Integer radioIndex) {
-        MyLog.i("MainActivity 我接收到了image的点击事件");
-        ((RadioButton) mGroup.getChildAt(radioIndex)).setChecked(true);
+    public void checkRadio(LoanFraTypeBean LoanFraTypeBean) {
+        //选中LoanFragment页面
+        ((RadioButton) mGroup.getChildAt(1)).setChecked(true);
     }
 
     @Override

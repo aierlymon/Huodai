@@ -40,6 +40,7 @@ public class LoopViewPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+
         position=position%mData.size();
         if(mCreateView==null){
             return new View(context);

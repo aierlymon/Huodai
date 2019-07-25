@@ -10,42 +10,53 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huodai.R;
+import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
+import com.example.huodai.mvp.model.postbean.LoanMoneyBean;
+import com.example.huodai.ui.adapter.base.BaseMulDataModel;
+import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<LoanSpinnerRevAdapter.SpinnerHolder> implements View.OnClickListener {
+public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> implements View.OnClickListener {
 
-    private Context mContext;
-    private List<String> infoList;
+    private List<BaseMulDataModel> infoList;
 
 
+    public static final int TYPE = 1;
+    public static final int MONEY = 2;
 
 
     public LoanSpinnerRevAdapter(Context mContext) {
-        this.mContext = mContext;
         this.infoList = new ArrayList<>();
     }
 
-    public List<String> getInfoList() {
-        return infoList;
-    }
-
-    public void setInfoList(List<String> infoList) {
-        this.infoList = infoList;
-    }
 
     @NonNull
     @Override
-    public SpinnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SpinnerHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.loan_spinner_recv_item, null, false), this);
+    public BaseMulViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE:
+                return new SpinnerTypeHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.loan_spinner_recv_item, parent, false), this);
+        }
+        return new SpinnerMoneyHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.loan_spinner_recv_item, parent, false), this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SpinnerHolder holder, int position) {
-        holder.info.setText(infoList.get(position));
-        holder.itemView.setTag(position);
+    public void onBindViewHolder(@NonNull BaseMulViewHolder holder, int position) {
+        holder.bindData(infoList.get(position), position);
+
+        holder.itemView.setTag(infoList.get(position));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (infoList.get(position) instanceof LoanFraTypeBean) {
+            return TYPE;
+        }
+        return MONEY;
     }
 
     @Override
@@ -53,8 +64,12 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<LoanSpinnerRevAd
         return infoList.size();
     }
 
+    public void setInfoList(List<BaseMulDataModel> contentList) {
+        this.infoList = contentList;
+    }
+
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, BaseMulDataModel position);
     }
 
     private OnItemClickListener mOnItemClickListener;
@@ -63,7 +78,7 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<LoanSpinnerRevAd
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(view, (int) view.getTag());
+            mOnItemClickListener.onItemClick(view, (BaseMulDataModel) view.getTag());
         }
     }
 
@@ -72,13 +87,33 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<LoanSpinnerRevAd
     }
 
 
-    class SpinnerHolder extends RecyclerView.ViewHolder {
+    class SpinnerTypeHolder extends BaseMulViewHolder<LoanFraTypeBean> {
         TextView info;
 
-        public SpinnerHolder(@NonNull View itemView, View.OnClickListener listener) {
+        public SpinnerTypeHolder(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
             itemView.setOnClickListener(listener);
             info = itemView.findViewById(R.id.info);
+        }
+
+        @Override
+        public void bindData(LoanFraTypeBean dataModel, int position) {
+            info.setText(dataModel.getName());
+        }
+    }
+
+    class SpinnerMoneyHolder extends BaseMulViewHolder<LoanMoneyBean> {
+        TextView info;
+
+        public SpinnerMoneyHolder(View itemView, View.OnClickListener listener) {
+            super(itemView);
+            itemView.setOnClickListener(listener);
+            info = itemView.findViewById(R.id.info);
+        }
+
+        @Override
+        public void bindData(LoanMoneyBean dataModel, int position) {
+            info.setText(dataModel.getName());
         }
     }
 }

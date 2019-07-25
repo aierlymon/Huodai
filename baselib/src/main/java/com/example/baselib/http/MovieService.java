@@ -14,6 +14,7 @@ import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -39,11 +40,17 @@ public interface MovieService {
 
     //这个是读取home界面的menu选项卡的请求
     @GET("loanCategories")
-    Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu();
+    Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu(@Query("allowClient") int index);
+
+
 
     //或取home页内容最多的body内容
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody();
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index);
+
+    //或取home页内容最多的body内容
+    @GET("loanProducts")
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index,@Query("categoryId") int id);
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")
