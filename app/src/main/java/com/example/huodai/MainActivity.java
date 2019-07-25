@@ -78,14 +78,12 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     private SharedPreferences preferences;
 
     private String[] permissions = {
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_NETWORK_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-
+            /*   Manifest.permission.REQUEST_INSTALL_PACKAGES,
+               Manifest.permission.ACCESS_WIFI_STATE,
+               Manifest.permission.CHANGE_NETWORK_STATE,
+               Manifest.permission.CHANGE_WIFI_STATE,*/
     };
 
 
@@ -189,24 +187,18 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         mViewPager.setOffscreenPageLimit(2);
 
         //过度界面展示
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageViewBack.setVisibility(View.GONE);
-                        //检测更新
-                        if (NetWorkStateBroadcast.isOnline.get() && mPresenter != null)
-                            mPresenter.checkUpdate(MainActivity.this);
-                    }
-                });
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            runOnUiThread(() -> {
+                imageViewBack.setVisibility(View.GONE);
+                //检测更新
+                if (NetWorkStateBroadcast.isOnline.get() && mPresenter != null)
+                    mPresenter.checkUpdate(MainActivity.this);
+            });
         }).start();
 
     }

@@ -53,6 +53,7 @@ public class IndicatorView extends LinearLayout {
     public void initView(int viewSize){
         if(!isFirst)return;
         isFirst=false;
+        if(viewSize==1)return;
         for(int i=0;i<viewSize;i++){
             ImageView imageView=new ImageView(context);
             LayoutParams layoutParams=new LayoutParams(

@@ -95,13 +95,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         public BannerHolder(View itemView) {
             super(itemView);
-            loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
-            loopViewPager.showIndicator(true);
-            loopViewPager.startBanner();
         }
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
+            if(dataModel.getIcon_urls().size()>1){
+                loopViewPager.showIndicator(true);
+                loopViewPager.startBanner();
+                loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
+            }
             loopViewPager.setData(mContext, dataModel.getIcon_urls(), (view, position1, item) -> {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setOnClickListener(view1 -> {
