@@ -12,6 +12,8 @@ import com.example.baselib.utils.Utils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * createBy ${huanghao}
  * on 2019/6/26
@@ -25,8 +27,14 @@ public class App extends Application {
         mRefWatcher=setupLeakCanary();
         // 主要是添加下面这句代码
         MultiDex.install(this);
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
         HttpConstant.context=this.getApplicationContext();
         NetWorkStateBroadcast.isOnline.set(Utils.isNetworkConnected(this));
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.baselib.http;
 
 
+import com.example.model.bean.HttpResult;
 import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;

@@ -13,6 +13,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            // 还可以添加 , 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "046998931f938c9f539649be", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
 
     }
 
@@ -25,7 +36,11 @@ android {
         }
     }
 
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 
     buildTypes {
         release {
@@ -63,6 +78,5 @@ dependencies {
     annotationProcessor rootProject.ext.annotationProcessorList["butterknife-compiler"]
     implementation project(':baselib')
     implementation project(path: ':model')
-    implementation files('libs/jcore-android-2.1.2.jar')
-    implementation files('libs/jpush-android-3.3.4.jar')
+
 }

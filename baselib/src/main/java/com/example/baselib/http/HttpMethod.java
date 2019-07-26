@@ -1,7 +1,6 @@
 package com.example.baselib.http;
 
-import android.os.Build;
-
+import com.example.model.bean.HttpResult;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
 import com.example.baselib.http.interrceptorebean.RetryInterceptor;
 import com.example.model.bean.LoginCallBackBean;

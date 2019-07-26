@@ -1,7 +1,7 @@
 package com.example.huodai.mvp.presenters;
 
 import com.example.baselib.http.HttpMethod;
-import com.example.baselib.http.HttpResult;
+import com.example.model.bean.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;

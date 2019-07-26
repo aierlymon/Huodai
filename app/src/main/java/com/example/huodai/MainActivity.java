@@ -84,6 +84,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     private String[] permissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+            Manifest.permission.READ_PHONE_NUMBERS
             /*   Manifest.permission.REQUEST_INSTALL_PACKAGES,
                Manifest.permission.ACCESS_WIFI_STATE,
                Manifest.permission.CHANGE_NETWORK_STATE,

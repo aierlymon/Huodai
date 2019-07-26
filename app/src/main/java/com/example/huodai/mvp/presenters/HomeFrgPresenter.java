@@ -1,12 +1,10 @@
 package com.example.huodai.mvp.presenters;
 
-import com.example.baselib.http.HttpConstant;
 import com.example.baselib.http.HttpMethod;
-import com.example.baselib.http.HttpResult;
+import com.example.model.bean.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;
-import com.example.huodai.ApplicationPrams;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
@@ -35,10 +33,12 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
         return false;
     }
 
+
     List<BaseMulDataModel> list = new ArrayList<>();
 
-
-
+    public List<BaseMulDataModel> getList() {
+        return list;
+    }
 
     //这个是banner头部的请求，就是轮播图
     public void requestHead() {
@@ -52,8 +52,11 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                             NewHomeBannerBean homeHeadBean = httpResult.getData();
                             HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
                             homeFRBannerHolder.setNewHomeBannerBean(homeHeadBean);//这个预留出来的page,pageCout而已，其实都一样最好的
+                            if(list.size()>=3){
+                                list.clear();
+                            }
                             list.add(homeFRBannerHolder);
-                            getView().refreshHome(list);
+                            MyLog.i("list.size: "+list.size());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -88,7 +91,11 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
                             homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
                             homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
+                            if(list.size()>=3){
+                                list.clear();
+                            }
                             list.add(homeFRMenuHolder);
+                            MyLog.i("list.size: "+list.size());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -117,7 +124,11 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                         if (httpResult.getStatusCode() == 200) {
                             HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                            if(list.size()>=3){
+                                list.clear();
+                            }
                             list.add(homeFRBodyHolder);
+                            MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list);
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());

@@ -79,17 +79,15 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     protected void initView() {
-        baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
-        fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), baseMulDataModels);
+        fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), mPresenter.getList());
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //刷新设置
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            currentPage=1;
-            mPresenter.clear();
+            currentPage = 1;
             mPresenter.requestHead();//请求banner
             mPresenter.requestMenu();//请求菜单
             mPresenter.requestBody();//请求body
@@ -125,10 +123,9 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     public void refreshHome(List<BaseMulDataModel> list) {
         fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
         }
-        hideLoading();
     }
 
     @Override
@@ -145,7 +142,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
         mPresenter.requestBody();//请求body
-        if(cacheFile.exists()){
+        if (cacheFile.exists()) {
             mRecyclerView.setVisibility(View.VISIBLE);
             relativeLayout.setVisibility(View.GONE);
         }

@@ -79,7 +79,7 @@
 
 # Gson
 -keep class com.google.**{*;}
-
+-keepattributes EnclosingMethod
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
@@ -123,3 +123,15 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+#极光推送的
+-dontoptimize
+-dontpreverify
+
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
+-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
+
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }

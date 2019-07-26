@@ -20,7 +20,6 @@ import com.example.huodai.R;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
-import com.example.huodai.mvp.model.postbean.LoanFraFliterBean;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
@@ -51,10 +50,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
 
-
-
     public void setModelList(List<BaseMulDataModel> modelList) {
-        this.modelList = modelList;
+        this.modelList=modelList;
     }
 
     public List<BaseMulDataModel> getModelList() {
@@ -119,8 +116,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
-
-            MyLog.i("调用了多少次");
+            MyLog.i("调用了多少次： " + dataList.size());
+            dataList.clear();
             for (NewHomeBannerBean.BannersBean bannersBean : dataModel.getNewHomeBannerBean().getBanners()) {
                 dataList.add(HttpConstant.BASE_URL + bannersBean.getIcon());
             }
@@ -175,7 +172,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeMenuRevAdapter.notifyDataSetChanged();
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("MenuHolder id: " + dataModel.getLoanCategoriesBean().get(position1).getId());
-                LoanFraTypeBean loanFraTypeBean=new LoanFraTypeBean();
+                LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
                 loanFraTypeBean.setId(dataModel.getLoanCategoriesBean().get(position1).getId());
                 loanFraTypeBean.setName(dataModel.getLoanCategoriesBean().get(position1).getName());
                 go(view, -100, loanFraTypeBean);
@@ -219,7 +216,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 EventBus.getDefault().post(((WebViewBean) object));
             }
 
-            if(object instanceof LoanFraTypeBean){
+            if (object instanceof LoanFraTypeBean) {
                 EventBus.getDefault().post(((LoanFraTypeBean) object));
             }
         }
