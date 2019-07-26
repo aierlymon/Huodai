@@ -116,6 +116,17 @@ public class HttpMethod {
         return mMovieService.loadHomeBody(1,id);
     }
 
+    //最小值不下于
+    public Observable<HttpResult<NewHomeBodyBean>> loadBodyLimitLit(int id,int limit) {
+        return mMovieService.loadHomeBodyLimitLlte(1,id,limit);
+    }
+
+    //最大值不大于
+    public Observable<HttpResult<NewHomeBodyBean>> loadBodyLimitHigh(int id,int max) {
+        return mMovieService.loadHomeBodyLimitLgte(1,id,max);
+    }
+
+
 
     public Observable<HttpResult<JsonObject>> getVerificationCode(String number) {
         JSONObject root = new JSONObject();

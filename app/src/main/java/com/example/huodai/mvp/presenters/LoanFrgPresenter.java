@@ -33,7 +33,8 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBody() {
+    public void requestBody(int id) {
+        list.clear();
         HttpMethod.getInstance().loadBody()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,7 +47,7 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                             list.add(homeFRBodyHolder);
                             getView().refreshHome(list);
                         } else {
-                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
                     }
 
@@ -73,7 +74,7 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                     public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                             MyLog.i("requestMenuc成功了");
-                            getView().refreshTypeFliter( httpResult.getData().getLoanCategories());
+                            getView().refreshTypeFliter(httpResult.getData().getLoanCategories());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -92,9 +93,9 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBody(int id) {
+    public void requestBodyLimitHigh(int id,int max) {
         list.clear();
-        HttpMethod.getInstance().loadBody(id)
+        HttpMethod.getInstance().loadBodyLimitLit(id, max)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
@@ -105,9 +106,40 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
                             list.add(homeFRBodyHolder);
                             getView().refreshHome(list);
-                            MyLog.i("requestBody(int id): "+list.size());
+                            MyLog.i("requestBody(int id): " + list.size());
                         } else {
-                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        showError(String.valueOf(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    public void requestBodyLimitLit(int typeId, int moneyMin) {
+        list.clear();
+        HttpMethod.getInstance().loadBodyLimitLit(typeId, moneyMin)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
+                        if (httpResult.getStatusCode() == 200) {
+                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                            list.add(homeFRBodyHolder);
+                            getView().refreshHome(list);
+                            MyLog.i("requestBody(int id): " + list.size());
+                        } else {
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
                     }
 

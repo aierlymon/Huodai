@@ -17,13 +17,13 @@ import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.R;
-import com.example.huodai.mvp.model.postbean.LoanFraFliterBean;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
+import com.example.huodai.mvp.model.postbean.LoanMoneyBean;
 import com.example.huodai.mvp.presenters.LoanFrgPresenter;
 import com.example.huodai.mvp.view.LoanFrgViewImpl;
 import com.example.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
-import com.example.huodai.widget.TestPopWindow;
+import com.example.huodai.widget.LoanFraPopWindow;
 import com.example.model.bean.NewHomeMenuBean;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -66,11 +66,18 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @BindView(R.id.spinner_loannum_img)
     ImageView bannerImgS;
 
+    @BindView(R.id.tx_all)
+    TextView txAll;
+
+
+    private int typeId = 0;
+    private int moneyLimitLit = 0;
+    private int monetLitmitHigh = 0;
 
     private List<BaseMulDataModel> list;
     private HomeFragRevAdapyer fragRevAdapyer;
     private List<BaseMulDataModel> baseMulDataModels;
-    private TestPopWindow mPopWindow;
+    private LoanFraPopWindow mPopWindow;
 
     public static LoanFragment newInstance(String info) {
         LoanFragment fragment = new LoanFragment();
@@ -99,26 +106,50 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void checkfliter(LoanFraFliterBean loanFraFliterBean) {
-        //通过ID，选中类型，发起类型请求
+    public void cFliterMoney(LoanMoneyBean loanMoneyBean) {
+        monetLitmitHigh = loanMoneyBean.getMax();
+        moneyLimitLit = loanMoneyBean.getLimit();
+        if (loanMoneyBean.getName().trim().equals(getString(R.string.loan_all))) {
+            //moneyLimitLit,monetLitmitHigh
+            moneyLimitLit = 0;
+            monetLitmitHigh = 0;
+            mPresenter.requestBody(typeId);
+        } else if (moneyLimitLit != 0) {
+            //通过金额参数，来查询信息
+            mPresenter.requestBodyLimitLit(typeId, moneyLimitLit);
+        } else if (monetLitmitHigh != 0) {
+            mPresenter.requestBodyLimitHigh(typeId, monetLitmitHigh);
+        }
+
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void checkfliter(LoanFraTypeBean loanFraTypeBean) {
+    public void cFliterType(LoanFraTypeBean loanFraTypeBean) {
         //通过ID，选中类型，发起类型请求
+        typeId = loanFraTypeBean.getId();
         MyLog.i("我接受到了eventbus: " + loanFraTypeBean.toString());
         //这里请求body数据
-        mPresenter.requestBody(loanFraTypeBean.getId());
-        //更新textview
+        if (moneyLimitLit != 0) {
+            //通过金额参数，来查询信息
+            mPresenter.requestBodyLimitLit(typeId, moneyLimitLit);
+        } else if (monetLitmitHigh != 0) {
+            mPresenter.requestBodyLimitHigh(typeId, monetLitmitHigh);
+        } else {
+            mPresenter.requestBody(loanFraTypeBean.getId());
+        }
+
+        //更新选项item
         bannerFirst.setText(loanFraTypeBean.getName());
+        //然后留出一个全局的id，方便做联合查询
+        typeId = loanFraTypeBean.getId();
     }
 
 
     @Override
     protected void initView() {
 
-        mPopWindow = new TestPopWindow(getContext());
+        mPopWindow = new LoanFraPopWindow(getContext());
         mPopWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -133,23 +164,29 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 point.set((int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
                 if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerImgF, point)) {
-                    if(list!=null){
-                        mPopWindow.selectType(TestPopWindow.TYPE, list);
-                    }else{
+                    if (list != null) {
+                        mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
+                    } else {
                         mPresenter.requestMenu();
                     }
 
                 }
 
                 if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerImgS, point)) {
-                    mPopWindow.selectType(TestPopWindow.LOAN, null);
+                    mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
+                }
+
+                if (Utils.isContaint(txAll, point)) {
+                    mPresenter.requestBody(0);
+                    if (mPopWindow.isShowing())
+                        mPopWindow.dismiss();
                 }
 
                 return true;
             }
         });
         //不把它放到懒加载
-        mPresenter.requestBody();
+        mPresenter.requestBody(0);
 
         txTitle.setText(getResources().getString(R.string.loan_num));
         baseMulDataModels = new ArrayList<>();
@@ -186,23 +223,27 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     public void refreshTypeFliter(List<NewHomeMenuBean.LoanCategoriesBean> loanCategories) {
         //这里类型筛选的item的时候了
         list = new ArrayList<>();
+        LoanFraTypeBean allloanFraTypeBean = new LoanFraTypeBean();
+        allloanFraTypeBean.setName(getString(R.string.loan_all));
+        allloanFraTypeBean.setId(0);
+        list.add(allloanFraTypeBean);
         for (NewHomeMenuBean.LoanCategoriesBean loanCategoriesBean : loanCategories) {
             LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
             loanFraTypeBean.setId(loanCategoriesBean.getId());
             loanFraTypeBean.setName(loanCategoriesBean.getName());
             list.add(loanFraTypeBean);
         }
-        mPopWindow.selectType(TestPopWindow.TYPE, list);
+        mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
         if (!mPopWindow.isShowing())
             mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
     }
 
-    @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.spinner_type_img, R.id.spinner_loannum_img})
+    @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.spinner_type_img, R.id.spinner_loannum_img, R.id.tx_all})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tx_refrsh:
                 File cacheFile = new File(HttpConstant.context.getCacheDir(), HttpConstant.cacheFileName);//缓存文件路径
-                mPresenter.requestBody();//请求body
+                mPresenter.requestBody(typeId);//请求body
                 if (cacheFile.exists()) {
                     mRecyclerView.setVisibility(View.VISIBLE);
                     relativeLayout.setVisibility(View.GONE);
@@ -214,9 +255,18 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 break;
             case R.id.spinner_loannum_text:
             case R.id.spinner_loannum_img:
-                mPopWindow.selectType(TestPopWindow.LOAN, null);
+                mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
                 if (!mPopWindow.isShowing())
                     mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
+                break;
+            case R.id.tx_all:
+                //全部原本的记录预留用来联合查询的id，min,max清空
+                typeId = 0;
+                monetLitmitHigh = 0;
+                moneyLimitLit = 0;
+                mPresenter.requestBody(0);
+                bannerFirst.setText(getString(R.string.type));
+                bannerSecond.setText(getString(R.string.money));
                 break;
         }
 

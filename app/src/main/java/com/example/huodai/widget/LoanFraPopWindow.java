@@ -30,10 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TestPopWindow extends PopupWindow {
+public class LoanFraPopWindow extends PopupWindow {
     public static final int TYPE = 1;
     public static final int LOAN = 2;
-    public static final int ORDER = 3;
 
     @BindView(R.id.spinner_recyclerview)
     RecyclerView recyclerView;
@@ -45,13 +44,31 @@ public class TestPopWindow extends PopupWindow {
 
     private LoanSpinnerRevAdapter loanSpinnerRevAdapter;
 
-    public TestPopWindow(Context context) {
+    public LoanFraPopWindow(Context context) {
         super(context);
         loadNums=new ArrayList<>();
         String[] loanNumArray = context.getResources().getStringArray(R.array.loan_num);
         for(int i=0;i<loanNumArray.length;i++){
             LoanMoneyBean loanMoneyBean=new LoanMoneyBean();
             loanMoneyBean.setName(loanNumArray[i]);
+            switch (i){
+                case 1:
+                    loanMoneyBean.setMax(1000);
+                    break;
+                case 2:
+                    loanMoneyBean.setLimit(1000);
+                    loanMoneyBean.setMax(5000);
+                    break;
+                case 3:
+                    loanMoneyBean.setLimit(5000);
+                    loanMoneyBean.setMax(10000);
+                    break;
+                case 4:
+                    loanMoneyBean.setLimit(10000);
+                    loanMoneyBean.setMax(30000);
+                    break;
+            }
+
             loadNums.add(loanMoneyBean);
         }
 

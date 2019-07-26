@@ -52,6 +52,16 @@ public interface MovieService {
     @GET("loanProducts")
     Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index,@Query("categoryId") int id);
 
+    //或取home页内容最多的body内容(联合查询,最小金额小于)
+    @GET("loanProducts")
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLlte(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLlte") int limitLlte);
+
+    //或取home页内容最多的body内容(联合查询,最小金额大于)
+    @GET("loanProducts")
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLgte(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte);
+
+
+
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")
     Observable<HttpResult<JsonObject>> getVerificationCode(@Body RequestBody requestBody);
