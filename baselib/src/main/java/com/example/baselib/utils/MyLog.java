@@ -10,7 +10,6 @@ import com.example.baselib.BuildConfig;
  */
 public class MyLog {
     public static void i(String info){
-        Log.i("mylog", info);
         if(BuildConfig.DEBUG){
             Log.i("mylog", info);
         }

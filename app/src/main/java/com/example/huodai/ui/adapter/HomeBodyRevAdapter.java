@@ -85,6 +85,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
                 mOnItemClickListener.onItemClick(view, position);
             }
         });
+        holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
 
     }
@@ -107,7 +108,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
 
         public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
-            itemView.setOnClickListener(listener);
+
             icon = itemView.findViewById(R.id.icon);
             title = ((TextView) itemView.findViewById(R.id.title));
             limit = ((TextView) itemView.findViewById(R.id.limit));

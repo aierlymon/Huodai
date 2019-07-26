@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -66,15 +67,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @BindView(R.id.group)
     RadioGroup mGroup;
-
-    @BindView(R.id.rb_home)
-    RadioButton mRb_Home;
-
-    @BindView(R.id.rb_loan)
-    RadioButton mRb_Load;
-
-    @BindView(R.id.rb_my)
-    RadioButton mRb_Mine;
 
     @BindView(R.id.background)
     ImageView imageViewBack;
@@ -218,13 +210,10 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
 
     @OnCheckedChanged({R.id.rb_home, R.id.rb_loan, R.id.rb_my})
-    public void onCheckChange(RadioButton radioButton) {
-        boolean checked = false;
-
-        switch (radioButton.getId()) {
+    public void onCheckChange(CompoundButton view, boolean ischanged) {
+        switch (view.getId()) {
             case R.id.rb_home:
-                checked = radioButton.isChecked();
-                if (checked) {
+                if (ischanged) {
                     MyLog.i("我拿去到了颜色:触发  R.id.rb_home");
                     //   StatusBarUtil.setStatusBarDarkTheme(this,false);
                     StatusBarUtil.setTranslucentStatus(this);
@@ -232,9 +221,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                 }
                 break;
             case R.id.rb_loan:
-                checked = radioButton.isChecked();
                 //展示标题栏
-                if (checked) {
+                if (ischanged) {
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_loan");
                     //     StatusBarUtil.setStatusBarDarkTheme(this,true);
                     //    setStatusBarColor(getResources().getColor(R.color.my_login_color));
@@ -242,14 +230,16 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                 }
                 break;
             case R.id.rb_my:
-                checked = radioButton.isChecked();
-                if (checked) {
+                if (ischanged) {
                     //   StatusBarUtil.setStatusBarDarkTheme(this,true);
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
                     //      setStatusBarColor(getResources().getColor(R.color.my_login_color));
                     mViewPager.setCurrentItem(2, false);
                 }
                 break;
+            default:
+                break;
+
         }
     }
 

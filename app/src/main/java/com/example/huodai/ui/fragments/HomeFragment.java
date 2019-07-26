@@ -81,6 +81,8 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     protected void initView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
+
+
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), mPresenter.getList());
         mRecyclerView.setAdapter(fragRevAdapyer);
 
@@ -105,6 +107,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         //  LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).show();
     }
 
+
     @Override
     public void hideLoading() {
         //   LoadDialogUtil.getInstance(getActivity(), "正在加载", CustomDialog.DoubleBounce).cancel();
@@ -121,7 +124,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list) {
-        fragRevAdapyer.setModelList(list);
+       // fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();

@@ -159,4 +159,8 @@ public class HttpMethod {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
         return mMovieService.requestLogin(requestBody);
     }
+
+    public Observable<HttpResult<String>> applyRecords(int loanProductId, int id) {
+        return mMovieService.applyRecords(loanProductId,id);
+    }
 }

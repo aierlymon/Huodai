@@ -1,18 +1,22 @@
 package com.example.huodai.mvp.presenters;
 
 import com.example.baselib.http.HttpMethod;
-import com.example.model.bean.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
+import com.example.huodai.mvp.model.postbean.RecordBean;
 import com.example.huodai.mvp.view.HomeFrgViewImpl;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
+import com.example.model.bean.HttpResult;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +34,14 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+     public void applyRecord(RecordBean recordBean){
+        apply(recordBean.getLoanProductId(),recordBean.getUserId());
+    }
 
     List<BaseMulDataModel> list = new ArrayList<>();
 
@@ -66,6 +75,31 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     public void onFail(Throwable e) {
                         MyLog.i("失败了: " + e.getMessage());
                         showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    public void apply(int loanProductId, int id ){
+        HttpMethod.getInstance().applyRecords(loanProductId,id)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<String> httpResult) {
+                        if (httpResult.getStatusCode() == 200) {
+                        } else {
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        showError(String.valueOf(e.getMessage()));
                     }
 
                     @Override

@@ -75,9 +75,9 @@ public interface MovieService {
     @POST("quickLogin")
     Observable<HttpResult<LoginCallBackBean>> requestLogin(@Body RequestBody requestBody);
 
-   /* @FormUrlEncoded
-    @Headers({"Content-type:application/json;charset=UTF-8"})
-    @POST("users/quickLogin")
-    Observable<LoginCallBackBean> requestLogin(@FieldMap Map requestMap);*/
+
+    @GET("applyRecords")
+    Observable<HttpResult<String>> applyRecords(@Query("loanProductId") int loanProductId,@Query("userId") int id);
+
 
 }

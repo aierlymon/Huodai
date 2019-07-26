@@ -21,6 +21,7 @@ import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
+import com.example.huodai.mvp.model.postbean.RecordBean;
 import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.ui.adapter.base.BaseMulViewHolder;
@@ -51,7 +52,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
 
     public void setModelList(List<BaseMulDataModel> modelList) {
-        this.modelList=modelList;
+        this.modelList = modelList;
     }
 
     public List<BaseMulDataModel> getModelList() {
@@ -82,6 +83,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BaseMulViewHolder baseMulViewHolder, int position) {
+        MyLog.i("HomeFragRevAdapyer onBindViewHolder次数: " + position + "  modelList.size: " + modelList.size());
         baseMulViewHolder.bindData(modelList.get(position), position);
     }
 
@@ -101,6 +103,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return BODY;
         }
     }
+
+    private RecordBean recordBean = new RecordBean();
 
     class BannerHolder extends BaseMulViewHolder<HomeFRBannerHolder> {
         @BindView(R.id.banner_viewpager)
@@ -136,7 +140,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     MyLog.i("banner 点击之后: " + dataModel.getNewHomeBannerBean().getBanners().get(position1).getUrl());
                     webViewBean.setUrl(dataModel.getNewHomeBannerBean().getBanners().get(position1).getUrl());
                     webViewBean.setTag(null);
-                    go(view, -100, webViewBean);
+                    //记录点击
+                    if (ApplicationPrams.loginCallBackBean != null) {
+                        MyLog.i("执行了提交后台服务器请求的请求");
+                        recordBean.setLoanProductId(dataModel.getNewHomeBannerBean().getBanners().get(position1).getId());
+                        recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                        EventBus.getDefault().post(recordBean);
+                    }
+                    go(view, position1, webViewBean);
                 });
                 MyLog.i("banner item icon: " + item);
                 //加载图片，如gide
@@ -146,6 +157,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
     class MenuHolder extends BaseMulViewHolder<HomeFRMenuHolder> {
+        private  LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
         @BindView(R.id.recv_menu)
         RecyclerView recyclerView;
 
@@ -172,10 +184,10 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeMenuRevAdapter.notifyDataSetChanged();
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("MenuHolder id: " + dataModel.getLoanCategoriesBean().get(position1).getId());
-                LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
+
                 loanFraTypeBean.setId(dataModel.getLoanCategoriesBean().get(position1).getId());
                 loanFraTypeBean.setName(dataModel.getLoanCategoriesBean().get(position1).getName());
-                go(view, -100, loanFraTypeBean);
+                go(view, position1, loanFraTypeBean);
             });
         }
     }
@@ -193,11 +205,21 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @Override
         public void bindData(HomeFRBodyHolder dataModel, int position) {
+            MyLog.i("BodyHolder new");
             HomeBodyRevAdapter homeBodyRevAdapter = new HomeBodyRevAdapter(mContext, dataModel.getHomeBodyBeanList());
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
                 webViewBean.setUrl(dataModel.getHomeBodyBeanList().get(position1).getUrl());
                 webViewBean.setTag(null);
-                go(view, -100, webViewBean);
+
+                //这里出发了两次
+                if (ApplicationPrams.loginCallBackBean != null) {
+                    MyLog.i("执行了提交后台服务器请求的请求: " + position1);
+                    recordBean.setLoanProductId(dataModel.getHomeBodyBeanList().get(position1).getId());
+                    recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                    EventBus.getDefault().post(recordBean);
+                }
+                go(view, position1, webViewBean);
+
             });
             //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
             recyclerView.setAdapter(homeBodyRevAdapter);
@@ -211,6 +233,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 EventBus.getDefault().post(false);
                 return;
             }
+
+
             //进行页面跳转
             if (object instanceof WebViewBean) {
                 EventBus.getDefault().post(((WebViewBean) object));
