@@ -20,6 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
 
+    //分类的list
     List<BaseMulDataModel> list = new ArrayList<>();
 
     @Override
@@ -34,8 +35,8 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
 
     //请求Body内容的
     public void requestBody(int id) {
-        list.clear();
-        HttpMethod.getInstance().loadBody()
+
+        HttpMethod.getInstance().loadBody(id)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
@@ -44,10 +45,12 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                         if (httpResult.getStatusCode() == 200) {
                             HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                            list.clear();
                             list.add(homeFRBodyHolder);
+                            MyLog.i("requestBody(0): "+list.size());
                             getView().refreshHome(list);
                         } else {
-                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
                         }
                     }
 
@@ -74,7 +77,7 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                     public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                             MyLog.i("requestMenuc成功了");
-                            getView().refreshTypeFliter(httpResult.getData().getLoanCategories());
+                            getView().refreshTypeFliter( httpResult.getData().getLoanCategories());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -93,40 +96,71 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBodyLimitHigh(int id,int max) {
-        list.clear();
-        HttpMethod.getInstance().loadBodyLimitLit(id, max)
-                .subscribeOn(Schedulers.single())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
-                    @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            list.add(homeFRBodyHolder);
-                            getView().refreshHome(list);
-                            MyLog.i("requestBody(int id): " + list.size());
-                        } else {
-                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+    public void requestBody(int id,int min,int max) {
+        if(max==0){
+            HttpMethod.getInstance().loadBodyLimitHigh(id,min)
+                    .subscribeOn(Schedulers.single())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                        @Override
+                        public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
+                            if (httpResult.getStatusCode() == 200) {
+                                HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
+                                homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                                list.clear();
+                                list.add(homeFRBodyHolder);
+                                getView().refreshHome(list);
+
+                            } else {
+                                showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFail(Throwable e) {
-                        showError(String.valueOf(e.getMessage()));
-                    }
+                        @Override
+                        public void onFail(Throwable e) {
+                            showError(String.valueOf(e.getMessage()));
+                        }
 
-                    @Override
-                    public void onCompleted() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-                });
+                        }
+                    });
+        }else{
+            HttpMethod.getInstance().loadBodyMintoMax(id,min,max)
+                    .subscribeOn(Schedulers.single())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                        @Override
+                        public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
+                            if (httpResult.getStatusCode() == 200) {
+                                HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
+                                homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                                list.clear();
+                                list.add(homeFRBodyHolder);
+                                getView().refreshHome(list);
+
+                            } else {
+                                showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            }
+                        }
+
+                        @Override
+                        public void onFail(Throwable e) {
+                            showError(String.valueOf(e.getMessage()));
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+                    });
+        }
     }
 
-    public void requestBodyLimitLit(int typeId, int moneyMin) {
-        list.clear();
-        HttpMethod.getInstance().loadBodyLimitLit(typeId, moneyMin)
+    public void requestBodyPage(int id,int min,int max,int page){
+
+        HttpMethod.getInstance().loadBodyMintoMaxToPage(id,min,max,page)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
@@ -135,11 +169,15 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                         if (httpResult.getStatusCode() == 200) {
                             HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            list.add(homeFRBodyHolder);
-                            getView().refreshHome(list);
-                            MyLog.i("requestBody(int id): " + list.size());
+                            for(int i=0;i<list.size();i++){
+                                if(list.get(i) instanceof HomeFRBodyHolder){
+                                    ((HomeFRBodyHolder) list.get(0)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
+                                }
+                            }
+                            getView().addPage(list);
+                            MyLog.i("requestBody(x) end : "+list.size());
                         } else {
-                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
                         }
                     }
 

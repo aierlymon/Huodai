@@ -82,13 +82,32 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recv_loan"
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="7"
-                android:background="@color/index_my_color" />
+                android:background="#fff">
 
+                <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srlAccentColor="#000"
+                    android:background="#fff"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recv_loan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/index_my_color" />
+
+
+                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srlPrimaryColor="#fff" />
+
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </LinearLayout>
     </com.example.baselib.widget.StatusBarHeightView>
 </RelativeLayout>

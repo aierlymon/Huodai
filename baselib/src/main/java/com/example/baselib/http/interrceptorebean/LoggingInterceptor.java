@@ -19,6 +19,7 @@ public class LoggingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        MyLog.i("request: "+request.toString());
         //当没有网络时
         if (!NetWorkStateBroadcast.isOnline.get()) {
             MyLog.i("我进来了没有网络");

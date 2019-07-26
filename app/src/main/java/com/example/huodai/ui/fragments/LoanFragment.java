@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.baselib.base.BaseMVPFragment;
 import com.example.baselib.http.HttpConstant;
@@ -25,6 +26,7 @@ import com.example.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
 import com.example.huodai.widget.LoanFraPopWindow;
 import com.example.model.bean.NewHomeMenuBean;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -69,15 +71,20 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @BindView(R.id.tx_all)
     TextView txAll;
 
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
 
     private int typeId = 0;
-    private int moneyLimitLit = 0;
+    private int moneyMaxLit = 0;
     private int monetLitmitHigh = 0;
+    private int currentPage = 1;
 
     private List<BaseMulDataModel> list;
     private HomeFragRevAdapyer fragRevAdapyer;
     private List<BaseMulDataModel> baseMulDataModels;
     private LoanFraPopWindow mPopWindow;
+
 
     public static LoanFragment newInstance(String info) {
         LoanFragment fragment = new LoanFragment();
@@ -107,42 +114,36 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterMoney(LoanMoneyBean loanMoneyBean) {
-        monetLitmitHigh = loanMoneyBean.getMax();
-        moneyLimitLit = loanMoneyBean.getLimit();
+        currentPage=1;
+        monetLitmitHigh = loanMoneyBean.getLimit();
+        moneyMaxLit = loanMoneyBean.getMax();
         if (loanMoneyBean.getName().trim().equals(getString(R.string.loan_all))) {
-            //moneyLimitLit,monetLitmitHigh
-            moneyLimitLit = 0;
+            //moneyMaxLit,monetLitmitHigh
+            moneyMaxLit = 0;
             monetLitmitHigh = 0;
             mPresenter.requestBody(typeId);
-        } else if (moneyLimitLit != 0) {
-            //通过金额参数，来查询信息
-            mPresenter.requestBodyLimitLit(typeId, moneyLimitLit);
-        } else if (monetLitmitHigh != 0) {
-            mPresenter.requestBodyLimitHigh(typeId, monetLitmitHigh);
         }
-
+        mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
+        bannerSecond.setText(loanMoneyBean.getName());
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterType(LoanFraTypeBean loanFraTypeBean) {
+        currentPage=1;
         //通过ID，选中类型，发起类型请求
         typeId = loanFraTypeBean.getId();
         MyLog.i("我接受到了eventbus: " + loanFraTypeBean.toString());
         //这里请求body数据
-        if (moneyLimitLit != 0) {
-            //通过金额参数，来查询信息
-            mPresenter.requestBodyLimitLit(typeId, moneyLimitLit);
-        } else if (monetLitmitHigh != 0) {
-            mPresenter.requestBodyLimitHigh(typeId, monetLitmitHigh);
-        } else {
-            mPresenter.requestBody(loanFraTypeBean.getId());
-        }
+        mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
 
         //更新选项item
         bannerFirst.setText(loanFraTypeBean.getName());
         //然后留出一个全局的id，方便做联合查询
         typeId = loanFraTypeBean.getId();
+
+        //文字添加说明
+        bannerFirst.setText(loanFraTypeBean.getName());
     }
 
 
@@ -193,7 +194,20 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), baseMulDataModels);
+       // fragRevAdapyer.setHasStableIds(true);
         mRecyclerView.setAdapter(fragRevAdapyer);
+
+        refreshLayout.setEnableAutoLoadMore(false);
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            MyLog.i("我触发了1");
+            mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
+        });
+
+        refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
+            MyLog.i("我触发了2");
+            currentPage++;
+            mPresenter.requestBodyPage(typeId, monetLitmitHigh, moneyMaxLit, currentPage);
+        });
     }
 
     @Override
@@ -215,9 +229,19 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list) {
+
         fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
+        if (refreshLayout.isRefreshing())
+            refreshLayout.finishRefresh();
     }
+
+    @Override
+    public void addPage(List<BaseMulDataModel> list) {
+        fragRevAdapyer.notifyDataSetChanged();
+        refreshLayout.finishLoadMore();
+    }
+
 
     @Override
     public void refreshTypeFliter(List<NewHomeMenuBean.LoanCategoriesBean> loanCategories) {
@@ -237,6 +261,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         if (!mPopWindow.isShowing())
             mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
     }
+
 
     @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.spinner_type_img, R.id.spinner_loannum_img, R.id.tx_all})
     public void onClick(View view) {
@@ -263,7 +288,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 //全部原本的记录预留用来联合查询的id，min,max清空
                 typeId = 0;
                 monetLitmitHigh = 0;
-                moneyLimitLit = 0;
+                moneyMaxLit = 0;
                 mPresenter.requestBody(0);
                 bannerFirst.setText(getString(R.string.type));
                 bannerSecond.setText(getString(R.string.money));

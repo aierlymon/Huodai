@@ -116,16 +116,26 @@ public class HttpMethod {
         return mMovieService.loadHomeBody(1,id);
     }
 
-    //最小值不下于
+    //最小金额不大于
     public Observable<HttpResult<NewHomeBodyBean>> loadBodyLimitLit(int id,int limit) {
         return mMovieService.loadHomeBodyLimitLlte(1,id,limit);
     }
 
-    //最大值不大于
+    //最小金额不小于
     public Observable<HttpResult<NewHomeBodyBean>> loadBodyLimitHigh(int id,int max) {
         return mMovieService.loadHomeBodyLimitLgte(1,id,max);
     }
 
+    //最小到最大值
+    public Observable<HttpResult<NewHomeBodyBean>> loadBodyMintoMax(int id,int min,int max) {
+        return mMovieService.loadHomeBodyLimToLgt(1,id,min,max);
+    }
+
+
+    //加一个页数加载
+    public Observable<HttpResult<NewHomeBodyBean>> loadBodyMintoMaxToPage(int id,int min,int max,int page) {
+        return mMovieService.loadHomeBodyLimToLgtToPage(1,id,min,max,page);
+    }
 
 
     public Observable<HttpResult<JsonObject>> getVerificationCode(String number) {

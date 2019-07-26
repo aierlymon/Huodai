@@ -10,4 +10,6 @@ public interface LoanFrgViewImpl extends IView {
     void refreshHome(List<BaseMulDataModel> list);
 
     void refreshTypeFliter(List<NewHomeMenuBean.LoanCategoriesBean> loanCategories);
+
+    void addPage(List<BaseMulDataModel> list);
 }

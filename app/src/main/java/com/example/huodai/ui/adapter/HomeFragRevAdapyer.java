@@ -57,6 +57,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         this.modelList = modelList;
     }
 
+    public List<BaseMulDataModel> getModelList() {
+        return modelList;
+    }
+
+/*    @Override
+    public long getItemId(int position){
+        return modelList.get(position).hashCode();
+    }*/
+
     @NonNull
     @Override
     public BaseMulViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -76,7 +85,6 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BaseMulViewHolder baseMulViewHolder, int position) {
-        MyLog.i("requestBody(int id) onBindViewHolder:　　"+modelList.size());
         baseMulViewHolder.bindData(modelList.get(position), position);
     }
 
