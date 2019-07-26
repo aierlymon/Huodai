@@ -24,6 +24,7 @@ import com.example.huodai.mvp.presenters.HomeFrgPresenter;
 import com.example.huodai.mvp.view.HomeFrgViewImpl;
 import com.example.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,6 +45,12 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @BindView(R.id.noOnline)
     RelativeLayout relativeLayout;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    //body的当前刷新页面
+    private int currentPage = 1;
 
     public static HomeFragment newInstance(String info) {
         HomeFragment fragment = new HomeFragment();
@@ -77,6 +84,22 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         mRecyclerView.setLayoutManager(manager);
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), baseMulDataModels);
         mRecyclerView.setAdapter(fragRevAdapyer);
+
+        //刷新设置
+        refreshLayout.setEnableAutoLoadMore(false);
+        refreshLayout.setOnRefreshListener(refreshLayout -> {
+            currentPage=1;
+            mPresenter.clear();
+            mPresenter.requestHead();//请求banner
+            mPresenter.requestMenu();//请求菜单
+            mPresenter.requestBody();//请求body
+        });
+
+        refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
+            MyLog.i("我触发了2");
+            currentPage++;
+            mPresenter.requestBodyPage(0, 0, 0, currentPage);
+        });
     }
 
     @Override
@@ -102,7 +125,16 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     public void refreshHome(List<BaseMulDataModel> list) {
         fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
+        if(refreshLayout.isRefreshing()){
+            refreshLayout.finishRefresh();
+        }
         hideLoading();
+    }
+
+    @Override
+    public void addPage(List<BaseMulDataModel> list) {
+        fragRevAdapyer.notifyDataSetChanged();
+        refreshLayout.finishLoadMore();
     }
 
     @OnClick({R.id.tx_refrsh})

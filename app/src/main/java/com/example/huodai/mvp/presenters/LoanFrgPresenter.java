@@ -171,7 +171,7 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
                             for(int i=0;i<list.size();i++){
                                 if(list.get(i) instanceof HomeFRBodyHolder){
-                                    ((HomeFRBodyHolder) list.get(0)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
+                                    ((HomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
                                 }
                             }
                             getView().addPage(list);

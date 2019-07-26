@@ -12,6 +12,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+
     }
 
     signingConfigs {
@@ -22,6 +24,8 @@ android {
             keyPassword ALIAS_PASS
         }
     }
+
+
 
     buildTypes {
         release {
@@ -54,9 +58,11 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //引用module的butterknife的时候要加这个，不然引用失败
-    annotationProcessor  rootProject.ext.annotationProcessorList["butterknife-compiler"]
+    annotationProcessor rootProject.ext.annotationProcessorList["butterknife-compiler"]
     implementation project(':baselib')
     implementation project(path: ':model')
+    implementation files('libs/jcore-android-2.1.2.jar')
+    implementation files('libs/jpush-android-3.3.4.jar')
 }

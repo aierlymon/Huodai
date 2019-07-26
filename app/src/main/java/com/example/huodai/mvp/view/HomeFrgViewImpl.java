@@ -8,5 +8,5 @@ import java.util.List;
 public interface HomeFrgViewImpl extends IView {
     void refreshHome(List<BaseMulDataModel> list);
 
-
+    void addPage(List<BaseMulDataModel> list);
 }

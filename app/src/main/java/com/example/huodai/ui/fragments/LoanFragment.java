@@ -75,9 +75,12 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     SmartRefreshLayout refreshLayout;
 
 
+    //商品查询的条件
     private int typeId = 0;
     private int moneyMaxLit = 0;
     private int monetLitmitHigh = 0;
+
+    //body的当前刷新页面
     private int currentPage = 1;
 
     private List<BaseMulDataModel> list;
