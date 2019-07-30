@@ -6,6 +6,7 @@ import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
 
@@ -79,5 +80,6 @@ public interface MovieService {
     @GET("applyRecords")
     Observable<HttpResult<String>> applyRecords(@Query("loanProductId") int loanProductId,@Query("userId") int id);
 
-
+    @GET("initImg")
+    Observable<SplashBean> loadSplash();
 }

@@ -33,11 +33,11 @@
             android:textAlignment="center"
             android:textSize="@dimen/x14" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/spinner_type_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/jiantou_bot" />
+            android:button="@drawable/checkbox_state" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,11 +55,11 @@
             android:textAlignment="center"
             android:textSize="@dimen/x14" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/spinner_loannum_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/jiantou_bot" />
+            android:button="@drawable/checkbox_state"  />
     </LinearLayout>
 
 </LinearLayout>

@@ -79,12 +79,6 @@
     </RadioGroup>
 
 
-    <ImageView
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/start_back" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

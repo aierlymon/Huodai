@@ -68,17 +68,16 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @BindView(R.id.group)
     RadioGroup mGroup;
 
-    @BindView(R.id.background)
-    ImageView imageViewBack;
 
     private SharedPreferences preferences;
 
     private String[] permissions = {
+            Manifest.permission.REQUEST_INSTALL_PACKAGES,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-            Manifest.permission.READ_PHONE_NUMBERS
+       /*     Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+            Manifest.permission.READ_PHONE_NUMBERS*/
             /*   Manifest.permission.REQUEST_INSTALL_PACKAGES,
                Manifest.permission.ACCESS_WIFI_STATE,
                Manifest.permission.CHANGE_NETWORK_STATE,
@@ -185,20 +184,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         mViewPager.setAdapter(mainVPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
 
-        //过度界面展示
-        new Thread(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(() -> {
-                imageViewBack.setVisibility(View.GONE);
-                //检测更新
-                if (NetWorkStateBroadcast.isOnline.get() && mPresenter != null)
-                    mPresenter.checkUpdate(MainActivity.this);
-            });
-        }).start();
+        //检查更新
+        mPresenter.checkUpdate(MainActivity.this);
 
     }
 
@@ -260,6 +247,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     @Override
     public boolean isUseEventBus() {
+        return true;
+    }
+
+    @Override
+    public boolean isUseLayoutRes() {
         return true;
     }
 

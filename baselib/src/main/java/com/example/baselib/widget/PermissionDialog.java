@@ -17,7 +17,7 @@ public class PermissionDialog extends Dialog {
     private final String MESSAGE;
     private final String CONFIRMTEXT;
     private final onConfirmClickListener ONCONFIRMCLICKLISTENER;
-
+    private static Builder builder;
     public interface onConfirmClickListener {
         void onClick(View view);
     }
@@ -44,8 +44,13 @@ public class PermissionDialog extends Dialog {
         initView();
     }
 
+    public  Builder getBuilder() {
+        return builder;
+    }
+
     public static Builder Builder(Context context) {
-        return new Builder(context);
+        if(builder==null)builder=new Builder(context);
+        return builder;
     }
 
     private void initView() {
@@ -88,6 +93,10 @@ public class PermissionDialog extends Dialog {
 
         private Builder(Context context) {
             this.mContext = context;
+        }
+
+        public void setmContext(Context mContext) {
+            this.mContext = mContext;
         }
 
         public Builder setTitle(String title) {

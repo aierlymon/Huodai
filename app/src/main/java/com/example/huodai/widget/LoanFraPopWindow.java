@@ -33,6 +33,17 @@ import butterknife.OnClick;
 public class LoanFraPopWindow extends PopupWindow {
     public static final int TYPE = 1;
     public static final int LOAN = 2;
+    private int currentItem;
+
+    public interface CancelListener{
+        void cancel();
+    }
+
+    CancelListener cancelListener;
+
+    public void setCancelListener(CancelListener cancelListener) {
+        this.cancelListener = cancelListener;
+    }
 
     @BindView(R.id.spinner_recyclerview)
     RecyclerView recyclerView;
@@ -43,6 +54,15 @@ public class LoanFraPopWindow extends PopupWindow {
     List<BaseMulDataModel> loadNums;
 
     private LoanSpinnerRevAdapter loanSpinnerRevAdapter;
+
+
+    public int getCurrentItem() {
+        return currentItem;
+    }
+
+    public void setCurrentItem(int currentItem) {
+        this.currentItem = currentItem;
+    }
 
     public LoanFraPopWindow(Context context) {
         super(context);
@@ -107,6 +127,8 @@ public class LoanFraPopWindow extends PopupWindow {
     @OnClick({R.id.spinner_back_img})
     public void click(){
         if(isShowing()){
+            //全部checkbox取消选择
+            cancelListener.cancel();
             dismiss();
         }
     }
@@ -130,9 +152,11 @@ public class LoanFraPopWindow extends PopupWindow {
     public  void selectType(int type,List<BaseMulDataModel> contentList) {
         switch (type) {
             case TYPE:
+                setCurrentItem(TYPE);
                 loanSpinnerRevAdapter.setInfoList( contentList);
                 break;
             case LOAN:
+                setCurrentItem(LOAN);
                 loanSpinnerRevAdapter.setInfoList(loadNums);
                 break;
         }

@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return false;
     }
 
-    ;
+    public abstract boolean isUseLayoutRes();
 
 
     @Override
@@ -63,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+        if(isUseLayoutRes())
         setContentView(getLayoutRes());
 
 

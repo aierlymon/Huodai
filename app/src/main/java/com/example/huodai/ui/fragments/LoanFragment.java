@@ -3,19 +3,20 @@ package com.example.huodai.ui.fragments;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.baselib.base.BaseMVPFragment;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
+import com.example.baselib.utils.StatusBarUtil;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.R;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresenter> implements LoanFrgViewImpl {
@@ -63,10 +65,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
 
     @BindView(R.id.spinner_type_img)
-    ImageView bannerImgF;
+    CheckBox bannerCheckType;
 
     @BindView(R.id.spinner_loannum_img)
-    ImageView bannerImgS;
+    CheckBox bannerCheckMoney;
 
     @BindView(R.id.tx_all)
     TextView txAll;
@@ -115,11 +117,17 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         return true;
     }
 
+    //过滤类型所做的操作
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterMoney(LoanMoneyBean loanMoneyBean) {
-        currentPage=1;
+        //把checkbox设置为false
+        bannerCheckMoney.setChecked(false);
+        //标记当前内容在当前总页数是第几页
+        currentPage = 1;
+        //获取最大最小值区间
         monetLitmitHigh = loanMoneyBean.getLimit();
         moneyMaxLit = loanMoneyBean.getMax();
+        //判断是否是点击了全部的选项，是的话最大最小值无效，并且重新刷新网页
         if (loanMoneyBean.getName().trim().equals(getString(R.string.loan_all))) {
             //moneyMaxLit,monetLitmitHigh
             moneyMaxLit = 0;
@@ -127,13 +135,18 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             mPresenter.requestBody(typeId);
         }
         mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
+        //把选中选项的文本显示在当前的选项里展示
         bannerSecond.setText(loanMoneyBean.getName());
     }
 
 
+    //过滤金额所作的操作
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterType(LoanFraTypeBean loanFraTypeBean) {
-        currentPage=1;
+        // 把当前选项的checkbox设置为false
+        bannerCheckType.setChecked(false);
+        //标记当前内容在当前总页数是第几页
+        currentPage = 1;
         //通过ID，选中类型，发起类型请求
         typeId = loanFraTypeBean.getId();
         MyLog.i("我接受到了eventbus: " + loanFraTypeBean.toString());
@@ -142,7 +155,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
         //更新选项item
         bannerFirst.setText(loanFraTypeBean.getName());
-        //然后留出一个全局的id，方便做联合查询
+        //然后留出一个全局的id，方便做和money做联合查询
         typeId = loanFraTypeBean.getId();
 
         //文字添加说明
@@ -153,61 +166,90 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @Override
     protected void initView() {
 
+        //初始化选项卡弹窗
         mPopWindow = new LoanFraPopWindow(getContext());
-        mPopWindow.setTouchInterceptor(new View.OnTouchListener() {
+        mPopWindow.setCancelListener(new LoanFraPopWindow.CancelListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                int[] xys = mPopWindow.getAnchorLoc();
-                //因为只能在下部分的半透明区隐藏，所以价格判断限制
-                if (xys[1] != 0 && motionEvent.getRawY() >= (xys[1] + layout.getHeight())) {
+            public void cancel() {
+                bannerCheckType.setChecked(false);
+                bannerCheckMoney.setChecked(false);
+            }
+        });
+
+        //设置弹窗的触摸事件
+        mPopWindow.setTouchInterceptor((view, motionEvent) -> {
+            int[] xys = mPopWindow.getAnchorLoc();
+            //因为只能在下部分的半透明区隐藏，所以价格判断限制
+            if (xys[1] != 0 && motionEvent.getRawY() >= (xys[1] + layout.getHeight())) {
+                return false;
+            }
+            //然后这里设置的是，因为不能让popwindow消失，所以在可隐藏区域外要拦截点击事件
+            //然后再通过区域判断是否在按钮内来更新数据
+            Point point = new Point();
+            point.set((int) motionEvent.getRawX(), (int) motionEvent.getRawY());
+
+            MyLog.i("来到了触摸区域");
+            //点击到类型区域
+            if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerCheckType, point)) {
+                MyLog.i("bannerCheckType.isChecked(): "+bannerCheckType.isChecked());
+                if(!bannerCheckType.isChecked()){
+                    bannerCheckType.setChecked(true);
+                    bannerCheckMoney.setChecked(false);
+                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.TYPE){
+                    bannerCheckType.setChecked(false);
                     return false;
                 }
-                //然后这里设置的是，因为不能让popwindow消失，所以在可隐藏区域外要拦截点击事件
-                //然后再通过区域判断是否在按钮内来更新数据
-                Point point = new Point();
-                point.set((int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
-                if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerImgF, point)) {
-                    if (list != null) {
-                        mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
-                    } else {
-                        mPresenter.requestMenu();
-                    }
-
-                }
-
-                if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerImgS, point)) {
-                    mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
-                }
-
-                if (Utils.isContaint(txAll, point)) {
-                    mPresenter.requestBody(0);
-                    if (mPopWindow.isShowing())
-                        mPopWindow.dismiss();
-                }
-
-                return true;
             }
+
+            //点击到金额区域
+            if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerCheckMoney, point)) {
+                MyLog.i("bannerCheckMoney.isChecked(): "+bannerCheckMoney.isChecked());
+                if(!bannerCheckMoney.isChecked()){
+                    bannerCheckMoney.setChecked(true);//金额选项选中
+                    bannerCheckType.setChecked(false);//类型选项取消
+                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.LOAN){
+                    //第一次点击金额后，再次点击金额取消选中
+                    bannerCheckMoney.setChecked(false);
+                    return false;
+                }
+
+            }
+
+            //点击外部阴影区域
+            if (Utils.isContaint(txAll, point)) {
+                mPresenter.requestBody(0);
+                if (mPopWindow.isShowing()){
+                    mPopWindow.dismiss();
+                    //checkBox设置为false
+                    bannerCheckMoney.setChecked(false);
+                    bannerCheckType.setChecked(false);
+                }
+            }
+
+            return true;
         });
         //不把它放到懒加载
         mPresenter.requestBody(0);
 
+        //设置商品选项卡列表的
         txTitle.setText(getResources().getString(R.string.loan_num));
         baseMulDataModels = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), baseMulDataModels);
-       // fragRevAdapyer.setHasStableIds(true);
+        // fragRevAdapyer.setHasStableIds(true);
         mRecyclerView.setAdapter(fragRevAdapyer);
 
+        //刷新按钮的刷新是按
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            MyLog.i("我触发了1");
+            MyLog.i("我触发了上拉刷新");
             mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了2");
+            MyLog.i("我触发了上拉加载更多");
             currentPage++;
             mPresenter.requestBodyPage(typeId, monetLitmitHigh, moneyMaxLit, currentPage);
         });
@@ -266,7 +308,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     }
 
 
-    @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.spinner_type_img, R.id.spinner_loannum_img, R.id.tx_all})
+    @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.tx_all})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tx_refrsh:
@@ -278,17 +320,23 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 }
                 break;
             case R.id.spinner_type_text:
-            case R.id.spinner_type_img:
-                mPresenter.requestMenu();
+                if(!bannerCheckType.isChecked()){
+                    bannerCheckType.setChecked(true);
+                    bannerCheckMoney.setChecked(false);
+                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.TYPE){
+                    bannerCheckType.setChecked(false);
+                }
                 break;
             case R.id.spinner_loannum_text:
-            case R.id.spinner_loannum_img:
-                mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
-                if (!mPopWindow.isShowing())
-                    mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
+                if(!bannerCheckMoney.isChecked()){
+                    bannerCheckMoney.setChecked(true);
+                    bannerCheckType.setChecked(false);
+                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.LOAN){
+                    bannerCheckMoney.setChecked(false);
+                }
                 break;
             case R.id.tx_all:
-                //全部原本的记录预留用来联合查询的id，min,max清空
+                //全部原本的记录预留用来联合查询的id，min,max清空,相当于全部重置了
                 typeId = 0;
                 monetLitmitHigh = 0;
                 moneyMaxLit = 0;
@@ -297,6 +345,32 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 bannerSecond.setText(getString(R.string.money));
                 break;
         }
+    }
 
+
+    @OnCheckedChanged({R.id.spinner_type_img, R.id.spinner_loannum_img,})
+    public void onCheck (CompoundButton view, boolean ischanged) {
+        switch (view.getId()) {
+            case R.id.spinner_type_img:
+                if(ischanged){
+                    if (list != null) {
+                        mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
+                        if (!mPopWindow.isShowing())
+                            mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
+                    } else {
+                        mPresenter.requestMenu();
+                    }
+                }
+                break;
+            case R.id.spinner_loannum_img:
+                if(ischanged){
+                    mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
+                    if (!mPopWindow.isShowing())
+                        mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
+                }
+                break;
+
+
+        }
     }
 }

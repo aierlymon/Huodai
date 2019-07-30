@@ -55,6 +55,11 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     }
 
     @Override
+    public boolean isUseLayoutRes() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setStatusBarColor(getResources().getColor(R.color.my_login_color));
         super.onCreate(savedInstanceState);

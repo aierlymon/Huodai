@@ -7,6 +7,7 @@ import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
 
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.MediaType;
@@ -162,5 +164,9 @@ public class HttpMethod {
 
     public Observable<HttpResult<String>> applyRecords(int loanProductId, int id) {
         return mMovieService.applyRecords(loanProductId,id);
+    }
+
+    public Observable<SplashBean> loadSplash() {
+        return mMovieService.loadSplash();
     }
 }
