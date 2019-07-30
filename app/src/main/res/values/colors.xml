@@ -27,6 +27,17 @@
 
     <color name="frag_body_small_textcolor">#888888</color>
 
-    //#26E6E8E7
+  <!--  //#26E6E8E7-->
     <color name="ban_toumin">#80000000</color>
+
+
+   <!-- //这个是推荐页面开始的颜色，以后还是根据界面分开吧-->
+    <color name="recommand_title_color">#111111</color>
+    <color name="recommand_text_color">#FF8100</color>
+    <color name="recommand_txlittel_color">#888888</color>
+    <color name="recommand_item">#000000</color>
+
+    <color name="recommand_selected_item_border">#FF8241</color>
+    <color name="recommand_selected_item_content">#FFEFE6</color>
+
 </resources>

@@ -37,4 +37,10 @@
     <string name="type">类型</string>
     <string name="money">金额</string>
     <string name="order">综合排序</string>
+
+    <!--推荐页面-->
+    <string name="recommand_title">智能推荐</string>
+    <string name="recommand_bigdata">大数据推荐</string>
+    <string name="recommand_youneed">为您推荐最适合的贷款产品</string>
+    <string name="recommand_borrow">您想借多少？</string>
 </resources>
