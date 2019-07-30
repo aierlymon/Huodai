@@ -35,7 +35,7 @@ public class LoanFraPopWindow extends PopupWindow {
     public static final int LOAN = 2;
     private int currentItem;
 
-    public interface CancelListener{
+    public interface CancelListener {
         void cancel();
     }
 
@@ -66,12 +66,12 @@ public class LoanFraPopWindow extends PopupWindow {
 
     public LoanFraPopWindow(Context context) {
         super(context);
-        loadNums=new ArrayList<>();
+        loadNums = new ArrayList<>();
         String[] loanNumArray = context.getResources().getStringArray(R.array.loan_num);
-        for(int i=0;i<loanNumArray.length;i++){
-            LoanMoneyBean loanMoneyBean=new LoanMoneyBean();
+        for (int i = 0; i < loanNumArray.length; i++) {
+            LoanMoneyBean loanMoneyBean = new LoanMoneyBean();
             loanMoneyBean.setName(loanNumArray[i]);
-            switch (i){
+            switch (i) {
                 case 1:
                     loanMoneyBean.setMax(999);
                     break;
@@ -86,6 +86,10 @@ public class LoanFraPopWindow extends PopupWindow {
                 case 4:
                     loanMoneyBean.setLimit(10000);
                     loanMoneyBean.setMax(30000);
+                    break;
+                case 5:
+                    loanMoneyBean.setLimit(30000);
+                    loanMoneyBean.setMax(100000000);
                     break;
             }
 
@@ -109,11 +113,11 @@ public class LoanFraPopWindow extends PopupWindow {
             @Override
             public void onItemClick(View view, BaseMulDataModel model) {
 
-                if(model instanceof LoanFraTypeBean){
-                    MyLog.i("数据: "+ model.toString());
+                if (model instanceof LoanFraTypeBean) {
+                    MyLog.i("数据: " + model.toString());
                     EventBus.getDefault().post((LoanFraTypeBean) model);
-                }else{
-                    MyLog.i("数据: "+ model.toString());
+                } else {
+                    MyLog.i("数据: " + model.toString());
                     EventBus.getDefault().post((LoanMoneyBean) model);
                 }
                 dismiss();
@@ -125,8 +129,8 @@ public class LoanFraPopWindow extends PopupWindow {
 
 
     @OnClick({R.id.spinner_back_img})
-    public void click(){
-        if(isShowing()){
+    public void click() {
+        if (isShowing()) {
             //全部checkbox取消选择
             cancelListener.cancel();
             dismiss();
@@ -134,6 +138,7 @@ public class LoanFraPopWindow extends PopupWindow {
     }
 
     int anchorLoc[] = new int[2];
+
     public void showAsDropDown(View anchor, Context context) {
 
         float WH[] = Utils.getScreenWH(context);
@@ -149,11 +154,11 @@ public class LoanFraPopWindow extends PopupWindow {
         return anchorLoc;
     }
 
-    public  void selectType(int type,List<BaseMulDataModel> contentList) {
+    public void selectType(int type, List<BaseMulDataModel> contentList) {
         switch (type) {
             case TYPE:
                 setCurrentItem(TYPE);
-                loanSpinnerRevAdapter.setInfoList( contentList);
+                loanSpinnerRevAdapter.setInfoList(contentList);
                 break;
             case LOAN:
                 setCurrentItem(LOAN);

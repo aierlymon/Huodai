@@ -25,10 +25,12 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<BaseMulViewHolde
 
     public static final int TYPE = 1;
     public static final int MONEY = 2;
+    private Context mContext;
 
 
     public LoanSpinnerRevAdapter(Context mContext) {
         this.infoList = new ArrayList<>();
+        this.mContext=mContext;
     }
 
 
@@ -98,6 +100,9 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<BaseMulViewHolde
 
         @Override
         public void bindData(LoanFraTypeBean dataModel, int position) {
+            if(position==0){
+                info.setTextColor(mContext.getResources().getColor(R.color.my_login_color));
+            }
             info.setText(dataModel.getName());
         }
     }
@@ -113,6 +118,9 @@ public class LoanSpinnerRevAdapter extends RecyclerView.Adapter<BaseMulViewHolde
 
         @Override
         public void bindData(LoanMoneyBean dataModel, int position) {
+            if(position==0){
+                info.setTextColor(mContext.getResources().getColor(R.color.my_login_color));
+            }
             info.setText(dataModel.getName());
         }
     }

@@ -189,37 +189,23 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             point.set((int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
             MyLog.i("来到了触摸区域");
+
             //点击到类型区域
             if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerCheckType, point)) {
-                MyLog.i("bannerCheckType.isChecked(): "+bannerCheckType.isChecked());
-                if(!bannerCheckType.isChecked()){
-                    bannerCheckType.setChecked(true);
-                    bannerCheckMoney.setChecked(false);
-                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.TYPE){
-                    bannerCheckType.setChecked(false);
-                    return false;
-                }
-
+                MyLog.i("bannerCheckType.isChecked(): " + bannerCheckType.isChecked());
+                selectItem(LoanFraPopWindow.TYPE);
             }
 
             //点击到金额区域
             if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerCheckMoney, point)) {
-                MyLog.i("bannerCheckMoney.isChecked(): "+bannerCheckMoney.isChecked());
-                if(!bannerCheckMoney.isChecked()){
-                    bannerCheckMoney.setChecked(true);//金额选项选中
-                    bannerCheckType.setChecked(false);//类型选项取消
-                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.LOAN){
-                    //第一次点击金额后，再次点击金额取消选中
-                    bannerCheckMoney.setChecked(false);
-                    return false;
-                }
-
+                MyLog.i("bannerCheckMoney.isChecked(): " + bannerCheckMoney.isChecked());
+                selectItem(LoanFraPopWindow.LOAN);
             }
 
             //点击外部阴影区域
             if (Utils.isContaint(txAll, point)) {
                 mPresenter.requestBody(0);
-                if (mPopWindow.isShowing()){
+                if (mPopWindow.isShowing()) {
                     mPopWindow.dismiss();
                     //checkBox设置为false
                     bannerCheckMoney.setChecked(false);
@@ -308,6 +294,28 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     }
 
 
+    public boolean selectItem(int typeId) {
+        switch (typeId) {
+            case LoanFraPopWindow.TYPE:
+                if (!bannerCheckType.isChecked()) {
+                    bannerCheckType.setChecked(true);
+                    bannerCheckMoney.setChecked(false);
+                } else if (mPopWindow.getCurrentItem() == LoanFraPopWindow.TYPE) {
+                    bannerCheckType.setChecked(false);
+                }
+                break;
+            case LoanFraPopWindow.LOAN:
+                if (!bannerCheckMoney.isChecked()) {
+                    bannerCheckMoney.setChecked(true);
+                    bannerCheckType.setChecked(false);
+                } else if (mPopWindow.getCurrentItem() == LoanFraPopWindow.LOAN) {
+                    bannerCheckMoney.setChecked(false);
+                }
+                break;
+        }
+        return false;
+    }
+
     @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.tx_all})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -320,20 +328,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 }
                 break;
             case R.id.spinner_type_text:
-                if(!bannerCheckType.isChecked()){
-                    bannerCheckType.setChecked(true);
-                    bannerCheckMoney.setChecked(false);
-                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.TYPE){
-                    bannerCheckType.setChecked(false);
-                }
+                selectItem(LoanFraPopWindow.TYPE);
                 break;
             case R.id.spinner_loannum_text:
-                if(!bannerCheckMoney.isChecked()){
-                    bannerCheckMoney.setChecked(true);
-                    bannerCheckType.setChecked(false);
-                }else if(mPopWindow.getCurrentItem()==LoanFraPopWindow.LOAN){
-                    bannerCheckMoney.setChecked(false);
-                }
+                selectItem(LoanFraPopWindow.LOAN);
                 break;
             case R.id.tx_all:
                 //全部原本的记录预留用来联合查询的id，min,max清空,相当于全部重置了
@@ -349,10 +347,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
 
     @OnCheckedChanged({R.id.spinner_type_img, R.id.spinner_loannum_img,})
-    public void onCheck (CompoundButton view, boolean ischanged) {
+    public void onCheck(CompoundButton view, boolean ischanged) {
         switch (view.getId()) {
             case R.id.spinner_type_img:
-                if(ischanged){
+                if (ischanged) {
                     if (list != null) {
                         mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
                         if (!mPopWindow.isShowing())
@@ -363,7 +361,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 }
                 break;
             case R.id.spinner_loannum_img:
-                if(ischanged){
+                if (ischanged) {
                     mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
                     if (!mPopWindow.isShowing())
                         mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
