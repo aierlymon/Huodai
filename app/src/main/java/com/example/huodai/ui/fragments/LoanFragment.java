@@ -135,8 +135,29 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             mPresenter.requestBody(typeId);
         }
         mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
-        //把选中选项的文本显示在当前的选项里展示
-        bannerSecond.setText(loanMoneyBean.getName());
+
+        //触文字颜色改变时间
+        changeItemNameAndColor(LoanFraPopWindow.LOAN,loanMoneyBean.getName());
+
+        //修改字体颜色
+
+    }
+
+    private void changeItemNameAndColor(int type, String name) {
+        switch (type) {
+            case LoanFraPopWindow.TYPE:
+                //把选中选项的文本显示在当前的选项里展示
+                bannerFirst.setText(name);
+                bannerFirst.setTextColor(getResources().getColor(R.color.my_login_color));
+                bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                break;
+            case LoanFraPopWindow.LOAN:
+                //把选中选项的文本显示在当前的选项里展示
+                bannerSecond.setText(name);
+                bannerSecond.setTextColor(getResources().getColor(R.color.my_login_color));
+                bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                break;
+        }
     }
 
 
@@ -158,8 +179,8 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         //然后留出一个全局的id，方便做和money做联合查询
         typeId = loanFraTypeBean.getId();
 
-        //文字添加说明
-        bannerFirst.setText(loanFraTypeBean.getName());
+        changeItemNameAndColor(LoanFraPopWindow.TYPE,loanFraTypeBean.getName());
+
     }
 
 
@@ -293,7 +314,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());
     }
 
-
+    //下拉选项时候的判断
     public boolean selectItem(int typeId) {
         switch (typeId) {
             case LoanFraPopWindow.TYPE:
@@ -316,6 +337,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         return false;
     }
 
+    //点击事件
     @OnClick({R.id.tx_refrsh, R.id.spinner_type_text, R.id.spinner_loannum_text, R.id.tx_all})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -341,11 +363,14 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 mPresenter.requestBody(0);
                 bannerFirst.setText(getString(R.string.type));
                 bannerSecond.setText(getString(R.string.money));
+                bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                 break;
         }
     }
 
 
+    //选中事件
     @OnCheckedChanged({R.id.spinner_type_img, R.id.spinner_loannum_img,})
     public void onCheck(CompoundButton view, boolean ischanged) {
         switch (view.getId()) {
