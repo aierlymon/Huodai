@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.huodai.ui.adapter.SplashVPAdapter;
 
@@ -23,6 +24,7 @@ import java.util.TimerTask;
 public class SplashActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
+    private Timer timer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,29 +41,42 @@ public class SplashActivity extends AppCompatActivity {
             finish();
             return;
         }
-
-
-
         setContentView(R.layout.activity_splash);
+
         List<String> list = getIntent().getStringArrayListExtra("urls");
-        //加载好话筒图
-        mViewPager = ((ViewPager) findViewById(R.id.splash_viewpager));
-        SplashVPAdapter splashVPAdapter = new SplashVPAdapter(this, list);
-        splashVPAdapter.setOnItemClickListener(view -> {
-            //点击事件
-        });
-        mViewPager.setAdapter(splashVPAdapter);
+        MyLog.i("SplashActivity list.size: " + list.size());
+
+        initView(list);
+
+    }
+
+    private void initView(List<String> list) {
+
 
         //跳过按钮
-        ((Button) findViewById(R.id.jump)).setOnClickListener(new View.OnClickListener() {
+        Button btn = ((Button) findViewById(R.id.jump));
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toMain();
             }
         });
 
+        if(list.size()>0){
+            //加载好话筒图
+            mViewPager = ((ViewPager) findViewById(R.id.splash_viewpager));
+            SplashVPAdapter splashVPAdapter = new SplashVPAdapter(this, list);
+            splashVPAdapter.setOnItemClickListener(view -> {
+                //点击事件
+            });
+            mViewPager.setAdapter(splashVPAdapter);
+        }
+
+
+
         //开启一个定时器，定时时长为5秒
-        Timer timer=new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -72,17 +87,22 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 });
             }
-        },5000);
-
+        }, 5000);
 
     }
 
     public void toMain() {
-        if(!isFinishing()){
+        if (!isFinishing()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(timer!=null)
+        timer.cancel();
     }
 }

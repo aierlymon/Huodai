@@ -70,12 +70,12 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
 
     @Override
     protected int getLayoutRes() {
-        return 0;
+        return R.layout.activity_startapp;
     }
 
     @Override
     public boolean isUseLayoutRes() {
-        return false;
+        return true;
     }
 
 
@@ -101,27 +101,26 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
         urls.add("http://ihoufeng.com//group1/default/20190725/14/51/8/4.png");
         urls.add("http://ihoufeng.com//group1/default/20190725/14/51/8/4.png");
         urls.add("http://ihoufeng.com//group1/default/20190725/14/51/8/4.png");*/
-        ArrayList<String> newUrls=new ArrayList<>();
+        ArrayList<String> newUrls = new ArrayList<>();
         //拿去所有的urls，把已经缓存的拿去加载
-        MyLog.i("我到准备跳转广告页: "+urls.size()+"  0: "+urls.get(0));
+        MyLog.i("我到准备跳转广告页: " + urls.size() + "  0: " + urls.get(0));
 
-        for(int i=0;i<urls.size();i++){
-           File file=GlideUtil.getCacheFile2(urls.get(i),this);
-           if(file!=null){
-               //已经缓存的
-               MyLog.i("我到准备跳转广告页 文件名称为: "+file.toString());
-               newUrls.add(file.toString());
-           }
+        for (int i = 0; i < urls.size(); i++) {
+            File file = GlideUtil.getCacheFile2(urls.get(i), this);
+            if (file != null) {
+                //已经缓存的
+                MyLog.i("我到准备跳转广告页 文件名称为: " + file.toString());
+                newUrls.add(file.toString());
+            }
         }
         //如果新的urls集合大于0，进行广告页面跳转
-        if(newUrls.size()>0){
-            Intent splashIntent = new Intent(this,SplashActivity.class);
-            splashIntent.putStringArrayListExtra("urls", newUrls);
-            startActivity(splashIntent);
-            finish();
-        }else{
-            startMain();
-        }
+
+
+        Intent splashIntent = new Intent(this, SplashActivity.class);
+        splashIntent.putStringArrayListExtra("urls", newUrls);
+        startActivity(splashIntent);
+        overridePendingTransition(0, 0);
+        finish();
 
 
     }
