@@ -44,7 +44,7 @@
                 <LinearLayout
                     android:id="@+id/spinner_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/y31"
                     android:orientation="horizontal">
 
                     <!--这个就是spinner的那一栏-->

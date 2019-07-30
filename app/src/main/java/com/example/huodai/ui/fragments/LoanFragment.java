@@ -3,6 +3,9 @@ package com.example.huodai.ui.fragments;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -120,6 +123,9 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     //过滤类型所做的操作
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterMoney(LoanMoneyBean loanMoneyBean) {
+        closeOpen();
+        bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+
         //把checkbox设置为false
         bannerCheckMoney.setChecked(false);
         //标记当前内容在当前总页数是第几页
@@ -137,7 +143,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         mPresenter.requestBody(typeId, monetLitmitHigh, moneyMaxLit);
 
         //触文字颜色改变时间
-        changeItemNameAndColor(LoanFraPopWindow.LOAN,loanMoneyBean.getName());
+        changeItemNameAndColor(LoanFraPopWindow.LOAN, loanMoneyBean.getName());
 
         //修改字体颜色
 
@@ -148,14 +154,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             case LoanFraPopWindow.TYPE:
                 //把选中选项的文本显示在当前的选项里展示
                 bannerFirst.setText(name);
-                bannerFirst.setTextColor(getResources().getColor(R.color.my_login_color));
-                bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                 break;
             case LoanFraPopWindow.LOAN:
                 //把选中选项的文本显示在当前的选项里展示
                 bannerSecond.setText(name);
-                bannerSecond.setTextColor(getResources().getColor(R.color.my_login_color));
-                bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                 break;
         }
     }
@@ -164,6 +166,8 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     //过滤金额所作的操作
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cFliterType(LoanFraTypeBean loanFraTypeBean) {
+        closeOpen();
+        bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
         // 把当前选项的checkbox设置为false
         bannerCheckType.setChecked(false);
         //标记当前内容在当前总页数是第几页
@@ -179,7 +183,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         //然后留出一个全局的id，方便做和money做联合查询
         typeId = loanFraTypeBean.getId();
 
-        changeItemNameAndColor(LoanFraPopWindow.TYPE,loanFraTypeBean.getName());
+        changeItemNameAndColor(LoanFraPopWindow.TYPE, loanFraTypeBean.getName());
 
     }
 
@@ -192,8 +196,13 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         mPopWindow.setCancelListener(new LoanFraPopWindow.CancelListener() {
             @Override
             public void cancel() {
+                closeOpen();
+
                 bannerCheckType.setChecked(false);
                 bannerCheckMoney.setChecked(false);
+
+                bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
             }
         });
 
@@ -211,28 +220,25 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
             MyLog.i("来到了触摸区域");
 
-            //点击到类型区域
-            if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerCheckType, point)) {
-                MyLog.i("bannerCheckType.isChecked(): " + bannerCheckType.isChecked());
-                selectItem(LoanFraPopWindow.TYPE);
-            }
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                //点击到类型区域
+                if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerCheckType, point)) {
+                    MyLog.i("bannerCheckType.isChecked(): " + bannerCheckType.isChecked());
+                    selectItem(LoanFraPopWindow.TYPE);
+                }
 
-            //点击到金额区域
-            if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerCheckMoney, point)) {
-                MyLog.i("bannerCheckMoney.isChecked(): " + bannerCheckMoney.isChecked());
-                selectItem(LoanFraPopWindow.LOAN);
-            }
+                //点击到金额区域
+                if (Utils.isContaint(bannerSecond, point) || Utils.isContaint(bannerCheckMoney, point)) {
+                    MyLog.i("bannerCheckMoney.isChecked(): " + bannerCheckMoney.isChecked());
+                    selectItem(LoanFraPopWindow.LOAN);
+                }
 
-            //点击外部阴影区域
-            if (Utils.isContaint(txAll, point)) {
-                mPresenter.requestBody(0);
-                if (mPopWindow.isShowing()) {
-                    mPopWindow.dismiss();
-                    //checkBox设置为false
-                    bannerCheckMoney.setChecked(false);
-                    bannerCheckType.setChecked(false);
+                //点击外部阴影区域
+                if (Utils.isContaint(txAll, point)) {
+                    clearAll();
                 }
             }
+
 
             return true;
         });
@@ -260,6 +266,42 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             currentPage++;
             mPresenter.requestBodyPage(typeId, monetLitmitHigh, moneyMaxLit, currentPage);
         });
+    }
+
+    private void animOpen(View view) {
+        //开始一个旋转动画
+        //创建AninationSet 对象
+        AnimationSet animationSet = new AnimationSet(true);
+        //创建 RotateAnimation 对象
+        RotateAnimation rotateAnimation = new RotateAnimation(0f, +180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //设置动画持续
+        rotateAnimation.setDuration(150);
+        //动画插入器
+        rotateAnimation.setInterpolator(getActivity(), android.R.anim.linear_interpolator);
+        //添加到 AnimationSet
+        animationSet.addAnimation(rotateAnimation);
+        //动画播放完后是否停留在最后的状态
+        animationSet.setFillEnabled(true);
+        animationSet.setFillAfter(true);
+        view.startAnimation(animationSet);
+    }
+
+    private void animClose(View view) {
+        //开始一个旋转动画
+        //创建AninationSet 对象
+        AnimationSet animationSet = new AnimationSet(true);
+        //创建 RotateAnimation 对象
+        RotateAnimation rotateAnimation = new RotateAnimation(180f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //设置动画持续
+        rotateAnimation.setDuration(150);
+        //动画插入器
+        rotateAnimation.setInterpolator(getActivity(), android.R.anim.linear_interpolator);
+        //添加到 AnimationSet
+        animationSet.addAnimation(rotateAnimation);
+        //动画播放完后是否停留在最后的状态
+        animationSet.setFillEnabled(true);
+        animationSet.setFillAfter(true);
+        view.startAnimation(animationSet);
     }
 
     @Override
@@ -316,24 +358,39 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     //下拉选项时候的判断
     public boolean selectItem(int typeId) {
+        MyLog.i("type: " + typeId);
         switch (typeId) {
             case LoanFraPopWindow.TYPE:
                 if (!bannerCheckType.isChecked()) {
+                    if (mPopWindow.isShowing())
+                        animClose(bannerCheckMoney);
                     bannerCheckType.setChecked(true);
                     bannerCheckMoney.setChecked(false);
+                    animOpen(bannerCheckType);
+
                 } else if (mPopWindow.getCurrentItem() == LoanFraPopWindow.TYPE) {
                     bannerCheckType.setChecked(false);
+                    bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                    animClose(bannerCheckType);
+                    mPopWindow.dismiss();
                 }
                 break;
             case LoanFraPopWindow.LOAN:
                 if (!bannerCheckMoney.isChecked()) {
+                    if (mPopWindow.isShowing())
+                        animClose(bannerCheckType);
                     bannerCheckMoney.setChecked(true);
                     bannerCheckType.setChecked(false);
+                    animOpen(bannerCheckMoney);
                 } else if (mPopWindow.getCurrentItem() == LoanFraPopWindow.LOAN) {
                     bannerCheckMoney.setChecked(false);
+                    bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                    animClose(bannerCheckMoney);
+                    mPopWindow.dismiss();
                 }
                 break;
         }
+        mPopWindow.setCurrentItem(typeId);
         return false;
     }
 
@@ -356,17 +413,42 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 selectItem(LoanFraPopWindow.LOAN);
                 break;
             case R.id.tx_all:
-                //全部原本的记录预留用来联合查询的id，min,max清空,相当于全部重置了
-                typeId = 0;
-                monetLitmitHigh = 0;
-                moneyMaxLit = 0;
-                mPresenter.requestBody(0);
-                bannerFirst.setText(getString(R.string.type));
-                bannerSecond.setText(getString(R.string.money));
-                bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
-                bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+                clearAll();
                 break;
         }
+    }
+
+    public void closeOpen() {
+        if (mPopWindow.isShowing()) {
+            if (mPopWindow.getCurrentItem() == LoanFraPopWindow.TYPE) {
+                animClose(bannerCheckType);
+            } else {
+                animClose(bannerCheckMoney);
+            }
+        }
+    }
+
+    public void clearAll() {
+        closeOpen();
+
+        //全部原本的记录预留用来联合查询的id，min,max清空,相当于全部重置了
+        typeId = 0;
+        monetLitmitHigh = 0;
+        moneyMaxLit = 0;
+
+        bannerFirst.setText(getString(R.string.type));
+        bannerSecond.setText(getString(R.string.money));
+        mPresenter.requestBody(0);
+
+        if (mPopWindow.isShowing()) {
+            mPopWindow.dismiss();
+        }
+        bannerCheckMoney.setChecked(false);
+        bannerCheckType.setChecked(false);
+        bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+        bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
+
+
     }
 
 
@@ -376,6 +458,9 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         switch (view.getId()) {
             case R.id.spinner_type_img:
                 if (ischanged) {
+                    animOpen(bannerCheckType);
+                    bannerFirst.setTextColor(getResources().getColor(R.color.my_login_color));
+                    bannerSecond.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                     if (list != null) {
                         mPopWindow.selectType(LoanFraPopWindow.TYPE, list);
                         if (!mPopWindow.isShowing())
@@ -387,6 +472,9 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
                 break;
             case R.id.spinner_loannum_img:
                 if (ischanged) {
+                    animOpen(bannerCheckMoney);
+                    bannerSecond.setTextColor(getResources().getColor(R.color.my_login_color));
+                    bannerFirst.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                     mPopWindow.selectType(LoanFraPopWindow.LOAN, null);
                     if (!mPopWindow.isShowing())
                         mPopWindow.showAsDropDown(layout, getContext().getApplicationContext());

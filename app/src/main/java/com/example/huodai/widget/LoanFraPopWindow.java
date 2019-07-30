@@ -157,11 +157,9 @@ public class LoanFraPopWindow extends PopupWindow {
     public void selectType(int type, List<BaseMulDataModel> contentList) {
         switch (type) {
             case TYPE:
-                setCurrentItem(TYPE);
                 loanSpinnerRevAdapter.setInfoList(contentList);
                 break;
             case LOAN:
-                setCurrentItem(LOAN);
                 loanSpinnerRevAdapter.setInfoList(loadNums);
                 break;
         }
