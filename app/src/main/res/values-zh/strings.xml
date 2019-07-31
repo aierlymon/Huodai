@@ -43,6 +43,16 @@
     <string name="recommand_bigdata">大数据推荐</string>
     <string name="recommand_youneed">为您推荐最适合的贷款产品</string>
     <string name="recommand_borrow">您想借多少？</string>
+    <string name="recommand_mine_warn">*填写借款人本人信息，所填信息仅做预审认证使用</string>
+    <string name="recommand_mine_title">个人信息</string>
+    <string name="recommand_phone_number">手机号</string>
+    <string name="recommand_name">姓名</string>
+    <string name="recommand_who_number">身份证</string>
+    <string name="recommand_phone_number_hint">请输入手机号</string>
+    <string name="recommand_name_hint">请输入姓名</string>
+    <string name="recommand_who_number_hint">请输入身份证号</string>
+    <string name="recommand_who_mine_service">我已阅读并同意</string>
+    <string name="recommand_who_mine_service_info">《用户注册服务协议》</string>
 
     <string name="money_limit_1">1万-2万</string>
     <string name="money_limit_2">2万-3万</string>

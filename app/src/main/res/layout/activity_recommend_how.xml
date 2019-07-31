@@ -56,7 +56,7 @@
         <!--你想借多少-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y131"
+            android:layout_height="@dimen/y113"
             android:orientation="vertical">
 
             <TextView
@@ -71,7 +71,7 @@
             <com.example.huodai.widget.FlowRadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y75"
-                android:layout_marginTop="@dimen/y13"
+                android:layout_marginTop="@dimen/y11"
                 android:gravity="center_vertical"
                 android:checkedButton="@id/moneyFirst"
                 android:orientation="horizontal">
@@ -79,7 +79,7 @@
                 <RadioButton
                     android:id="@+id/moneyFirst"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/money_limit_1"
                     android:gravity="center"
@@ -90,7 +90,7 @@
                 <RadioButton
                     android:id="@+id/moneySecond"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/money_limit_2"
@@ -102,7 +102,7 @@
                 <RadioButton
                     android:id="@+id/moneyThird"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/money_limit_3"
@@ -114,8 +114,8 @@
                 <RadioButton
                     android:id="@+id/moneyFour"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
-                    android:layout_marginTop="@dimen/y13"
+                    android:layout_height="@dimen/y28"
+                    android:layout_marginTop="@dimen/y11"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/money_limit_4"
                     android:gravity="center"
@@ -128,7 +128,7 @@
         <!--您想借多久-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y131"
+            android:layout_height="@dimen/y113"
             android:orientation="vertical">
 
             <TextView
@@ -142,7 +142,7 @@
             <com.example.huodai.widget.FlowRadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y75"
-                android:layout_marginTop="@dimen/y13"
+                android:layout_marginTop="@dimen/y11"
                 android:gravity="center_vertical"
                 android:checkedButton="@id/oneMonth"
                 android:orientation="horizontal">
@@ -150,7 +150,7 @@
                 <RadioButton
                     android:id="@+id/oneMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_1"
                     android:gravity="center"
@@ -161,7 +161,7 @@
                 <RadioButton
                     android:id="@+id/threeMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_2"
@@ -173,7 +173,7 @@
                 <RadioButton
                     android:id="@+id/sixMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_3"
@@ -185,8 +185,8 @@
                 <RadioButton
                     android:id="@+id/twiceMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
-                    android:layout_marginTop="@dimen/y13"
+                    android:layout_height="@dimen/y28"
+                    android:layout_marginTop="@dimen/y11"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_4"
                     android:gravity="center"
@@ -196,9 +196,9 @@
                 <RadioButton
                     android:id="@+id/eightMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
-                    android:layout_marginTop="@dimen/y13"
+                    android:layout_marginTop="@dimen/y11"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_5"
                     android:gravity="center"
@@ -208,9 +208,9 @@
                 <RadioButton
                     android:id="@+id/yearMonth"
                     android:layout_width="@dimen/x85"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/y28"
                     android:layout_marginLeft="@dimen/x13"
-                    android:layout_marginTop="@dimen/y13"
+                    android:layout_marginTop="@dimen/y11"
                     android:background="@drawable/recommand_menu_state"
                     android:text="@string/date_limit_6"
                     android:gravity="center"
@@ -223,15 +223,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y131">
-
+            android:layout_height="match_parent">
             <Button
+                android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y30"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="@dimen/x5"
                 android:background="@drawable/recommand_button_next"
-                android:layout_marginBottom="@dimen/y5"
+                android:layout_marginBottom="@dimen/y39"
                 android:textColor="@color/white"
                 android:text="下一步" />
         </RelativeLayout>
