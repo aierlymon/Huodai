@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false">
+    <!--添加防止多点触摸-->
 
     <!--外部用来填充的颜色-->
     <ImageView
