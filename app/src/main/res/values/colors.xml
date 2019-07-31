@@ -46,4 +46,8 @@
     <color name="recommand_mine_inteindex">#E6E6E6</color>
     <color name="recommand_mine_service_info">#F44336</color>
     <color name="recommand_mine_isagree">#777777</color>
+    <color name="recommand_goods_background">#F7F7F7</color>
+    <color name="recommand_good_big_tx">#F44336</color>
+    <color name="recommand_good_big_samlltx">#888888</color>
+    <color name="recommand_good_big_back_color">#F9F9F9</color>
 </resources>

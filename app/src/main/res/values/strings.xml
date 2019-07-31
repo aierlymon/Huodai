@@ -53,6 +53,15 @@
     <string name="recommand_who_number_hint">请输入身份证号</string>
     <string name="recommand_who_mine_service">我已阅读并同意</string>
     <string name="recommand_who_mine_service_info">《用户注册服务协议》</string>
+    <string name="recommand_goods_condition_title">申请条件</string>
+    <string name="recommand_goods_condition_content">手机实名，运营商验证即可申请。</string>
+    <string name="recommand_goods_step_title">申请流程</string>
+    <string name="recommand_goods_step_content">下载APP-填写申请资料-等待审核。</string>
+    <string name="recommand_goods_other_title">其他说明</string>
+    <string name="recommand_goods_other_content">需要验证相关其他事项，请准确填写。</string>
+    <string name="recommand_goods_realy_name">实名认证</string>
+    <string name="recommand_i_agree">我同意</string>
+    <string name="recommand_regist_servicr">《注册用户服务协议》</string>
 
     <string name="money_limit_1">1万-2万</string>
     <string name="money_limit_2">2万-3万</string>
