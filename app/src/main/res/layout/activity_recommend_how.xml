@@ -6,8 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y46"
-        android:background="#ee1">
+        android:layout_height="@dimen/y46">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/x20"
         android:layout_marginRight="@dimen/x17"
-        android:background="#107CE7"
         android:orientation="vertical">
 
         <!--大数据推荐-->
@@ -59,7 +57,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y131"
-            android:background="#0f1"
             android:orientation="vertical">
 
             <TextView
@@ -71,70 +68,58 @@
                 android:textStyle="bold" />
 
             <!--你想借多少里面的选项卡-->
-            <!--  <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="@dimen/y35"
-                  android:layout_marginTop="@dimen/y13"
-                  android:background="#DAE0FF"
-                  android:gravity="center_vertical"
-                  android:orientation="horizontal">
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="@dimen/y30"
-                      android:layout_weight="1"
-                      android:background="#0D6B7C" />
-
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="@dimen/y30"
-                      android:layout_weight="1"
-                      android:background="#0D6B7C"
-                      android:layout_marginLeft="@dimen/x18"/>
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="@dimen/y30"
-                      android:layout_weight="1"
-                      android:background="#0D6B7C"
-                      android:layout_marginLeft="@dimen/x18"/>
-
-              </LinearLayout>-->
-
             <com.example.huodai.widget.FlowRadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y75"
                 android:layout_marginTop="@dimen/y13"
-                android:background="#DAE0FF"
                 android:gravity="center_vertical"
+                android:checkedButton="@id/moneyFirst"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/moneyFirst"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/money_limit_1"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/moneySecond"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginLeft="@dimen/x13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/money_limit_2"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/moneyThird"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginLeft="@dimen/x13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/money_limit_3"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/moneyFour"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginTop="@dimen/y13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/money_limit_4"
+                    android:gravity="center"
+                    android:textAlignment="center"
                     android:button="@null" />
             </com.example.huodai.widget.FlowRadioGroup>
 
@@ -144,7 +129,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y131"
-            android:background="#FF5722"
             android:orientation="vertical">
 
             <TextView
@@ -159,35 +143,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y75"
                 android:layout_marginTop="@dimen/y13"
-                android:background="#DAE0FF"
                 android:gravity="center_vertical"
+                android:checkedButton="@id/oneMonth"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/oneMonth"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_1"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/threeMonth"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginLeft="@dimen/x13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_2"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/sixMonth"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginLeft="@dimen/x13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_3"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:textAlignment="center"
                     android:button="@null" />
 
                 <RadioButton
+                    android:id="@+id/twiceMonth"
                     android:layout_width="@dimen/x85"
                     android:layout_height="@dimen/y30"
                     android:layout_marginTop="@dimen/y13"
-                    android:background="#0D6B7C"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_4"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/eightMonth"
+                    android:layout_width="@dimen/x85"
+                    android:layout_height="@dimen/y30"
+                    android:layout_marginLeft="@dimen/x13"
+                    android:layout_marginTop="@dimen/y13"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_5"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/yearMonth"
+                    android:layout_width="@dimen/x85"
+                    android:layout_height="@dimen/y30"
+                    android:layout_marginLeft="@dimen/x13"
+                    android:layout_marginTop="@dimen/y13"
+                    android:background="@drawable/recommand_menu_state"
+                    android:text="@string/date_limit_6"
+                    android:gravity="center"
+                    android:textAlignment="center"
                     android:button="@null" />
             </com.example.huodai.widget.FlowRadioGroup>
 
@@ -196,15 +223,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y131"
-            android:background="#13F0D7">
+            android:layout_height="@dimen/y131">
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y30"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="@dimen/x5"
-                android:background="#FFC107"
+                android:background="@drawable/recommand_button_next"
+                android:layout_marginBottom="@dimen/y5"
+                android:textColor="@color/white"
                 android:text="下一步" />
         </RelativeLayout>
     </LinearLayout>

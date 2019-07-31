@@ -39,5 +39,6 @@
 
     <color name="recommand_selected_item_border">#FF8241</color>
     <color name="recommand_selected_item_content">#FFEFE6</color>
-
+    <color name="recommand_unselected_item_content">#F8F8F8</color>
+    <color name="recommand_button_next">#FF8D1A</color>
 </resources>
