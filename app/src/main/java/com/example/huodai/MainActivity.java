@@ -109,7 +109,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             StatusBarUtil.setStatusBarColor(this,0x55000000);
         }*/
 
-        //这个就是设施沉浸式状态栏的主要方法了
+             //这个就是设施沉浸式状态栏的主要方法了
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
 
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了

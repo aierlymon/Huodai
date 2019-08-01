@@ -47,7 +47,7 @@
                         android:layout_marginTop="@dimen/y18"
                         android:text="@string/recommand_bigdata"
                         android:textColor="@color/recommand_text_color"
-                        android:textSize="@dimen/x15"
+                        android:textSize="@dimen/x14"
                         android:textStyle="bold" />
 
                     <TextView
@@ -73,7 +73,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/y162"
+                    android:layout_height="@dimen/y192"
                     android:layout_marginTop="@dimen/y20"
                     android:orientation="vertical">
 
@@ -96,22 +96,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
+                            android:layout_marginLeft="5dp"
                             android:text="@string/recommand_goods_realy_name"
                             android:textColor="@color/recommand_mine_title"
-                            android:textSize="@dimen/x17"
+                            android:textSize="@dimen/x14"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintHeight_percent="0.5"
                             app:layout_constraintLeft_toRightOf="@+id/icon"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="@dimen/x4"
-                            android:background="@color/recommand_mine_inteindex"
-                            app:layout_constraintBottom_toBottomOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -121,30 +115,32 @@
                         android:layout_height="0dp"
                         android:layout_weight="1">
 
-                        <TextView
+                 <!--       <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="@string/recommand_phone_number"
                             android:textColor="@color/recommand_mine_title"
-                            android:textSize="@dimen/x14" />
+                            android:textSize="@dimen/x14" />-->
 
                         <EditText
-                            android:layout_width="@dimen/x160"
-                            android:layout_height="@dimen/y14"
+                            android:id="@+id/edit_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:gravity="right"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
+                            android:inputType="phone"
                             android:hint="@string/recommand_phone_number_hint"
-                            android:textSize="@dimen/x13" />
+                            android:textSize="@dimen/x12" />
 
-                        <View
+                      <!--  <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/recommand_mine_inteindex" />
+                            android:background="@color/recommand_mine_inteindex" />-->
                     </RelativeLayout>
 
                     <!--姓名-->
@@ -152,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1">
-
+<!--
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -160,23 +156,24 @@
                             android:layout_centerVertical="true"
                             android:text="@string/recommand_phone_number"
                             android:textColor="@color/recommand_mine_title"
-                            android:textSize="@dimen/x14" />
+                            android:textSize="@dimen/x14" />-->
 
                         <EditText
-                            android:layout_width="@dimen/x160"
-                            android:layout_height="@dimen/y14"
+                            android:id="@+id/edit_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:gravity="right"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
                             android:hint="@string/recommand_name"
-                            android:textSize="@dimen/x13" />
+                            android:textSize="@dimen/x12" />
 
-                        <View
+                  <!--      <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/recommand_mine_inteindex" />
+                            android:background="@color/recommand_mine_inteindex" />-->
                     </RelativeLayout>
 
                     <!--身份证号码-->
@@ -185,7 +182,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1">
 
-                        <TextView
+                   <!--     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -193,22 +190,24 @@
                             android:text="@string/recommand_who_number"
                             android:textColor="@color/recommand_mine_title"
                             android:textSize="@dimen/x14" />
-
+-->
                         <EditText
-                            android:layout_width="@dimen/x160"
-                            android:layout_height="@dimen/y14"
+                            android:id="@+id/edit_whonum"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:gravity="right"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
                             android:hint="@string/recommand_who_number_hint"
-                            android:textSize="@dimen/x13" />
+                            android:textSize="@dimen/x12" />
 
+<!--
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/recommand_mine_inteindex" />
+                            android:background="@color/recommand_mine_inteindex" />-->
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -244,6 +243,7 @@
                     android:layout_height="match_parent">
 
                     <Button
+                        android:id="@+id/btn_mine_next"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y30"
                         android:layout_alignParentBottom="true"
@@ -251,6 +251,7 @@
                         android:layout_marginBottom="@dimen/y39"
                         android:background="@drawable/recommand_button_next"
                         android:text="下一步"
+                        android:textSize="@dimen/x14"
                         android:textColor="@color/white" />
                 </RelativeLayout>
 
