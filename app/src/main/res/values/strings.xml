@@ -2,6 +2,7 @@
     <string name="app_name">云燕</string>
     <string name="home">首页</string>
     <string name="loan">贷款</string>
+    <string name="recommand">推荐</string>
     <string name="my">我的</string>
     <string name="ps">温馨提示：申请3家以上产品，借款成功率提升90%</string>
     <string name="quotaname">额度:</string>
@@ -63,10 +64,11 @@
     <string name="recommand_i_agree">我同意</string>
     <string name="recommand_regist_servicr">《注册用户服务协议》</string>
 
-    <string name="money_limit_1">1万-2万</string>
-    <string name="money_limit_2">2万-3万</string>
-    <string name="money_limit_3">3万-5万</string>
-    <string name="money_limit_4">3万-5万</string>
+    <string name="money_limit_1">5千以下</string>
+    <string name="money_limit_2">5千-1万</string>
+    <string name="money_limit_3">1万-2万</string>
+    <string name="money_limit_4">2万-3万</string>
+    <string name="money_limit_5">3万以上</string>
 
     <string name="date_limit_1">1-3月</string>
     <string name="date_limit_2">3-6月</string>

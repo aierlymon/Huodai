@@ -7,6 +7,7 @@ import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
@@ -168,5 +169,9 @@ public class HttpMethod {
 
     public Observable<SplashBean> loadSplash() {
         return mMovieService.loadSplash();
+    }
+
+    public Observable<RecommandStateBean> loadRecomStaet(){
+        return mMovieService.loadRecomnStaet();
     }
 }

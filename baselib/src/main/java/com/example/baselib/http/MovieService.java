@@ -6,6 +6,7 @@ import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
@@ -82,4 +83,7 @@ public interface MovieService {
 
     @GET("initImg")
     Observable<SplashBean> loadSplash();
+
+    @GET("auditMsg")
+    Observable<RecommandStateBean> loadRecomnStaet();
 }

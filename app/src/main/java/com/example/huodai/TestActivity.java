@@ -25,12 +25,12 @@ public class TestActivity extends AppCompatActivity {
             StatusBarUtil.setStatusBarColor(this,0x55000000);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend_how);
+        setContentView(R.layout.fra_recommend_how);
 
         ((Button) findViewById(R.id.btn_next)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(TestActivity.this,TestTwoActivity.class);
+                Intent intent=new Intent(TestActivity.this, RecomMineActivity.class);
                 startActivity(intent);
             }
         });

@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.utils.StatusBarUtil;
 
-public class TestTwoActivity extends AppCompatActivity {
+public class RecomMineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         StatusBarUtil.setStatusBarColor(this, Color.WHITE);
 
-        // StatusBarUtil.setTranslucentStatus(this);
+         StatusBarUtil.setTranslucentStatus(this);
         //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
         //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
