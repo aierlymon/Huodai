@@ -3,14 +3,8 @@ package com.example.huodai.mvp.presenters;
 import com.example.baselib.http.HttpMethod;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
-import com.example.baselib.utils.MyLog;
-import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.view.RecomMineImpl;
 import com.example.model.bean.HttpResult;
-import com.example.model.bean.NewHomeBodyBean;
-import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

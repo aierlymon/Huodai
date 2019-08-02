@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -113,13 +114,13 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
         String name = preferences.getString("name", null);
         String whoName = preferences.getString("whoName", null);
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
-            //这个时候填上到editText，并且editText变为不可填写
-            edName.setText(name);
-            edWhoName.setText(whoName);
             if (ApplicationPrams.loginCallBackBean != null && !ApplicationPrams.loginCallBackBean.getPhone().equals(phone)) {
                 edName.setEnabled(true);
                 edWhoName.setEnabled(true);
             } else {
+                //这个时候填上到editText，并且editText变为不可填写
+                edName.setText(name);
+                edWhoName.setText(whoName);
                 edName.setEnabled(false);
                 edWhoName.setEnabled(false);
             }
@@ -157,7 +158,7 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
     @Override
     public void showError(String msg) {
-        CustomToast.showToast(getApplicationContext(), "信息提交异常: " + msg, 2000);
+        CustomToast.showToast(getApplicationContext(), "信息提交异常: " + msg, 2000, Gravity.CENTER);
     }
 
     @OnClick({R.id.btn_mine_next, R.id.img_back, R.id.tx_mine_service})
@@ -181,10 +182,10 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                             mPresenter.nextStep(ApplicationPrams.loginCallBackBean.getId(), phoneNumber, name, whoName);
                         }
                     } else {
-                        showError("信息填写错误");
+                        showError("请填写正确的身份证");
                     }
                 } else {
-                    showError("信息填写不完全");
+                    showError("请填写姓名和身份证");
                 }
 
                 //先提交身份注册按钮
