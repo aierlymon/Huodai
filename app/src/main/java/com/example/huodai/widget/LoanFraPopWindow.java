@@ -73,18 +73,18 @@ public class LoanFraPopWindow extends PopupWindow {
             loanMoneyBean.setName(loanNumArray[i]);
             switch (i) {
                 case 1:
-                    loanMoneyBean.setMax(999);
-                    break;
-                case 2:
-                    loanMoneyBean.setLimit(1000);
                     loanMoneyBean.setMax(5000);
                     break;
-                case 3:
+                case 2:
                     loanMoneyBean.setLimit(5000);
                     loanMoneyBean.setMax(10000);
                     break;
-                case 4:
+                case 3:
                     loanMoneyBean.setLimit(10000);
+                    loanMoneyBean.setMax(20000);
+                    break;
+                case 4:
+                    loanMoneyBean.setLimit(20000);
                     loanMoneyBean.setMax(30000);
                     break;
                 case 5:

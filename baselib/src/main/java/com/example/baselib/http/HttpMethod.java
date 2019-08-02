@@ -1,5 +1,6 @@
 package com.example.baselib.http;
 
+import com.example.baselib.utils.MyLog;
 import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
@@ -130,7 +131,7 @@ public class HttpMethod {
         return mMovieService.loadHomeBodyLimitLgte(1,id,max);
     }
 
-    //最小到最大值
+    //最小到最大值(后来值是反过来的)
     public Observable<HttpResult<NewHomeBodyBean>> loadBodyMintoMax(int id,int min,int max) {
         return mMovieService.loadHomeBodyLimToLgt(1,id,min,max);
     }

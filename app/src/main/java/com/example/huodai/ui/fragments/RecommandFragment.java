@@ -8,11 +8,14 @@ import android.widget.TextView;
 
 import com.example.baselib.base.BaseMVPFragment;
 import com.example.baselib.utils.CustomToast;
+import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.RecomMineActivity;
 import com.example.huodai.mvp.model.postbean.RecomBean;
 import com.example.huodai.mvp.presenters.RecomFrgPresenter;
 import com.example.huodai.mvp.view.RecomViewImpl;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -61,6 +64,8 @@ public class RecommandFragment extends BaseMVPFragment<RecomViewImpl, RecomFrgPr
     protected void initView() {
         recomBean=new RecomBean();
         txTitle.setText(getResources().getString(R.string.recommand_title));
+        recomBean.setMoneyMax(4999);
+        recomBean.setMoneyMin(0);
     }
 
     @Override
@@ -116,28 +121,50 @@ public class RecommandFragment extends BaseMVPFragment<RecomViewImpl, RecomFrgPr
                 recomBean.setDateMax(36);
                 break;
             case R.id.moneyFirst:
-                recomBean.setMoneyMax(5000);
+                if(ischanged){
+                    recomBean.setMoneyMax(5000);
+                    recomBean.setMoneyMin(0);
+                }
                 break;
             case R.id.moneySecond:
-                recomBean.setMoneyMin(5000);
-                recomBean.setMoneyMax(10000);
+                if(ischanged){
+                    recomBean.setMoneyMin(5000);
+                    recomBean.setMoneyMax(10000);
+                }
+
                 break;
             case R.id.moneyThird:
-                recomBean.setMoneyMin(10000);
-                recomBean.setMoneyMax(20000);
+                if(ischanged){
+                    recomBean.setMoneyMin(10000);
+                    recomBean.setMoneyMax(20000);
+                }
+
                 break;
             case R.id.moneyFour:
-                recomBean.setMoneyMin(20000);
-                recomBean.setMoneyMax(30000);
+                if(ischanged){
+                    recomBean.setMoneyMin(20000);
+                    recomBean.setMoneyMax(30000);
+                }
+
                 break;
             case R.id.moneyFive:
-                recomBean.setMoneyMin(30000);
+                if(ischanged){
+                    recomBean.setMoneyMin(30000);
+                    recomBean.setMoneyMax(100000000);
+                }
                 break;
         }
     }
 
     @OnClick({R.id.btn_next})
     public void OnClick(View v){
+        //先确认是否登陆用户，登陆之后才可以提交按钮\
+        if (ApplicationPrams.loginCallBackBean == null) {
+            //请求登陆
+            EventBus.getDefault().post(false);
+            return;
+        }
+
         Intent intent=new Intent(getActivity(), RecomMineActivity.class);
         int[] moneys=new int[2];
         int[] dates=new int[2];

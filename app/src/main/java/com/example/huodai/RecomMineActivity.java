@@ -2,7 +2,6 @@ package com.example.huodai;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,17 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.IdCardUtil;
-import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
+import com.example.huodai.mvp.model.MyFRFunctionHolder;
 import com.example.huodai.mvp.model.postbean.RecomBean;
+import com.example.huodai.mvp.model.postbean.WebViewBean;
 import com.example.huodai.mvp.presenters.RecomMinePresenter;
 import com.example.huodai.mvp.view.RecomMineImpl;
-import com.example.huodai.mvp.view.RecomViewImpl;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,6 +50,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
     private SharedPreferences preferences;
 
     private boolean hasLogin;
+
+    private String phone;
+
 
     @Override
     protected int getLayoutRes() {
@@ -98,20 +100,37 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
         //拿到shareperf
         preferences = getSharedPreferences("cache", MODE_PRIVATE);
-        String phone = preferences.getString("phone", null);
+
+        //拿到本地存储的phone
+        phone = preferences.getString("phone", null);
+
+        //如果phone不为空，就证明以前提交过注册申请
+        if (!TextUtils.isEmpty(phone) || ApplicationPrams.loginCallBackBean != null) {
+            //万一用户后来改了号码登录，这里以最新登录的为主
+            edPhomeNum.setText(ApplicationPrams.loginCallBackBean.getPhone());
+            edPhomeNum.setEnabled(false);
+        }
         String name = preferences.getString("name", null);
         String whoName = preferences.getString("whoName", null);
-        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
             //这个时候填上到editText，并且editText变为不可填写
-            edPhomeNum.setText(phone);
             edName.setText(name);
             edWhoName.setText(whoName);
-            edPhomeNum.setEnabled(false);
-            edName.setEnabled(false);
-            edWhoName.setEnabled(false);
-            hasLogin=true;
+            if (ApplicationPrams.loginCallBackBean != null && !ApplicationPrams.loginCallBackBean.getPhone().equals(phone)) {
+                edName.setEnabled(true);
+                edWhoName.setEnabled(true);
+            } else {
+                edName.setEnabled(false);
+                edWhoName.setEnabled(false);
+            }
+
+            hasLogin = true;
         }
 
+        if (!ApplicationPrams.loginCallBackBean.getPhone().equals(phone)) {
+            edName.setEnabled(true);
+            edWhoName.setEnabled(true);
+        }
 
 
         //设置头部
@@ -141,19 +160,14 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
         CustomToast.showToast(getApplicationContext(), "信息提交异常: " + msg, 2000);
     }
 
-    @OnClick({R.id.btn_mine_next, R.id.img_back})
+    @OnClick({R.id.btn_mine_next, R.id.img_back, R.id.tx_mine_service})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
                 finish();
                 break;
             case R.id.btn_mine_next:
-                //先确认是否登陆用户，登陆之后才可以提交按钮\
-                if (ApplicationPrams.loginCallBackBean == null) {
-                    //请求登陆
-                    EventBus.getDefault().post(false);
-                    return;
-                }
+
                 String phoneNumber = edPhomeNum.getText().toString().trim();
                 String name = edName.getText().toString().trim();
                 String whoName = edWhoName.getText().toString();
@@ -161,9 +175,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                 if (!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
                     if (IdCardUtil.isValidatedAllIdcard(whoName)) {
                         //是身份证，进行提交身份认证申请
-                        if(hasLogin){
+                        if (hasLogin) {
                             nextStep();
-                        }else{
+                        } else {
                             mPresenter.nextStep(ApplicationPrams.loginCallBackBean.getId(), phoneNumber, name, whoName);
                         }
                     } else {
@@ -174,6 +188,12 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                 }
 
                 //先提交身份注册按钮
+                break;
+            case R.id.tx_mine_service:
+                WebViewBean webViewBean = new WebViewBean();
+                webViewBean.setUrl(HttpConstant.MINE_BASE_URL +"treaty.html");
+                webViewBean.setTag(getResources().getString(R.string.serice_content));
+                EventBus.getDefault().post(webViewBean);
                 break;
         }
     }
@@ -190,17 +210,18 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
         //跳转到筛选完的页面
         Intent intent = new Intent(this, FilterActivity.class);
 
-        int[] moneys=new int[2];
-        int[] dates=new int[2];
-        moneys[0]=recomBean.getMoneyMin();
-        moneys[1]=recomBean.getMoneyMax();
-        dates[0]=recomBean.getDateMin();
-        dates[1]=recomBean.getDateMax();
+        int[] moneys = new int[2];
+        int[] dates = new int[2];
+        moneys[0] = recomBean.getMoneyMin();
+        moneys[1] = recomBean.getMoneyMax();
+        dates[0] = recomBean.getDateMin();
+        dates[1] = recomBean.getDateMax();
 
-        intent.putExtra("moneys",moneys);
-        intent.putExtra("dates",dates);
+        intent.putExtra("moneys", moneys);
+        intent.putExtra("dates", dates);
 
         startActivity(intent);
         finish();
     }
+
 }

@@ -124,7 +124,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list) {
-       // fragRevAdapyer.setModelList(list);
+        fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();

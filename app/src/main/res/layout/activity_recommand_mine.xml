@@ -223,9 +223,11 @@
                             android:layout_centerVertical="true"
                             android:button="@drawable/recommand_service_state"
                             android:paddingLeft="2dp"
+                            android:checked="true"
                             android:text="@string/recommand_who_mine_service" />
 
                         <TextView
+                            android:id="@+id/tx_mine_service"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"

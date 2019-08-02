@@ -10,11 +10,11 @@
 
     <string-array name="loan_num">
         <item>全部</item>
-        <item>1000以下</item>
-        <item>1000-5000</item>
-        <item>5000-10000</item>
-        <item>10000-30000</item>
-        <item>30000以上</item>
+        <item>5千以下</item>
+        <item>5千-1万</item>
+        <item>1万-2万</item>
+        <item>2万-3万</item>
+        <item>3万以上</item>
     </string-array>
 
 </resources>
