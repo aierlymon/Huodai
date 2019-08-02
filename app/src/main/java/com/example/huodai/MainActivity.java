@@ -274,6 +274,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             if (!TextUtils.isEmpty(preferences.getString("obj", null))) {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("obj", null);
+                editor.putString("token","");
                 editor.apply();
                 editor.commit();
             }
@@ -289,6 +290,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             String obj = gson.toJson(ApplicationPrams.loginCallBackBean);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("obj", obj);
+            editor.putString("token",App.token);
             editor.apply();
             editor.commit();
         }

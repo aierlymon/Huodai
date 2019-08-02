@@ -20,18 +20,20 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class App extends Application {
 
-    private  RefWatcher mRefWatcher;
+    private RefWatcher mRefWatcher;
+    public static String token;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        mRefWatcher=setupLeakCanary();
+        mRefWatcher = setupLeakCanary();
         // 主要是添加下面这句代码
         MultiDex.install(this);
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
-        HttpConstant.context=this.getApplicationContext();
+        HttpConstant.context = this.getApplicationContext();
         NetWorkStateBroadcast.isOnline.set(Utils.isNetworkConnected(this));
 
 
@@ -44,16 +46,16 @@ public class App extends Application {
 
 
     private RefWatcher setupLeakCanary() {
-        RefWatcher refWatcher=null;
+        RefWatcher refWatcher = null;
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            refWatcher= RefWatcher.DISABLED;
-        }else{
-            refWatcher=LeakCanary.install(this);
+            refWatcher = RefWatcher.DISABLED;
+        } else {
+            refWatcher = LeakCanary.install(this);
         }
         return refWatcher;
     }
 
-    public  RefWatcher getRefWatcher(Context context){
+    public RefWatcher getRefWatcher(Context context) {
         return mRefWatcher;
     }
 }

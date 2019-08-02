@@ -1,6 +1,7 @@
 package com.example.huodai.mvp.presenters;
 
 import com.example.baselib.http.HttpMethod;
+import com.example.baselib.myapplication.App;
 import com.example.model.bean.HttpResult;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
@@ -22,7 +23,7 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
 
     @Override
     public void showError(String msg) {
-        MyLog.i("!!!msg: "+msg);
+        MyLog.i("!!!msg: " + msg);
         getView().showError("连接错误: " + msg);
     }
 
@@ -42,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
                     .subscribe(new MySubscriber<HttpResult<JsonObject>>(this) {
                         @Override
                         public void onSuccess(HttpResult<JsonObject> httpResult) {
-                            if (httpResult.getStatusCode()==200) {
+                            if (httpResult.getStatusCode() == 200) {
                                 //拿去到了验证吗
                             } else {
                                 showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
@@ -78,11 +79,12 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
                 .subscribe(new MySubscriber<HttpResult<LoginCallBackBean>>(this) {
                     @Override
                     public void onSuccess(HttpResult<LoginCallBackBean> httpResult) {
-                        if (httpResult.getStatusCode()==200) {
+                        if (httpResult.getStatusCode() == 200) {
                             //拿去到了验证吗
                             ApplicationPrams.loginCallBackBean = httpResult.getData().getUser();
+                            App.token = httpResult.getData().getToken();
                             getView().loginSuccess();
-                        }else{
+                        } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
 
@@ -90,7 +92,7 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
 
                     @Override
                     public void onFail(Throwable e) {
-                        MyLog.i("我失败了: "+e.getMessage());
+                        MyLog.i("我失败了: " + e.getMessage());
                         showError(e.getMessage());
                         getView().showError("验证码不正确");
                     }

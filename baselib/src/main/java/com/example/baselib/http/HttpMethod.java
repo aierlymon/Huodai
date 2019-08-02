@@ -62,6 +62,7 @@ public class HttpMethod {
             builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//写操作 超时时间
             builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//读操作 超时时间
 
+
             File cacheFile = new File(HttpConstant.context.getCacheDir(), HttpConstant.cacheFileName);//缓存文件路径
             // if(!cacheFile.exists())cacheFile.mkdirs();
 
@@ -74,10 +75,12 @@ public class HttpMethod {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             //设置 Debug Log 模式
             builder.addInterceptor(loggingInterceptor);
-            builder.addInterceptor(new LoggingInterceptor());
+
 
             // 错误重连拦截器
             builder.addInterceptor(new RetryInterceptor(3, DEFAULT_TIME_OUT));
+
+            builder.addInterceptor(new LoggingInterceptor());
          /*   if (BuildConfig.DEBUG) {
             }*/
             OkHttpClient okHttpClient = builder.build();

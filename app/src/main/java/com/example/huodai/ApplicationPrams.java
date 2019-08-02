@@ -6,6 +6,4 @@ public class ApplicationPrams {
     public static LoginCallBackBean.UserBean loginCallBackBean;
     public static boolean isLogin;
 
-
-    //public static Typeface typeface;
 }

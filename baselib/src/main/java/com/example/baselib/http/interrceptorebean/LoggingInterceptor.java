@@ -1,6 +1,7 @@
 package com.example.baselib.http.interrceptorebean;
 
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
+import com.example.baselib.myapplication.App;
 import com.example.baselib.utils.MyLog;
 
 import java.io.IOException;
@@ -19,16 +20,17 @@ public class LoggingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        MyLog.i("request: "+request.toString());
+        Request.Builder builder = request.newBuilder();
+        builder.addHeader("token", App.token);
         //当没有网络时
         if (!NetWorkStateBroadcast.isOnline.get()) {
             MyLog.i("我进来了没有网络");
-            request = request.newBuilder()
-                    //CacheControl.FORCE_CACHE; //仅仅使用缓存
-                    //CacheControl.FORCE_NETWORK;// 仅仅使用网络
-                    .cacheControl(CacheControl.FORCE_CACHE)
-                    .build();
+            //CacheControl.FORCE_CACHE; //仅仅使用缓存
+            //CacheControl.FORCE_NETWORK;// 仅仅使用网络
+            builder.cacheControl(CacheControl.FORCE_CACHE);
         }
+        request = builder.build();
+        MyLog.i("request2: " + request.toString() + " header2: " +request.headers().toString());
 
         Response proceed = chain.proceed(request);
 
@@ -44,7 +46,7 @@ public class LoggingInterceptor implements Interceptor {
         } else {
             MyLog.i("我进来了无网络是偶");
             //没网络时
-            int maxTime =  24 * 60 * 60;//离线缓存时间：1天
+            int maxTime = 24 * 60 * 60;//离线缓存时间：1天
             return proceed.newBuilder()
                     .removeHeader("Pragma")
                     //设置离线缓存时间为4周，

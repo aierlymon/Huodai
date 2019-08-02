@@ -1,6 +1,7 @@
 package com.example.huodai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.baselib.base.BaseMvpActivity;
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
+import com.example.baselib.myapplication.App;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.huodai.mvp.presenters.StartActPresenter;
@@ -56,6 +58,7 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
         }
 
 
+
         //判断是否有网络
         //有网络
         if (NetWorkStateBroadcast.isOnline.get()) {
@@ -96,6 +99,10 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
 
     @Override
     public void startSplash(List<String> urls) {
+        //拿取TOKEN
+        SharedPreferences preferences = getSharedPreferences("cache", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        App.token = token;
         //判断是否存在缓存
      /*   urls.clear();
         urls.add("http://ihoufeng.com//group1/default/20190725/14/51/8/4.png");
