@@ -5,20 +5,27 @@ import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
 import com.example.baselib.utils.MyLog;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
-import com.example.huodai.mvp.view.RecomMineImpl;
+import com.example.huodai.mvp.model.HomeFRBodyHolderFH;
+import com.example.huodai.mvp.view.HistoryImpl;
+import com.example.huodai.ui.adapter.base.BaseMulDataModel;
+import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.model.bean.NewHomeBodyBean;
-import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecomMinePresenter extends BasePresenter<RecomMineImpl> {
+public class HistoryPresenter extends BasePresenter<HistoryImpl> {
+
+    //分类的list
+    List<BaseMulDataModel> list = new ArrayList<>();
+
     @Override
     public void showError(String msg) {
-        getView().showError(msg);
+
     }
 
     @Override
@@ -26,16 +33,21 @@ public class RecomMinePresenter extends BasePresenter<RecomMineImpl> {
         return false;
     }
 
+    public void loadHistory(int id){
 
-    public void nextStep(int id, String phoneNumber, String name, String whoName){
-        HttpMethod.getInstance().editUserMsg(String.valueOf(id),phoneNumber,name,whoName)
+        HttpMethod.getInstance().userApplyRecordsList(id)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<HistoryBean>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<String> httpResult) {
+                    public void onSuccess(HttpResult<List<HistoryBean>> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
-                            getView().nextStep();
+                            HomeFRBodyHolderFH homeFRBodyHolder = new HomeFRBodyHolderFH();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
+                            list.clear();
+                            list.add(homeFRBodyHolder);
+                            getView().refreshHistory(list);
+
                         } else {
                             showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
                         }
@@ -43,7 +55,7 @@ public class RecomMinePresenter extends BasePresenter<RecomMineImpl> {
 
                     @Override
                     public void onFail(Throwable e) {
-                        showError(e.getMessage());
+
                     }
 
                     @Override
@@ -52,5 +64,4 @@ public class RecomMinePresenter extends BasePresenter<RecomMineImpl> {
                     }
                 });
     }
-
 }

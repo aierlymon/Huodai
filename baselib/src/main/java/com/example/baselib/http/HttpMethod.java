@@ -1,5 +1,6 @@
 package com.example.baselib.http;
 
+import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
 import com.example.baselib.http.interrceptorebean.RetryInterceptor;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
@@ -173,5 +175,23 @@ public class HttpMethod {
 
     public Observable<RecommandStateBean> loadRecomStaet(){
         return mMovieService.loadRecomnStaet();
+    }
+
+    public Observable<HttpResult<String>> editUserMsg(String id,String phoneNum,String name,String whoNum){
+        JSONObject root = new JSONObject();
+        try {
+            root.put("userId", id);
+            root.put("phone", phoneNum);
+            root.put("name", name);
+            root.put("card", whoNum);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
+        return mMovieService.editUserMsg(requestBody);
+    }
+
+    public  Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(int id){
+        return mMovieService.userApplyRecordsList(1,id);
     }
 }

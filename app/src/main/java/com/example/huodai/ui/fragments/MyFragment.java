@@ -13,6 +13,7 @@ import com.example.baselib.http.HttpConstant;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
+import com.example.huodai.HistoryActivity;
 import com.example.huodai.R;
 import com.example.huodai.WebActivity;
 import com.example.huodai.mvp.model.MyFRFunctionHolder;
@@ -54,9 +55,9 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     private WebViewBean webViewBean;
 
-    private int[] name = {R.string.any_question, R.string.about_us, R.string.serice_content};
-    private int[] icon = {R.drawable.group, R.drawable.about, R.drawable.fuwu};
-    private String[] urls = {"help.html", "about.html", "treaty.html"};
+    private int[] name = {R.string.history,R.string.any_question, R.string.about_us, R.string.serice_content};
+    private int[] icon = {R.mipmap.hitstory, R.drawable.group, R.drawable.about, R.drawable.fuwu};
+    private String[] urls = {"0", "help.html", "about.html", "treaty.html"};
 
     public static MyFragment newInstance(String info) {
         MyFragment fragment = new MyFragment();
@@ -89,7 +90,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(2));
         List<BaseMulDataModel> myFRFunctionHolders = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             MyFRFunctionHolder myFRFunctionHolder = new MyFRFunctionHolder();
             myFRFunctionHolder.setF_icon(icon[i]);
             myFRFunctionHolder.setUrl(HttpConstant.MINE_BASE_URL + urls[i]);
@@ -98,10 +99,19 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         }
         MyRevAdapter myRevAdapter = new MyRevAdapter(myFRFunctionHolders, getContext());
         myRevAdapter.setOnItemClickListener((view, position) -> {
-            MyLog.i("响应了我的MyFragment点击事件");
-            webViewBean.setUrl(((MyFRFunctionHolder) myFRFunctionHolders.get(position)).getUrl());
-            webViewBean.setTag(getString(name[position]));
-            EventBus.getDefault().post(webViewBean);
+            //检测是否登录
+            if (ApplicationPrams.loginCallBackBean == null) {
+                EventBus.getDefault().post(false);
+                return;
+            }
+            if (position == 0) {
+                Intent intent = new Intent(getActivity(), HistoryActivity.class);
+                startActivity(intent);
+            } else {
+                webViewBean.setUrl(((MyFRFunctionHolder) myFRFunctionHolders.get(position)).getUrl());
+                webViewBean.setTag(getString(name[position]));
+                EventBus.getDefault().post(webViewBean);
+            }
         });
         recyclerView.setAdapter(myRevAdapter);
 

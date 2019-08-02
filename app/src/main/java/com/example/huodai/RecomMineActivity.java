@@ -1,8 +1,10 @@
 package com.example.huodai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.utils.CustomToast;
+import com.example.baselib.utils.IdCardUtil;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.huodai.mvp.model.postbean.RecomBean;
@@ -25,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMinePresenter> implements RecomViewImpl {
+public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMinePresenter> implements RecomMineImpl {
 
     private RecomBean recomBean;
 
@@ -44,6 +48,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
     @BindView(R.id.img_back)
     ImageView back;
 
+    private SharedPreferences preferences;
+
+    private boolean hasLogin;
 
     @Override
     protected int getLayoutRes() {
@@ -76,6 +83,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
             return;
         }
         super.onCreate(savedInstanceState);
+        //黄油刀
+        ButterKnife.bind(this);
+
         //拿到了intent，然后拿到值存起来准备用来下一步
         recomBean = new RecomBean();
         Intent intent = getIntent();
@@ -86,8 +96,23 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
         recomBean.setDateMin(dates[0]);
         recomBean.setDateMax(dates[1]);
 
-        //黄油刀
-        ButterKnife.bind(this);
+        //拿到shareperf
+        preferences = getSharedPreferences("cache", MODE_PRIVATE);
+        String phone = preferences.getString("phone", null);
+        String name = preferences.getString("name", null);
+        String whoName = preferences.getString("whoName", null);
+        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
+            //这个时候填上到editText，并且editText变为不可填写
+            edPhomeNum.setText(phone);
+            edName.setText(name);
+            edWhoName.setText(whoName);
+            edPhomeNum.setEnabled(false);
+            edName.setEnabled(false);
+            edWhoName.setEnabled(false);
+            hasLogin=true;
+        }
+
+
 
         //设置头部
         tx.setText(getString(R.string.recommand_title));
@@ -97,13 +122,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
     @Override
     protected RecomMinePresenter createPresenter() {
-        return null;
+        return new RecomMinePresenter();
     }
 
-    @Override
-    public void refreshTitle(String title) {
-
-    }
 
     @Override
     public void showLoading() {
@@ -117,7 +138,7 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
     @Override
     public void showError(String msg) {
-
+        CustomToast.showToast(getApplicationContext(), "信息提交异常: " + msg, 2000);
     }
 
     @OnClick({R.id.btn_mine_next, R.id.img_back})
@@ -133,9 +154,53 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                     EventBus.getDefault().post(false);
                     return;
                 }
+                String phoneNumber = edPhomeNum.getText().toString().trim();
+                String name = edName.getText().toString().trim();
+                String whoName = edWhoName.getText().toString();
+                //确认登录后，确认信息是否填写
+                if (!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(whoName)) {
+                    if (IdCardUtil.isValidatedAllIdcard(whoName)) {
+                        //是身份证，进行提交身份认证申请
+                        if(hasLogin){
+                            nextStep();
+                        }else{
+                            mPresenter.nextStep(ApplicationPrams.loginCallBackBean.getId(), phoneNumber, name, whoName);
+                        }
+                    } else {
+                        showError("信息填写错误");
+                    }
+                } else {
+                    showError("信息填写不完全");
+                }
 
                 //先提交身份注册按钮
                 break;
         }
+    }
+
+    @Override
+    public void nextStep() {
+        //这里要保存信息，下次就不用填写了
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("phone", edPhomeNum.getText().toString().trim());
+        editor.putString("name", edName.getText().toString().trim());
+        editor.putString("whoName", edWhoName.getText().toString().trim());
+        editor.apply();
+        editor.commit();
+        //跳转到筛选完的页面
+        Intent intent = new Intent(this, FilterActivity.class);
+
+        int[] moneys=new int[2];
+        int[] dates=new int[2];
+        moneys[0]=recomBean.getMoneyMin();
+        moneys[1]=recomBean.getMoneyMax();
+        dates[0]=recomBean.getDateMin();
+        dates[1]=recomBean.getDateMax();
+
+        intent.putExtra("moneys",moneys);
+        intent.putExtra("dates",dates);
+
+        startActivity(intent);
+        finish();
     }
 }

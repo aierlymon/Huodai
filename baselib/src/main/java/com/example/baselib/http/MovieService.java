@@ -1,6 +1,7 @@
 package com.example.baselib.http;
 
 
+import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
@@ -10,6 +11,8 @@ import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -86,4 +89,11 @@ public interface MovieService {
 
     @GET("auditMsg")
     Observable<RecommandStateBean> loadRecomnStaet();
+
+    @POST("editUserMsg")
+    Observable<HttpResult<String>> editUserMsg(@Body RequestBody requestBody);
+
+    //或取home页内容最多的body内容
+    @GET("userApplyRecordsList")
+    Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
 }

@@ -19,6 +19,7 @@ import com.example.huodai.ApplicationPrams;
 import com.example.huodai.R;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
+import com.example.huodai.mvp.model.HomeFRBodyHolderFH;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.example.huodai.mvp.model.postbean.RecordBean;
@@ -41,6 +42,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int BANNER = 0;
     private static final int MENU = 1;
     private static final int BODY = 2;
+    private static final int HISTORY = 3;
     private Activity mContext;
     private WebViewBean webViewBean;//EventBus进行WebActivity页面跳转的实体类
 
@@ -77,6 +79,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case BODY:
                 return new BodyHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_body, null));
+            case HISTORY:
+                return new BodyHolderFH(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.fra_home_recy_body, null));
         }
         return null;
     }
@@ -99,8 +104,10 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return BANNER;
         } else if (modelList.get(position) instanceof HomeFRMenuHolder) {
             return MENU;
-        } else {
+        } else if(modelList.get(position) instanceof HomeFRBodyHolder){
             return BODY;
+        }else{
+            return HISTORY;
         }
     }
 
@@ -224,6 +231,42 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
             recyclerView.setAdapter(homeBodyRevAdapter);
         }
+    }
+
+    class BodyHolderFH extends BaseMulViewHolder<HomeFRBodyHolderFH> {
+
+        @BindView(R.id.recv_body)
+        RecyclerView recyclerView;
+
+        public BodyHolderFH(View itemView) {
+            super(itemView);
+            LinearLayoutManager manager = new LinearLayoutManager(mContext);
+            recyclerView.setLayoutManager(manager);
+        }
+
+        @Override
+        public void bindData(HomeFRBodyHolderFH dataModel, int position) {
+            MyLog.i("BodyHolder new");
+            HomeBodyHFRevAdapter homeBodyRevAdapter = new HomeBodyHFRevAdapter(mContext, dataModel.getHomeBodyBeanList());
+            homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
+                webViewBean.setUrl(dataModel.getHomeBodyBeanList().get(position1).getUrl());
+                webViewBean.setTag(null);
+
+                //这里出发了两次
+                if (ApplicationPrams.loginCallBackBean != null) {
+                    MyLog.i("执行了提交后台服务器请求的请求: " + position1);
+                    recordBean.setLoanProductId(dataModel.getHomeBodyBeanList().get(position1).getId());
+                    recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                    EventBus.getDefault().post(recordBean);
+                }
+                go(view, position1, webViewBean);
+
+            });
+            //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
+            recyclerView.setAdapter(homeBodyRevAdapter);
+        }
+
+
     }
 
     public <T> void go(View view, int pos, T object) {
