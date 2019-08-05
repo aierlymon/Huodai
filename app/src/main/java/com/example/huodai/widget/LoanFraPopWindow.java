@@ -1,11 +1,17 @@
 package com.example.huodai.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
@@ -30,10 +36,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.Context.WINDOW_SERVICE;
+
 public class LoanFraPopWindow extends PopupWindow {
     public static final int TYPE = 1;
     public static final int LOAN = 2;
     private int currentItem;
+    private boolean hasNav;
 
     public interface CancelListener {
         void cancel();
@@ -73,6 +82,7 @@ public class LoanFraPopWindow extends PopupWindow {
             loanMoneyBean.setName(loanNumArray[i]);
             switch (i) {
                 case 1:
+                    loanMoneyBean.setLimit(0);
                     loanMoneyBean.setMax(5000);
                     break;
                 case 2:
@@ -144,13 +154,29 @@ public class LoanFraPopWindow extends PopupWindow {
         float WH[] = Utils.getScreenWH(context);
         // 获取锚点View在屏幕上的左上角坐标位置
         anchor.getLocationOnScreen(anchorLoc);
-        final int anchorHeight = anchor.getHeight();
+         int anchorHeight = anchor.getHeight();
 
-       /* int resourceId =context. getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        int navigationHeight = context.getResources().getDimensionPixelSize(resourceId);
-*/
-        int heigh = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
-        setHeight(heigh);
+
+        //MyLog.i("是否显示底部导航栏: " + hasSoftKeys(context));
+
+     /*   if (hasSoftKeys(context)) {
+            heigh = (int) ((WH[1] - anchorHeight - anchorLoc[1]) - navigationHeight);
+        } else {
+        }*/
+
+        int height = 0;
+
+     /*   if (!hasSoftKeys(context) && hasNav) {
+            MyLog.i("到了这里加高");
+            //获取顶部导航栏的宽高
+            int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            int navigationHeight = context.getResources().getDimensionPixelSize(resourceId);
+            height = (int) ((WH[1] - anchorHeight - anchorLoc[1])) + navigationHeight;
+        }else{
+            height = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
+        }*/
+        height = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
+        setHeight(height);
         super.showAsDropDown(anchor);
     }
 
@@ -169,5 +195,41 @@ public class LoanFraPopWindow extends PopupWindow {
         }
         loanSpinnerRevAdapter.notifyDataSetChanged();
     }
+
+
+    /**
+     * 判断底部navigator是否已经显示
+     *
+     * @param windowManager
+     * @return
+     */
+    private WindowManager wm;
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private boolean hasSoftKeys(Context context) {
+        if (wm == null)
+            wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+        Display d = wm.getDefaultDisplay();
+
+
+        DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+        d.getRealMetrics(realDisplayMetrics);
+
+
+        int realHeight = realDisplayMetrics.heightPixels;
+        int realWidth = realDisplayMetrics.widthPixels;
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        d.getMetrics(displayMetrics);
+
+
+        int displayHeight = displayMetrics.heightPixels;
+        int displayWidth = displayMetrics.widthPixels;
+
+
+        return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
+    }
+
 
 }
