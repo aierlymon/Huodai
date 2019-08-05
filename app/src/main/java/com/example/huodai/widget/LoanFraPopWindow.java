@@ -145,7 +145,11 @@ public class LoanFraPopWindow extends PopupWindow {
         // 获取锚点View在屏幕上的左上角坐标位置
         anchor.getLocationOnScreen(anchorLoc);
         final int anchorHeight = anchor.getHeight();
-        int heigh = (int) (WH[1] - anchorHeight - anchorLoc[1]);
+
+       /* int resourceId =context. getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        int navigationHeight = context.getResources().getDimensionPixelSize(resourceId);
+*/
+        int heigh = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
         setHeight(heigh);
         super.showAsDropDown(anchor);
     }

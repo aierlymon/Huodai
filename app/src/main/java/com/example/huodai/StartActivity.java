@@ -99,10 +99,7 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
 
     @Override
     public void startSplash(List<String> urls) {
-        //拿取TOKEN
-        SharedPreferences preferences = getSharedPreferences("cache", MODE_PRIVATE);
-        String token = preferences.getString("token", "");
-        App.token = token;
+
         //判断是否存在缓存
      /*   urls.clear();
         urls.add("http://ihoufeng.com//group1/default/20190725/14/51/8/4.png");
@@ -137,5 +134,12 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void requestComplice() {
+        SharedPreferences preferences =getSharedPreferences("cache", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        App.token = token;
     }
 }

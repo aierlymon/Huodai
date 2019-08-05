@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.huodai.mvp.model.postbean.RecomBean;
@@ -79,7 +80,7 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
         ButterKnife.bind(this);
         //设置标题和返回键
         //设置头部
-        tx.setText(getString(R.string.recommand_title));
+        tx.setText(getString(R.string.history));
         back.setVisibility(View.VISIBLE);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -102,7 +103,7 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             MyLog.i("我触发了上拉加载更多");
-           // currentPage++;
+            //currentPage++;
             refreshLayout.finishLoadMore();
           //  mPresenter.loadHistory(0, recomBean.getMoneyMin(),recomBean.getMoneyMax(), currentPage);
         });
@@ -130,7 +131,9 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
 
     @Override
     public void showError(String msg) {
-
+        CustomToast.showToast(getApplicationContext(),msg,2000);
+        if (refreshLayout.isRefreshing())
+            refreshLayout.finishRefresh();
     }
 
     @Override

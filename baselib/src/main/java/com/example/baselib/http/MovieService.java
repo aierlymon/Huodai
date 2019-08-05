@@ -72,7 +72,7 @@ public interface MovieService {
     Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgt(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLlte") int limitLlte,@Query("limitLgte") int limitLgte);
 
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte,@Query("limitLlte") int limitLlte,@Query("page") int page);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLlte") int limitLlte,@Query("limitLgte") int limitLgte,@Query("page") int page);
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")

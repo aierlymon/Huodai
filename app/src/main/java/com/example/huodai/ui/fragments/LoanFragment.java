@@ -319,6 +319,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         mRecyclerView.setVisibility(View.GONE);
         relativeLayout.setVisibility(View.VISIBLE);
         CustomToast.showToast(getContext().getApplicationContext(), msg, 2000);
+        if (refreshLayout.isRefreshing())
+            refreshLayout.finishRefresh();
+        if(refreshLayout.isLoading())
+            refreshLayout.finishLoadMore();
     }
 
     @Override
@@ -333,6 +337,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @Override
     public void addPage(List<BaseMulDataModel> list) {
         fragRevAdapyer.notifyDataSetChanged();
+        if(refreshLayout.isLoading())
         refreshLayout.finishLoadMore();
     }
 

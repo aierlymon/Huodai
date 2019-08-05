@@ -1,6 +1,5 @@
 package com.example.baselib.http;
 
-import com.example.baselib.utils.MyLog;
 import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.MediaType;
@@ -77,10 +75,11 @@ public class HttpMethod {
             builder.addInterceptor(loggingInterceptor);
 
 
-            // 错误重连拦截器
-            builder.addInterceptor(new RetryInterceptor(3, DEFAULT_TIME_OUT));
+
 
             builder.addInterceptor(new LoggingInterceptor());
+            // 错误重连拦截器
+            builder.addInterceptor(new RetryInterceptor(3, DEFAULT_TIME_OUT));
          /*   if (BuildConfig.DEBUG) {
             }*/
             OkHttpClient okHttpClient = builder.build();

@@ -1,8 +1,12 @@
 package com.example.huodai.mvp.presenters;
 
+import android.content.SharedPreferences;
+
 import com.example.baselib.http.HttpMethod;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
+import com.example.baselib.myapplication.App;
+import com.example.baselib.utils.MyLog;
 import com.example.huodai.mvp.view.StartActImpl;
 import com.example.model.bean.SplashBean;
 
@@ -32,13 +36,18 @@ public class StartActPresenter extends BasePresenter<StartActImpl> {
                 .subscribe(new MySubscriber<SplashBean>(this) {
                     @Override
                     public void onSuccess(SplashBean splashBean) {
+                        //拿取TOKEN
+                        getView().requestComplice();
                         //跳转到广告页面
                         getView().startSplash(splashBean.getData());
                     }
 
                     @Override
                     public void onFail(Throwable e) {
+                        MyLog.i("广告页面异常: "+e.getMessage());
                         //跳转到主界面
+                        //拿取TOKEN
+                        getView().requestComplice();
                         getView().startMain();
                     }
 

@@ -21,7 +21,7 @@ import cn.jpush.android.api.JPushInterface;
 public class App extends Application {
 
     private RefWatcher mRefWatcher;
-    public static String token;
+    public static String token="";
 
     @Override
     public void onCreate() {

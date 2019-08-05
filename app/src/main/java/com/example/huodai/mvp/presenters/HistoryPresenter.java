@@ -25,7 +25,7 @@ public class HistoryPresenter extends BasePresenter<HistoryImpl> {
 
     @Override
     public void showError(String msg) {
-
+        getView().showError(msg);
     }
 
     @Override

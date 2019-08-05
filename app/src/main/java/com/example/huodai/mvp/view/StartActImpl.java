@@ -12,4 +12,6 @@ public interface StartActImpl extends IView {
     void startSplash(List<String> urls);
 
     void startMain();
+
+    void requestComplice();
 }

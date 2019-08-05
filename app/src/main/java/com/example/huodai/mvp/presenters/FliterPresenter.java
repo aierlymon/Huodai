@@ -24,7 +24,7 @@ public class FliterPresenter extends BasePresenter<FliterImpl> {
 
     @Override
     public void showError(String msg) {
-
+        getView().showError(msg);
     }
 
     @Override

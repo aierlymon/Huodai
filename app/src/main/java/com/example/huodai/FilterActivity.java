@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMvpActivity;
 import com.example.baselib.myapplication.App;
+import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
 import com.example.huodai.mvp.model.postbean.RecomBean;
@@ -58,6 +59,7 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
 
     //body的当前刷新页面
     private int currentPage = 1;
+
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_filter;
@@ -116,19 +118,19 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //进行筛选请求
-        mPresenter.requestBody(0,recomBean.getMoneyMin(),recomBean.getMoneyMax());
+        mPresenter.requestBody(0, recomBean.getMoneyMin(), recomBean.getMoneyMax());
 
         //刷新按钮的刷新是按
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             MyLog.i("我触发了上拉刷新");
-            mPresenter.requestBody(0, recomBean.getMoneyMin(),recomBean.getMoneyMax());
+            mPresenter.requestBody(0, recomBean.getMoneyMin(), recomBean.getMoneyMax());
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了上拉加载更多");
+            MyLog.i("我触发了上拉加载更多: "+recomBean.getMoneyMin()+"  "+recomBean.getMoneyMax());
             currentPage++;
-            mPresenter.requestBodyPage(0, recomBean.getMoneyMin(),recomBean.getMoneyMax(), currentPage);
+            mPresenter.requestBodyPage(0, recomBean.getMoneyMin(), recomBean.getMoneyMax(), currentPage);
         });
     }
 
@@ -149,7 +151,12 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
 
     @Override
     public void showError(String msg) {
-
+        CustomToast.showToast(getApplicationContext(), msg, 2000);
+        if (refreshLayout.isRefreshing())
+            refreshLayout.finishRefresh();
+        if (refreshLayout.isLoading()) {
+            refreshLayout.finishLoadMore();
+        }
     }
 
     @Override
@@ -163,11 +170,13 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
     @Override
     public void addPage(List<BaseMulDataModel> list) {
         fragRevAdapyer.notifyDataSetChanged();
-        refreshLayout.finishLoadMore();
+        if (refreshLayout.isLoading()) {
+            refreshLayout.finishLoadMore();
+        }
     }
 
     @OnClick({R.id.img_back})
-    public void OnClick(View v){
+    public void OnClick(View v) {
         finish();
     }
 }
