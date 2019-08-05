@@ -218,9 +218,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             Point point = new Point();
             point.set((int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
-            MyLog.i("来到了触摸区域");
 
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                MyLog.i("来到了触摸区域");
+
                 //点击到类型区域
                 if (Utils.isContaint(bannerFirst, point) || Utils.isContaint(bannerCheckType, point)) {
                     MyLog.i("bannerCheckType.isChecked(): " + bannerCheckType.isChecked());
@@ -240,7 +241,7 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
             }
 
 
-            return true;
+            return false;
         });
         //不把它放到懒加载
         mPresenter.requestBody(0);

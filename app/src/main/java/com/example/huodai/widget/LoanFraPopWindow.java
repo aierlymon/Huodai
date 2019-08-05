@@ -2,6 +2,7 @@ package com.example.huodai.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -42,7 +43,6 @@ public class LoanFraPopWindow extends PopupWindow {
     public static final int TYPE = 1;
     public static final int LOAN = 2;
     private int currentItem;
-    private boolean hasNav;
 
     public interface CancelListener {
         void cancel();
@@ -107,13 +107,15 @@ public class LoanFraPopWindow extends PopupWindow {
         }
 
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        setFocusable(true);
-        setOutsideTouchable(true);
+        setFocusable(false);
+        setOutsideTouchable(false);
+        setTouchable(true);
 
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View contentView = LayoutInflater.from(context).inflate(R.layout.fra_loan_spinner_item,
-                null, false);
+                null);
         setContentView(contentView);
         ButterKnife.bind(this, contentView);
 
@@ -150,33 +152,6 @@ public class LoanFraPopWindow extends PopupWindow {
     int anchorLoc[] = new int[2];
 
     public void showAsDropDown(View anchor, Context context) {
-
-        float WH[] = Utils.getScreenWH(context);
-        // 获取锚点View在屏幕上的左上角坐标位置
-        anchor.getLocationOnScreen(anchorLoc);
-         int anchorHeight = anchor.getHeight();
-
-
-        //MyLog.i("是否显示底部导航栏: " + hasSoftKeys(context));
-
-     /*   if (hasSoftKeys(context)) {
-            heigh = (int) ((WH[1] - anchorHeight - anchorLoc[1]) - navigationHeight);
-        } else {
-        }*/
-
-        int height = 0;
-
-     /*   if (!hasSoftKeys(context) && hasNav) {
-            MyLog.i("到了这里加高");
-            //获取顶部导航栏的宽高
-            int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-            int navigationHeight = context.getResources().getDimensionPixelSize(resourceId);
-            height = (int) ((WH[1] - anchorHeight - anchorLoc[1])) + navigationHeight;
-        }else{
-            height = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
-        }*/
-        height = (int) ((WH[1] - anchorHeight - anchorLoc[1]));
-        setHeight(height);
         super.showAsDropDown(anchor);
     }
 
@@ -230,6 +205,5 @@ public class LoanFraPopWindow extends PopupWindow {
 
         return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
     }
-
 
 }

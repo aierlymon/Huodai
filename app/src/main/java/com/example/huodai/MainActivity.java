@@ -167,7 +167,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             //获取drawables
             //给指定的radiobutton设置drawable边界
             MyLog.i("width: " + drawables[1].getMinimumWidth() * 7 / 12 + "   height: " + drawables[1].getMinimumHeight() * 2 / 3);
-            Rect r = new Rect(0, 10, 85, 90);
+            Rect r = new Rect(0, 5, (int) getResources().getDimension(R.dimen.x22), (int) getResources().getDimension(R.dimen.y20));
             //定义一个Rect边界
             drawables[1].setBounds(r);
             //添加限制给控件

@@ -181,6 +181,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             manager.setOrientation(RecyclerView.HORIZONTAL);
             recyclerView.setLayoutManager(manager);
             homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
+
             recyclerView.setAdapter(homeMenuRevAdapter);
 
         }
