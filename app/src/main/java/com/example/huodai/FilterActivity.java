@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.myapplication.App;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
@@ -129,8 +130,14 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             MyLog.i("我触发了上拉加载更多: "+recomBean.getMoneyMin()+"  "+recomBean.getMoneyMax());
-            currentPage++;
-            mPresenter.requestBodyPage(0, recomBean.getMoneyMin(), recomBean.getMoneyMax(), currentPage);
+            if(NetWorkStateBroadcast.isOnline.get()){
+                currentPage++;
+                mPresenter.requestBodyPage(0, recomBean.getMoneyMin(), recomBean.getMoneyMax(), currentPage);
+            }else{
+                if (refreshLayout.isLoading()) {
+                    refreshLayout.finishLoadMore();
+                }
+            }
         });
     }
 

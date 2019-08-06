@@ -79,6 +79,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     protected void initView() {
+        MyLog.i("重新加载");
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
 
@@ -97,8 +98,14 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             MyLog.i("我触发了2");
-            currentPage++;
-            mPresenter.requestBodyPage(0, 0, 0, currentPage);
+            if(NetWorkStateBroadcast.isOnline.get()){
+                currentPage++;
+                mPresenter.requestBodyPage(0, 0, 0, currentPage);
+            }else{
+                if (refreshLayout.isLoading()) {
+                    refreshLayout.finishLoadMore();
+                }
+            }
         });
     }
 
@@ -124,6 +131,10 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list) {
+        MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility());
+        if(mRecyclerView.getVisibility()==View.GONE){
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
         fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
         if (refreshLayout.isRefreshing()) {

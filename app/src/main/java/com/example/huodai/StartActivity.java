@@ -65,6 +65,7 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
             //请求广告页面
             mPresenter.requestSplash();
         } else {
+            requestComplice();//先获取token，然后再跳转到主界面
             //直接跳转到主界面
             startMain();
         }
@@ -138,8 +139,10 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
 
     @Override
     public void requestComplice() {
+
         SharedPreferences preferences =getSharedPreferences("cache", MODE_PRIVATE);
         String token = preferences.getString("token", "");
+        MyLog.i("StartActivity执行到这里来了： "+token);
         App.token = token;
     }
 }
