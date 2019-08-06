@@ -52,7 +52,7 @@
     <string name="recommand_who_number">身份证</string>
     <string name="recommand_phone_number_hint">请输入手机号</string>
     <string name="recommand_name_hint">请输入姓名</string>
-    <string name="recommand_who_number_hint">请输入身份证号</string>
+    <string name="recommand_who_number_hint">身份证号</string>
     <string name="recommand_who_mine_service">我已阅读并同意</string>
     <string name="recommand_who_mine_service_info">《用户注册服务协议》</string>
     <string name="recommand_goods_condition_title">申请条件</string>

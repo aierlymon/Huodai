@@ -158,7 +158,7 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
     @Override
     public void showError(String msg) {
-        CustomToast.showToast(getApplicationContext(), "信息提交异常: " + msg, 2000, Gravity.CENTER);
+        CustomToast.showToast(getApplicationContext(),  msg, 2000, Gravity.CENTER);
     }
 
     @OnClick({R.id.btn_mine_next, R.id.img_back, R.id.tx_mine_service})
@@ -182,10 +182,10 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                             mPresenter.nextStep(ApplicationPrams.loginCallBackBean.getId(), phoneNumber, name, whoName);
                         }
                     } else {
-                        showError("请填写正确的身份证");
+                        showError("请填写正确的身份证号");
                     }
                 } else {
-                    showError("请填写姓名和身份证");
+                    showError("请填写姓名和身份证号");
                 }
 
                 //先提交身份注册按钮
