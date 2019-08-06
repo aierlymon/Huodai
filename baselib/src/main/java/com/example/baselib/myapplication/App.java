@@ -30,7 +30,7 @@ public class App extends Application {
         // 主要是添加下面这句代码
         MultiDex.install(this);
 
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
 
         HttpConstant.context = this.getApplicationContext();
