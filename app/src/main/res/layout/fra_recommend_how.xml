@@ -162,7 +162,7 @@
                         android:id="@+id/tx_howlong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/recommand_borrow"
+                        android:text="@string/recommand_long"
                         android:textColor="@color/recommand_item"
                         android:textSize="@dimen/x14"
                         android:textStyle="bold" />

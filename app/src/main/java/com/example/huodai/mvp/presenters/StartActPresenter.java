@@ -36,6 +36,7 @@ public class StartActPresenter extends BasePresenter<StartActImpl> {
                 .subscribe(new MySubscriber<SplashBean>(this) {
                     @Override
                     public void onSuccess(SplashBean splashBean) {
+                        MyLog.i("广告请求成功: "+splashBean.getData().get(0) );
                         //拿取TOKEN
                         getView().requestComplice();
                         //跳转到广告页面

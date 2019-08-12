@@ -4,14 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
+import com.example.huodai.receiver.MyReceiver;
 import com.example.huodai.ui.adapter.SplashVPAdapter;
+import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Timer;
@@ -23,7 +29,7 @@ import java.util.TimerTask;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    private ViewPager mViewPager;
+    private LoopViewPager loopViewPager;
     private Timer timer;
 
     @Override
@@ -51,8 +57,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initView(List<String> list) {
-
-
         //跳过按钮
         Button btn = ((Button) findViewById(R.id.jump));
         btn.setVisibility(View.VISIBLE);
@@ -65,12 +69,26 @@ public class SplashActivity extends AppCompatActivity {
 
         if(list.size()>0){
             //加载好话筒图
-            mViewPager = ((ViewPager) findViewById(R.id.splash_viewpager));
-            SplashVPAdapter splashVPAdapter = new SplashVPAdapter(this, list);
+            loopViewPager = ((LoopViewPager) findViewById(R.id.splash_viewpager));
+            if (list.size() > 1) {
+                loopViewPager.showIndicator(true);
+                loopViewPager.setDelayTime(5000/(list.size()*2));
+                loopViewPager.startBanner();
+                loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.CENTER);
+            }
+            loopViewPager.setData(this, list, (view, position1, item) -> {
+                view.setScaleType(ImageView.ScaleType.FIT_XY);
+                MyLog.i("banner item icon: " + item);
+                //加载图片，如gide
+                Glide.with(this).load(item).into(view);
+            });
+
+
+          /*  SplashVPAdapter splashVPAdapter = new SplashVPAdapter(this, list);
             splashVPAdapter.setOnItemClickListener(view -> {
                 //点击事件
-            });
-            mViewPager.setAdapter(splashVPAdapter);
+            });*/
+          //  mViewPager.setAdapter(splashVPAdapter);
         }
 
 
@@ -105,4 +123,5 @@ public class SplashActivity extends AppCompatActivity {
         if(timer!=null)
         timer.cancel();
     }
+
 }

@@ -5,7 +5,8 @@ ext {
             minSdkVersion    : 16,
             targetSdkVersion : 27,
             versionCode      : 1,
-            versionName      : "1.0.0"
+            versionName      : "1.0.1",
+            name             : "yundai_v"
     ]
 
     dependVersion = [
@@ -93,9 +94,9 @@ ext {
             "JiaoZiVideoPlayer": "cn.jzvd:jiaozivideoplayer:7.0.4"
     ]
 
-    greendao=[
-            "greendao":"org.greenrobot:greendao:3.1.0",
-            "greendao-generator":"org.greenrobot:greendao-generator:3.1.0"
+    greendao = [
+            "greendao"          : "org.greenrobot:greendao:3.1.0",
+            "greendao-generator": "org.greenrobot:greendao-generator:3.1.0"
     ]
 
 
@@ -105,5 +106,5 @@ ext {
     commonLibs = commonDeps.values()
     zxings = zxing.values()
     otherWidgets = otherWidgets.values()
-    greendao=greendao.values()
+    greendao = greendao.values()
 }

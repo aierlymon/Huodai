@@ -1,6 +1,7 @@
 package com.example.huodai.ui.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopVie
 import com.example.model.bean.NewHomeBannerBean;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int HISTORY = 3;
     private Activity mContext;
     private WebViewBean webViewBean;//EventBus进行WebActivity页面跳转的实体类
+    private BannerHolder bannerHolder;
 
     public HomeFragRevAdapyer(Activity mContext, List<BaseMulDataModel> modelList) {
         this.modelList = modelList;
@@ -71,8 +74,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     public BaseMulViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         switch (viewType) {
             case BANNER:
-                return new BannerHolder(LayoutInflater.from(viewGroup.getContext())
+                bannerHolder= new BannerHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_banner, viewGroup, false));
+                return bannerHolder;
             case MENU:
                 return new MenuHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_menu, viewGroup, false));
@@ -113,6 +117,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     private RecordBean recordBean = new RecordBean();
 
+
+    private boolean isBannerStart;//防止定时器多发
+
     class BannerHolder extends BaseMulViewHolder<HomeFRBannerHolder> {
         @BindView(R.id.banner_viewpager)
         LoopViewPager loopViewPager;
@@ -135,7 +142,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
             if (dataList.size() > 1) {
                 loopViewPager.showIndicator(true);
-                loopViewPager.startBanner();
+                if(!isBannerStart){
+                    loopViewPager.startBanner();
+                }else{
+                    loopViewPager.setCurrentItem(0);
+                }
+                isBannerStart=true;
                 loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
             }
 
@@ -150,9 +162,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     //记录点击
                     if (ApplicationPrams.loginCallBackBean != null) {
                         MyLog.i("执行了提交后台服务器请求的请求");
-                        recordBean.setLoanProductId(dataModel.getNewHomeBannerBean().getBanners().get(position1).getId());
-                        recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
-                        EventBus.getDefault().post(recordBean);
+                        if(!TextUtils.isEmpty(webViewBean.getUrl())){
+                            recordBean.setLoanProductId(dataModel.getNewHomeBannerBean().getBanners().get(position1).getId());
+                            recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                            EventBus.getDefault().post(recordBean);
+                        }
                     }
                     go(view, position1, webViewBean);
                 });
@@ -161,6 +175,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 Glide.with(mContext).load(item).into(view);
             });
         }
+
+
     }
 
     class MenuHolder extends BaseMulViewHolder<HomeFRMenuHolder> {
@@ -281,6 +297,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
             //进行页面跳转
             if (object instanceof WebViewBean) {
+                MyLog.i("触发了条阻焊");
+                if(!TextUtils.isEmpty(((WebViewBean) object).getUrl()))
                 EventBus.getDefault().post(((WebViewBean) object));
             }
 
@@ -289,4 +307,6 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             }
         }
     }
+
+
 }

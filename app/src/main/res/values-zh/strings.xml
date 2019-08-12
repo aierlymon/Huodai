@@ -45,6 +45,7 @@
     <string name="recommand_bigdata">大数据推荐</string>
     <string name="recommand_youneed">为您推荐最适合的贷款产品</string>
     <string name="recommand_borrow">您想借多少？</string>
+    <string name="recommand_long">您想借多久？</string>
     <string name="recommand_mine_warn">*填写借款人本人信息，所填信息仅做预审认证使用</string>
     <string name="recommand_mine_title">个人信息</string>
     <string name="recommand_phone_number">手机号</string>

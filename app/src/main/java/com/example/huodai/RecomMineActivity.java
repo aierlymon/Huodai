@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,9 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
 
     @BindView(R.id.img_back)
     ImageView back;
+
+    @BindView(R.id.isAgree)
+    CheckBox checkAgree;
 
     private SharedPreferences preferences;
 
@@ -168,7 +172,10 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
                 finish();
                 break;
             case R.id.btn_mine_next:
-
+                if(!checkAgree.isChecked()){
+                    showError("未同意用户协议，无法智能推荐！");
+                    return;
+                }
                 String phoneNumber = edPhomeNum.getText().toString().trim();
                 String name = edName.getText().toString().trim();
                 String whoName = edWhoName.getText().toString();

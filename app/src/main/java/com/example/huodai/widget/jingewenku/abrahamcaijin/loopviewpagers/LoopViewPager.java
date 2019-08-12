@@ -153,12 +153,16 @@ public class LoopViewPager<T> extends FrameLayout {
                     return;
                 }
                 mHandler.removeCallbacksAndMessages(null);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    mHandler.getLooper().quitSafely();
-                } else {
-                    mHandler.getLooper().quit();
-                }
-                mHandler = null;
+                try {
+                    MyLog.i("销毁了定时操作: mContext: "+mConttext);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                        mHandler.getLooper().quitSafely();
+                    } else {
+                        mHandler.getLooper().quit();
+                    }
+                    mHandler = null;
+                }catch (Exception e){}
+
             } else {
                 viewPager.setCurrentItem(currentItem);
                 currentItem++;
@@ -226,7 +230,6 @@ public class LoopViewPager<T> extends FrameLayout {
 
 
     public void setData(List<T> mData, final UpdateImage updateImage) {
-
         viewNumber = mData.size();
         initIndicator(getContext());
         LoopViewPagerAdapter loopViewPagerAdapter = new LoopViewPagerAdapter(getContext(), mData, new CreateView() {
@@ -283,6 +286,10 @@ public class LoopViewPager<T> extends FrameLayout {
         mHandler.postDelayed(loopRunnable, delayTime);
     }
 
+    public void setCurrentItem(int currentItem) {
+        this.currentItem = currentItem;
+        viewPager.setCurrentItem(currentItem);
+    }
 
     public void startBanner(long delayTime) {
         this.delayTime = delayTime;
@@ -324,11 +331,8 @@ public class LoopViewPager<T> extends FrameLayout {
         MyLog.i("执行了onAttachedToWindow");
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        //cancelLoop();
-    }
+
+
 
     public void cancelLoop() {
         if (mConttext != null && mConttext.isFinishing()) {
