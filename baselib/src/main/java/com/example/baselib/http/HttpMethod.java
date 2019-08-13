@@ -172,6 +172,10 @@ public class HttpMethod {
         return mMovieService.applyRecords(loanProductId,id);
     }
 
+    public Observable<HttpResult<String>> reservedUv(int loanProductId, int id,String url) {
+        return mMovieService.reservedUv(loanProductId,id,url);
+    }
+
     public Observable<SplashBean> loadSplash() {
         return mMovieService.loadSplash();
     }

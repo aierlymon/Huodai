@@ -71,6 +71,7 @@ public class LoopViewPager<T> extends FrameLayout {
         return mHandler;
     }
 
+
     public enum IndicatorGravity {
         LEFT,
         RIGHT,
@@ -262,10 +263,10 @@ public class LoopViewPager<T> extends FrameLayout {
         layoutParams.setMargins(margins, 0, margins, margins);
 
 
-        if (indicatorCanvasView != null) {
+     /*   if (indicatorCanvasView != null) {
             addView(indicatorCanvasView, layoutParams);
             indicatorCanvasView.initView(viewNumber);
-        }
+        }*/
         if (indicatorView != null) {
             ViewParent vp = indicatorView.getParent();
             if (vp != null) {
@@ -274,9 +275,13 @@ public class LoopViewPager<T> extends FrameLayout {
             }
             addView(indicatorView, layoutParams);
             MyLog.i("initIndicator执行了多少次呢!!");
+
             indicatorView.initView(viewNumber);
         }
     }
+
+
+
 
     public void setDelayTime(long delayTime) {
         this.delayTime = delayTime;

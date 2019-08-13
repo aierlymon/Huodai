@@ -7,6 +7,7 @@ import com.example.baselib.utils.MyLog;
 import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
+import com.example.huodai.mvp.model.postbean.BannerBean;
 import com.example.huodai.mvp.model.postbean.RecordBean;
 import com.example.huodai.mvp.view.HomeFrgViewImpl;
 import com.example.huodai.ui.adapter.base.BaseMulDataModel;
@@ -41,6 +42,11 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     @Subscribe(threadMode = ThreadMode.MAIN)
      public void applyRecord(RecordBean recordBean){
         apply(recordBean.getLoanProductId(),recordBean.getUserId());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reservedUv(BannerBean bannerBean){
+        reservedUv(bannerBean.getBannerId(),bannerBean.getUserId(),bannerBean.getUrl());
     }
 
     List<BaseMulDataModel> list = new ArrayList<>();
@@ -109,6 +115,30 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });
     }
 
+    public void  reservedUv(int bannerId,int userId,String url){
+        HttpMethod.getInstance().reservedUv(bannerId,userId,url)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<String> httpResult) {
+                        if (httpResult.getStatusCode() == 200) {
+                        } else {
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        showError(String.valueOf(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
 
     //请求清单选项卡
     public void requestMenu() {

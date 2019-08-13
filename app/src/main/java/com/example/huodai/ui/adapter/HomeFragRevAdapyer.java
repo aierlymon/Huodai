@@ -22,6 +22,7 @@ import com.example.huodai.mvp.model.HomeFRBannerHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolder;
 import com.example.huodai.mvp.model.HomeFRBodyHolderFH;
 import com.example.huodai.mvp.model.HomeFRMenuHolder;
+import com.example.huodai.mvp.model.postbean.BannerBean;
 import com.example.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.example.huodai.mvp.model.postbean.RecordBean;
 import com.example.huodai.mvp.model.postbean.WebViewBean;
@@ -116,7 +117,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
     private RecordBean recordBean = new RecordBean();
-
+    private BannerBean bannerBean=new BannerBean();
 
     private boolean isBannerStart;//防止定时器多发
 
@@ -163,9 +164,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     if (ApplicationPrams.loginCallBackBean != null) {
                         MyLog.i("执行了提交后台服务器请求的请求");
                         if(!TextUtils.isEmpty(webViewBean.getUrl())){
-                            recordBean.setLoanProductId(dataModel.getNewHomeBannerBean().getBanners().get(position1).getId());
-                            recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
-                            EventBus.getDefault().post(recordBean);
+                            bannerBean.setBannerId(dataModel.getNewHomeBannerBean().getBanners().get(position1).getId());
+                            bannerBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                            bannerBean.setUrl(dataModel.getNewHomeBannerBean().getBanners().get(position1).getUrl());
+                         //   recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
+                            EventBus.getDefault().post(bannerBean);
                         }
                     }
                     go(view, position1, webViewBean);

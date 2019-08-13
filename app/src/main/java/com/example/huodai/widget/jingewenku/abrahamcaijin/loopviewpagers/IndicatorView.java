@@ -31,55 +31,54 @@ public class IndicatorView extends LinearLayout {
     private IndicatorAnimator indicatorAnimator;
 
     public IndicatorView(Context context, int loopNowIndicatorImg,
-        int loopIndicatorImg, IndicatorAnimator indicatorAnimator) {
-        this(context,null);
-        this.loopNowIndicatorImg=loopNowIndicatorImg;
-        this.loopIndicatorImg=loopIndicatorImg;
-        this.indicatorAnimator=indicatorAnimator;
+                         int loopIndicatorImg, IndicatorAnimator indicatorAnimator) {
+        this(context, null);
+        this.loopNowIndicatorImg = loopNowIndicatorImg;
+        this.loopIndicatorImg = loopIndicatorImg;
+        this.indicatorAnimator = indicatorAnimator;
     }
 
     public IndicatorView(Context context, @Nullable AttributeSet attrs) {
-        this(context,attrs,0);
+        this(context, attrs, 0);
     }
 
     public IndicatorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context=context;
+        this.context = context;
         setOrientation(HORIZONTAL);
     }
 
-    private boolean isFirst=true;
 
-    public void initView(int viewSize){
-        if(!isFirst)return;
-        isFirst=false;
-        if(viewSize==1)return;
-        for(int i=0;i<viewSize;i++){
-            ImageView imageView=new ImageView(context);
-            LayoutParams layoutParams=new LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity= Gravity.CENTER;
-            layoutParams.rightMargin=16;
+
+    public void initView(int viewSize) {
+        if (viewSize == 1) return;
+        removeAllViews();
+        for (int i = 0; i < viewSize; i++) {
+            ImageView imageView = new ImageView(context);
+            LayoutParams layoutParams = new LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            layoutParams.rightMargin = 16;
             imageView.setLayoutParams(layoutParams);
-            if(i==0){
+            if (i == 0) {
                 imageView.setImageResource(this.loopNowIndicatorImg);
-            }else{
+            } else {
                 imageView.setImageResource(this.loopIndicatorImg);
             }
             addView(imageView);
         }
     }
 
-    public void changeIndicator(int select){
-        if(getChildCount()==0){
+    public void changeIndicator(int select) {
+        if (getChildCount() == 0) {
             return;
         }
-        for(int i=0;i<getChildCount();i++){
-            ((ImageView)getChildAt(i)).setImageResource(this.loopIndicatorImg);
+        for (int i = 0; i < getChildCount(); i++) {
+            ((ImageView) getChildAt(i)).setImageResource(this.loopIndicatorImg);
         }
-        ImageView imageView=(ImageView)getChildAt(select);
+        ImageView imageView = (ImageView) getChildAt(select);
         imageView.setImageResource(this.loopNowIndicatorImg);
-        if(this.indicatorAnimator!=null){
+        if (this.indicatorAnimator != null) {
             indicatorAnimator.indicatorView(imageView);
         }
     }

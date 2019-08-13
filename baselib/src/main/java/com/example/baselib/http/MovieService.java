@@ -85,6 +85,9 @@ public interface MovieService {
     @GET("applyRecords")
     Observable<HttpResult<String>> applyRecords(@Query("loanProductId") int loanProductId,@Query("userId") int id);
 
+    @GET("reservedUv")
+    Observable<HttpResult<String>> reservedUv(@Query("bannerId") int bannerId,@Query("userId") int id,@Query("url") String url);
+
     @GET("initImg")
     Observable<SplashBean> loadSplash();
 
