@@ -159,9 +159,10 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
     @Override
     public void showError(String msg) {
         CustomToast.showToast(getApplicationContext(), msg, 2000);
-        if (refreshLayout.isRefreshing())
+        if (refreshLayout!=null&&refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
-        if (refreshLayout.isLoading()) {
+        }
+        if(refreshLayout!=null&&refreshLayout.isLoading()){
             refreshLayout.finishLoadMore();
         }
     }

@@ -141,8 +141,12 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
     @Override
     public void showError(String msg) {
         CustomToast.showToast(getApplicationContext(),msg,2000);
-        if (refreshLayout.isRefreshing())
+        if (refreshLayout!=null&&refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+        }
+        if(refreshLayout!=null&&refreshLayout.isLoading()){
+            refreshLayout.finishLoadMore();
+        }
     }
 
     @Override

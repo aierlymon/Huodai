@@ -111,7 +111,14 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void showError(String msg) {
+        if (refreshLayout!=null&&refreshLayout.isRefreshing()) {
+            refreshLayout.finishRefresh();
+        }
+        if(refreshLayout!=null&&refreshLayout.isLoading()){
+            refreshLayout.finishLoadMore();
+        }
         CustomToast.showToast(getContext().getApplicationContext(), msg, 2000);
+
     }
 
     @Override
