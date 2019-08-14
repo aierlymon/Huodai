@@ -1,7 +1,6 @@
 package com.example.huodai.ui.fragments;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -133,7 +132,5 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
     }
-
-
 
 }

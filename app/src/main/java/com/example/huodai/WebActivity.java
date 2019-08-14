@@ -1,11 +1,18 @@
 package com.example.huodai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -14,13 +21,23 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
+import com.example.baselib.http.HttpMethod;
+import com.example.baselib.http.listener.JsDownloadListener;
+import com.example.baselib.utils.DownUtil;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
+
+import java.io.File;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * createBy ${huanghao}
@@ -48,7 +65,7 @@ public class WebActivity extends AppCompatActivity {
         txTitle = ((TextView) findViewById(R.id.tx_title));
         if (!TextUtils.isEmpty(tag)) {
             txTitle.setText(tag);
-        }else{
+        } else {
             txTitle.setVisibility(View.GONE);
         }
 
@@ -122,6 +139,8 @@ public class WebActivity extends AppCompatActivity {
 
         });
 
+        webView.setDownloadListener(new MWebViewDownLoadListener());
+
         //返回键
         mBack = ((ImageView) findViewById(R.id.img_back));
         mBack.setVisibility(View.VISIBLE);
@@ -143,4 +162,70 @@ public class WebActivity extends AppCompatActivity {
             webView.loadUrl(url);
         isLoad = true;
     }
+
+    private ProgressDialog pd;
+
+    private class MWebViewDownLoadListener implements DownloadListener {
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+            String[] names = url.split("/");
+            MyLog.i("MWebViewDownLoadListener url : " + url + "  name " + names[names.length - 1]);
+
+            File file = new File(Environment.getExternalStorageDirectory(), names[names.length - 1]);
+            DownUtil downUtil = new DownUtil(WebActivity.this,new JsDownloadListener(){
+
+                @Override
+                public void onStartDownload(long length) {
+                    runOnUiThread(() -> {
+                        pd = new ProgressDialog(WebActivity.this);
+                        pd.setOnKeyListener((dialog, keyCode, event) -> {
+                            if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+                                return true;
+                            } else {
+                                return false; //默认返回 false
+                            }
+                        });
+                        pd.setTitle("请稍等");
+                        //设置对话进度条样式为水平
+                        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        //设置提示信息
+                        pd.setMessage("正在玩命下载中......");
+                        //设置对话进度条显示在屏幕顶部（方便截图）
+                        pd.getWindow().setGravity(Gravity.CENTER);
+                        pd.setCancelable(false);
+                        pd.setMax(100);
+                        pd.show();//调用show方法显示进度条对话框
+                    });
+                }
+
+                @Override
+                public void onProgress(int progress) {
+                    pd.setProgress(progress);
+                }
+
+                @Override
+                public void onFail(int errorType, String errorInfo) {
+                    pd.dismiss();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyLog.i("检测下载失败: "+errorInfo);
+                            Toast.makeText(WebActivity.this, "检测下载失败: "+errorInfo, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onDownSuccess(Intent intent) {
+                    pd.dismiss();
+                    startActivity(intent);
+                }
+            });
+            downUtil.download(url,file);
+         /*   Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);*/
+        }
+    }
+
 }

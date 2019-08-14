@@ -106,7 +106,7 @@ public class HttpMethod {
 
 
     public Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner() {
-        return mMovieService.loadHomeBanner();
+        return mMovieService.loadHomeBanner(1);
     }
 
     public Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu() {

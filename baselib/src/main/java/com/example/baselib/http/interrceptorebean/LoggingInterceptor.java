@@ -30,6 +30,7 @@ public class LoggingInterceptor implements Interceptor {
             builder.cacheControl(CacheControl.FORCE_CACHE);
         }
         request = builder.build();
+
         MyLog.i("request2: " + request.toString() + " header2: " +request.headers().toString()+": "+App.token);
 
         Response proceed = chain.proceed(request);

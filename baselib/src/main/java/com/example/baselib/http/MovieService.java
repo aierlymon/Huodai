@@ -42,7 +42,7 @@ public interface MovieService {
 
     //就是home页的轮播图banner数据
     @GET("banners")
-    Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner();
+    Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner(@Query("allowClient") int index);
 
     //这个是读取home界面的menu选项卡的请求
     @GET("loanCategories")
@@ -73,6 +73,9 @@ public interface MovieService {
 
     @GET("loanProducts")
     Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte,@Query("limitLlte") int limitLlte,@Query("page") int page);
+
+    @GET("loanProducts")
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("page") int page);
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")
