@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baselib.base.BaseMvpActivity;
+import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.utils.CustomToast;
 import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.StatusBarUtil;
@@ -103,6 +104,14 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             MyLog.i("我触发了上拉加载更多");
+         /*   if(NetWorkStateBroadcast.isOnline.get()){
+                currentPage++;
+                mPresenter.loadHistory(ApplicationPrams.loginCallBackBean.getId());
+            }else{
+                if (refreshLayout.isLoading()) {
+                    refreshLayout.finishLoadMore();
+                }
+            }*/
             //currentPage++;
             refreshLayout.finishLoadMore();
           //  mPresenter.loadHistory(0, recomBean.getMoneyMin(),recomBean.getMoneyMax(), currentPage);
@@ -146,7 +155,10 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
 
     @Override
     public void addPage(List<BaseMulDataModel> list) {
-
+        fragRevAdapyer.notifyDataSetChanged();
+        if (refreshLayout.isLoading()) {
+            refreshLayout.finishLoadMore();
+        }
     }
 
     @OnClick({R.id.img_back})

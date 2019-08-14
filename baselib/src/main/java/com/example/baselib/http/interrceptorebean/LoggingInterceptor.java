@@ -7,6 +7,7 @@ import com.example.baselib.utils.MyLog;
 import java.io.IOException;
 
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,15 +21,29 @@ public class LoggingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        String method = request.method();
         Request.Builder builder = request.newBuilder();
         builder.addHeader("token", App.token);
         //当没有网络时
         if (!NetWorkStateBroadcast.isOnline.get()) {
-            MyLog.i("我进来了没有网络");
             //CacheControl.FORCE_CACHE; //仅仅使用缓存
             //CacheControl.FORCE_NETWORK;// 仅仅使用网络
             builder.cacheControl(CacheControl.FORCE_CACHE);
         }
+
+        //如果是GET请求
+      /*  if ("GET".equals(method)) {
+
+        }*/
+
+        HttpUrl.Builder commonParamsUrlBuilder = request.url()
+                .newBuilder()
+                .scheme(request.url().scheme())
+                .host(request.url().host())
+                .setQueryParameter("allowClient","1");
+        builder .method(request.method(), request.body());
+        builder .url(commonParamsUrlBuilder.build());
+
         request = builder.build();
 
         MyLog.i("request2: " + request.toString() + " header2: " +request.headers().toString()+": "+App.token);

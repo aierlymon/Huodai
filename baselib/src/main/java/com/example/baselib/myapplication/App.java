@@ -3,11 +3,13 @@ package com.example.baselib.myapplication;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
 import com.example.baselib.broadcast.NetWorkStateBroadcast;
 import com.example.baselib.http.HttpConstant;
+import com.example.baselib.utils.MyLog;
 import com.example.baselib.utils.Utils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -30,8 +32,14 @@ public class App extends Application {
         // 主要是添加下面这句代码
         MultiDex.install(this);
 
+
+
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
+
+        //获取注册的推送ID
+      /*  String registrationId = JPushInterface.getRegistrationID(this);
+        MyLog.i("极光推送注册ID："+registrationId);*/
 
         HttpConstant.context = this.getApplicationContext();
         NetWorkStateBroadcast.isOnline.set(Utils.isNetworkConnected(this));

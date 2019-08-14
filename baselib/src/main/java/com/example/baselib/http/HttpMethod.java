@@ -77,9 +77,13 @@ public class HttpMethod {
 
 
 
+            //缓存拦截器
             builder.addInterceptor(new LoggingInterceptor());
             // 错误重连拦截器
             builder.addInterceptor(new RetryInterceptor(3, DEFAULT_TIME_OUT));
+            //公共参数拦截器
+
+
          /*   if (BuildConfig.DEBUG) {
             }*/
             OkHttpClient okHttpClient = builder.build();
@@ -106,7 +110,7 @@ public class HttpMethod {
 
 
     public Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner() {
-        return mMovieService.loadHomeBanner(1);
+        return mMovieService.loadHomeBanner();
     }
 
     public Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu() {

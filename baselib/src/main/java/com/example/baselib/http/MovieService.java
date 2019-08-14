@@ -42,7 +42,7 @@ public interface MovieService {
 
     //就是home页的轮播图banner数据
     @GET("banners")
-    Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner(@Query("allowClient") int index);
+    Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner();
 
     //这个是读取home界面的menu选项卡的请求
     @GET("loanCategories")
