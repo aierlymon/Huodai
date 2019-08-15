@@ -6,7 +6,7 @@ ext {
             targetSdkVersion : 27,
             versionCode      : 1,
             versionName      : "1.0.1",
-            name             : "yundai_v"
+            name             : "yunyan_v"
     ]
 
     dependVersion = [
