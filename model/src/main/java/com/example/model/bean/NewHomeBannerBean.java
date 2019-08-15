@@ -7,6 +7,16 @@ public class NewHomeBannerBean {
 
     private List<BannersBean> banners;
 
+    private String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     public List<BannersBean> getBanners() {
         return banners;
     }
@@ -23,6 +33,7 @@ public class NewHomeBannerBean {
          * url : http://tang.rontloan.cn/yuan?inviteCode=xiaxia1123
          * open : true
          * createTime : 1561905152
+         * allowClient:1
          */
 
         private int id;
@@ -31,6 +42,15 @@ public class NewHomeBannerBean {
         private String url;
         private boolean open;
         private int createTime;
+        private int allowClient;
+
+        public int getAllowClient() {
+            return allowClient;
+        }
+
+        public void setAllowClient(int allowClient) {
+            this.allowClient = allowClient;
+        }
 
         public int getId() {
             return id;

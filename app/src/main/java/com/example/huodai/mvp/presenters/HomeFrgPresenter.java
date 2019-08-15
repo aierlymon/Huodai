@@ -15,6 +15,8 @@ import com.example.model.bean.HttpResult;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.NewRecordsBean;
+import com.example.model.bean.NewReservedUvBean;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -65,6 +67,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     public void onSuccess(HttpResult<NewHomeBannerBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                             NewHomeBannerBean homeHeadBean = httpResult.getData();
+                            MyLog.i("HomeFRBannerHolder info: "+homeHeadBean.getInfo());
                             HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
                             homeFRBannerHolder.setNewHomeBannerBean(homeHeadBean);//这个预留出来的page,pageCout而已，其实都一样最好的
                             if(list.size()>=3){
@@ -94,9 +97,9 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
         HttpMethod.getInstance().applyRecords(loanProductId,id)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                .subscribe(new MySubscriber<HttpResult<NewRecordsBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<String> httpResult) {
+                    public void onSuccess(HttpResult<NewRecordsBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
@@ -119,9 +122,9 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
         HttpMethod.getInstance().reservedUv(bannerId,userId,url)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                .subscribe(new MySubscriber<HttpResult<NewReservedUvBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<String> httpResult) {
+                    public void onSuccess(HttpResult<NewReservedUvBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
@@ -149,10 +152,9 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
-                            MyLog.i("requestMenuc成功了");
                             HomeFRMenuHolder homeFRMenuHolder = new HomeFRMenuHolder();
                             //这个地方因为和商品的筛选是动态的，所以这个也要是动态
-
+                            MyLog.i("requestMenu info: "+httpResult.getData().getInfo());
                             homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
                             homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
                             if(list.size()>=3){
@@ -187,6 +189,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                             HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
+                            MyLog.i("requestBody info: "+httpResult.getData().getInfo());
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
                             if(list.size()>=3){
                                 list.clear();

@@ -1,5 +1,6 @@
 package com.example.baselib.http;
 
+import com.example.model.bean.EditUserBean;
 import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.baselib.http.interrceptorebean.LoggingInterceptor;
@@ -8,9 +9,12 @@ import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.NewRecordsBean;
+import com.example.model.bean.NewReservedUvBean;
 import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
+import com.example.model.bean.VerifyCodeBean;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -149,7 +153,7 @@ public class HttpMethod {
     }
 
 
-    public Observable<HttpResult<JsonObject>> getVerificationCode(String number) {
+    public Observable<HttpResult<VerifyCodeBean>> getVerificationCode(String number) {
         JSONObject root = new JSONObject();
         try {
             root.put("phone", number);
@@ -172,11 +176,11 @@ public class HttpMethod {
         return mMovieService.requestLogin(requestBody);
     }
 
-    public Observable<HttpResult<String>> applyRecords(int loanProductId, int id) {
+    public Observable<HttpResult<NewRecordsBean>> applyRecords(int loanProductId, int id) {
         return mMovieService.applyRecords(loanProductId,id);
     }
 
-    public Observable<HttpResult<String>> reservedUv(int loanProductId, int id,String url) {
+    public Observable<HttpResult<NewReservedUvBean>> reservedUv(int loanProductId, int id, String url) {
         return mMovieService.reservedUv(loanProductId,id,url);
     }
 
@@ -188,7 +192,7 @@ public class HttpMethod {
         return mMovieService.loadRecomnStaet();
     }
 
-    public Observable<HttpResult<String>> editUserMsg(String id,String phoneNum,String name,String whoNum){
+    public Observable<HttpResult<EditUserBean>> editUserMsg(String id, String phoneNum, String name, String whoNum){
         JSONObject root = new JSONObject();
         try {
             root.put("userId", id);
@@ -202,7 +206,7 @@ public class HttpMethod {
         return mMovieService.editUserMsg(requestBody);
     }
 
-    public  Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(int id){
+    public  Observable<HttpResult<HistoryBean>> userApplyRecordsList(int id){
         return mMovieService.userApplyRecordsList(1,id);
     }
 }

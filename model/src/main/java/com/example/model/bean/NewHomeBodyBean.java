@@ -10,6 +10,16 @@ public class NewHomeBodyBean {
         return loanProduct;
     }
 
+    private String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     public void setLoanProduct(List<LoanProductBean> loanProduct) {
         this.loanProduct = loanProduct;
     }

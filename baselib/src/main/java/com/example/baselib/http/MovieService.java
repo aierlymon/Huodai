@@ -1,15 +1,19 @@
 package com.example.baselib.http;
 
 
+import com.example.model.bean.EditUserBean;
 import com.example.model.bean.HistoryBean;
 import com.example.model.bean.HttpResult;
 import com.example.model.bean.LoginCallBackBean;
 import com.example.model.bean.NewHomeBannerBean;
 import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
+import com.example.model.bean.NewRecordsBean;
+import com.example.model.bean.NewReservedUvBean;
 import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
+import com.example.model.bean.VerifyCodeBean;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -79,17 +83,17 @@ public interface MovieService {
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")
-    Observable<HttpResult<JsonObject>> getVerificationCode(@Body RequestBody requestBody);
+    Observable<HttpResult<VerifyCodeBean>> getVerificationCode(@Body RequestBody requestBody);
 
-    @POST("quickLogin")
+    @POST("users/quickLogin")
     Observable<HttpResult<LoginCallBackBean>> requestLogin(@Body RequestBody requestBody);
 
 
     @GET("applyRecords")
-    Observable<HttpResult<String>> applyRecords(@Query("loanProductId") int loanProductId,@Query("userId") int id);
+    Observable<HttpResult<NewRecordsBean>> applyRecords(@Query("loanProductId") int loanProductId, @Query("userId") int id);
 
     @GET("reservedUv")
-    Observable<HttpResult<String>> reservedUv(@Query("bannerId") int bannerId,@Query("userId") int id,@Query("url") String url);
+    Observable<HttpResult<NewReservedUvBean>> reservedUv(@Query("bannerId") int bannerId, @Query("userId") int id, @Query("url") String url);
 
     @GET("initImg")
     Observable<SplashBean> loadSplash();
@@ -97,10 +101,10 @@ public interface MovieService {
     @GET("auditMsg")
     Observable<RecommandStateBean> loadRecomnStaet();
 
-    @POST("editUserMsg")
-    Observable<HttpResult<String>> editUserMsg(@Body RequestBody requestBody);
+    @POST("users/editUserMsg")
+    Observable<HttpResult<EditUserBean>> editUserMsg(@Body RequestBody requestBody);
 
     //或取home页内容最多的body内容
     @GET("userApplyRecordsList")
-    Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
+    Observable<HttpResult<HistoryBean>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
 }

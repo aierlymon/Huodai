@@ -3,7 +3,9 @@ package com.example.huodai.mvp.presenters;
 import com.example.baselib.http.HttpMethod;
 import com.example.baselib.http.myrxsubcribe.MySubscriber;
 import com.example.baselib.mvp.BasePresenter;
+import com.example.baselib.utils.MyLog;
 import com.example.huodai.mvp.view.RecomMineImpl;
+import com.example.model.bean.EditUserBean;
 import com.example.model.bean.HttpResult;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,10 +27,11 @@ public class RecomMinePresenter extends BasePresenter<RecomMineImpl> {
         HttpMethod.getInstance().editUserMsg(String.valueOf(id),phoneNumber,name,whoName)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                .subscribe(new MySubscriber<HttpResult<EditUserBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<String> httpResult) {
+                    public void onSuccess(HttpResult<EditUserBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
+                            MyLog.i("editUserMsg查看到登录径路： info: "+httpResult.getData().getInfo());
                             getView().nextStep();
                         } else {
                             showError(httpResult.getMsg()+":"+httpResult.getStatusCode());

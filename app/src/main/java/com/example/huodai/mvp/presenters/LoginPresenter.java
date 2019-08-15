@@ -10,6 +10,7 @@ import com.example.baselib.utils.Utils;
 import com.example.huodai.ApplicationPrams;
 import com.example.huodai.mvp.view.LoginViewimpl;
 import com.example.model.bean.LoginCallBackBean;
+import com.example.model.bean.VerifyCodeBean;
 import com.google.gson.JsonObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -40,9 +41,9 @@ public class LoginPresenter extends BasePresenter<LoginViewimpl> {
             HttpMethod.getInstance().getVerificationCode(number)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new MySubscriber<HttpResult<JsonObject>>(this) {
+                    .subscribe(new MySubscriber<HttpResult<VerifyCodeBean>>(this) {
                         @Override
-                        public void onSuccess(HttpResult<JsonObject> httpResult) {
+                        public void onSuccess(HttpResult<VerifyCodeBean> httpResult) {
                             if (httpResult.getStatusCode() == 200) {
                                 //拿去到了验证吗
                             } else {

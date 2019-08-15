@@ -8,13 +8,13 @@ import java.util.List;
 
 //这个因为其实和HomeFRBodyHolder一样的效果，但是就是返回数据的数据结构变了，所以要多加一个model
 public class HomeFRBodyHolderFH extends BaseMulDataModel {
-    List<HistoryBean> homeBodyBeanList;
+    List<HistoryBean.RListBean> homeBodyBeanList;
 
-    public List<HistoryBean> getHomeBodyBeanList() {
+    public List<HistoryBean.RListBean> getHomeBodyBeanList() {
         return homeBodyBeanList;
     }
 
-    public void setHomeBodyBeanList(List<HistoryBean> homeBodyBeanList) {
+    public void setHomeBodyBeanList(List<HistoryBean.RListBean> homeBodyBeanList) {
         this.homeBodyBeanList = homeBodyBeanList;
     }
 }

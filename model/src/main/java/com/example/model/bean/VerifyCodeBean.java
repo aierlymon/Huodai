@@ -2,13 +2,16 @@ package com.example.model.bean;
 
 public class VerifyCodeBean {
 
+
     /**
-     * code : XXXXXXXX
-     * phone : XXXXXXXX
+     * code : 8132
+     * phone : 13060600609
+     * message : 发送成功
      */
 
     private String code;
     private String phone;
+    private String message;
 
     public String getCode() {
         return code;
@@ -24,5 +27,13 @@ public class VerifyCodeBean {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

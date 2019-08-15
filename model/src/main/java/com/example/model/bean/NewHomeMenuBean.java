@@ -10,6 +10,16 @@ public class NewHomeMenuBean {
      * pageCount : 5
      */
 
+    private String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     private int page;
     private int pageCount;
     private List<LoanCategoriesBean> loanCategories;
@@ -50,6 +60,15 @@ public class NewHomeMenuBean {
         private String name;
         private String icon;
         private int createTime;
+        private int allowClient;
+
+        public int getAllowClient() {
+            return allowClient;
+        }
+
+        public void setAllowClient(int allowClient) {
+            this.allowClient = allowClient;
+        }
 
         public int getId() {
             return id;

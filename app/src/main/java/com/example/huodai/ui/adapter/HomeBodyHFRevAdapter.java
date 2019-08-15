@@ -24,7 +24,7 @@ import java.util.List;
 public class HomeBodyHFRevAdapter extends RecyclerView.Adapter<HomeBodyHFRevAdapter.BodyItemHold> implements View.OnClickListener {
 
     private Context mContext;
-    private List<HistoryBean> homeBodyBeanList;
+    private List<HistoryBean.RListBean> homeBodyBeanList;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
@@ -37,7 +37,7 @@ public class HomeBodyHFRevAdapter extends RecyclerView.Adapter<HomeBodyHFRevAdap
 
     private OnItemClickListener mOnItemClickListener;
 
-    public HomeBodyHFRevAdapter(Context mContext, List<HistoryBean> homeBodyBeanList) {
+    public HomeBodyHFRevAdapter(Context mContext, List<HistoryBean.RListBean> homeBodyBeanList) {
         this.mContext = mContext;
         this.homeBodyBeanList = homeBodyBeanList;
     }
@@ -60,7 +60,7 @@ public class HomeBodyHFRevAdapter extends RecyclerView.Adapter<HomeBodyHFRevAdap
 
     @Override
     public void onBindViewHolder(@NonNull BodyItemHold holder, int position) {
-        HistoryBean historyBean= homeBodyBeanList.get(position);
+        HistoryBean.RListBean historyBean= homeBodyBeanList.get(position);
         String icon_url = HttpConstant.BASE_URL + homeBodyBeanList.get(position).getIcon();
 
         RequestOptions options = new RequestOptions();

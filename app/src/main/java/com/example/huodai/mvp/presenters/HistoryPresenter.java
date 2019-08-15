@@ -38,12 +38,13 @@ public class HistoryPresenter extends BasePresenter<HistoryImpl> {
         HttpMethod.getInstance().userApplyRecordsList(id)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<List<HistoryBean>>>(this) {
+                .subscribe(new MySubscriber<HttpResult<HistoryBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<List<HistoryBean>> httpResult) {
+                    public void onSuccess(HttpResult<HistoryBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
+                            MyLog.i("userApplyRecordsList info: "+httpResult.getData().getInfo());
                             HomeFRBodyHolderFH homeFRBodyHolder = new HomeFRBodyHolderFH();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getRList());
                             list.clear();
                             list.add(homeFRBodyHolder);
                             getView().refreshHistory(list);

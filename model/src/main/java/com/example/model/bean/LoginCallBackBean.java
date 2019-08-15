@@ -9,6 +9,16 @@ public class LoginCallBackBean {
 
     private UserBean user;
     private String token;
+    private String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
 
     public UserBean getUser() {
         return user;
