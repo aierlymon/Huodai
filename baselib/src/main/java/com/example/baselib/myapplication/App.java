@@ -3,6 +3,7 @@ package com.example.baselib.myapplication;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.multidex.MultiDex;
@@ -65,5 +66,28 @@ public class App extends Application {
 
     public RefWatcher getRefWatcher(Context context) {
         return mRefWatcher;
+    }
+
+    public static String getDeviceID() {
+        String deviceID= "";
+        try{
+            //一共13位  如果位数不够可以继续添加其他信息
+            deviceID= ""+ Build.BOARD.length() % 10 + "-"+Build.BRAND.length() % 10 +"-"+
+
+                    Build.CPU_ABI.length() % 10 + "-"+Build.DEVICE.length() % 10 +"-"+
+
+                    Build.DISPLAY.length() % 10 +"-"+ Build.HOST.length() % 10 +"-"+
+
+                    Build.ID.length() % 10 +"-"+ Build.MANUFACTURER.length() % 10 +"-"+
+
+                    Build.MODEL.length() % 10 +"-"+ Build.PRODUCT.length() % 10 +"-"+
+
+                    Build.TAGS.length() % 10 +"-"+ Build.TYPE.length() % 10 +"-"+
+
+                    Build.USER.length() % 10+ "-"+Build.SERIAL;
+        }catch (Exception e){
+            return "";
+        }
+        return deviceID;
     }
 }

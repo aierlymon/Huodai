@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -49,6 +50,18 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
             finish();
             return;
         }
+
+       SharedPreferences preferences = getSharedPreferences("cache", MODE_PRIVATE);
+        boolean isFirstRun=preferences.getBoolean("isFirstRun", true);
+        if(isFirstRun){
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putBoolean("isFirstRun", false);
+            editor.commit();
+            //提交设备唯一ID标示
+            MyLog.i("my deviceId: "+ ((App) getApplicationContext()).getDeviceID());
+        }else{
+        }
+
 
 
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
