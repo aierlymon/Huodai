@@ -8,9 +8,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/my_login_color" />
+        android:background="@color/daohang_clolor" />
 
-    <com.example.baselib.widget.StatusBarHeightView
+    <com.linglong.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
@@ -77,7 +77,7 @@
                         android:textStyle="bold" />
 
                     <!--你想借多少里面的选项卡-->
-                    <com.example.huodai.widget.FlowRadioGroup
+                    <com.linglong.huodai.widget.FlowRadioGroup
                         android:id="@+id/group_howmuch"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y75"
@@ -148,7 +148,7 @@
                             android:text="@string/money_limit_5"
                             android:textSize="@dimen/x12"
                             android:textAlignment="center" />
-                    </com.example.huodai.widget.FlowRadioGroup>
+                    </com.linglong.huodai.widget.FlowRadioGroup>
 
                 </LinearLayout>
 
@@ -167,7 +167,7 @@
                         android:textSize="@dimen/x14"
                         android:textStyle="bold" />
 
-                    <com.example.huodai.widget.FlowRadioGroup
+                    <com.linglong.huodai.widget.FlowRadioGroup
                         android:id="@+id/group_howlong"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y75"
@@ -251,7 +251,7 @@
                             android:text="@string/date_limit_6"
                             android:textSize="@dimen/x12"
                             android:textAlignment="center" />
-                    </com.example.huodai.widget.FlowRadioGroup>
+                    </com.linglong.huodai.widget.FlowRadioGroup>
 
 
                 </LinearLayout>
@@ -276,7 +276,7 @@
         </LinearLayout>
 
 
-    </com.example.baselib.widget.StatusBarHeightView>
+    </com.linglong.baselib.widget.StatusBarHeightView>
 
 
 </RelativeLayout>

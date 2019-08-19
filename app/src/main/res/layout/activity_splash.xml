@@ -7,7 +7,7 @@
 
 
 
-    <com.example.baselib.widget.StatusBarHeightView
+    <com.linglong.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.example.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager
+            <com.linglong.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager
                 android:id="@+id/splash_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -34,7 +34,7 @@
         </RelativeLayout>
 
 
-    </com.example.baselib.widget.StatusBarHeightView>
+    </com.linglong.baselib.widget.StatusBarHeightView>
 
     <ImageView
         android:layout_width="45dp"
@@ -42,5 +42,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
-        android:src="@mipmap/splash_icon" />
+        android:src="@mipmap/lllogo" />
 </RelativeLayout>

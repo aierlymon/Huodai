@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "com.example.huodai"
+        applicationId "com.linglong.huodai"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -23,8 +23,9 @@ android {
         /*极光推送的配置*/
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "7b180b7f268faaf697bfcb8a", //JPush 上注册的包名对应的 Appkey.
-               // JPUSH_APPKEY : "4f101278138ec612ecd2825d", //JPush 上注册的包名对应的 Appkey.
+               // JPUSH_APPKEY : "7b180b7f268faaf697bfcb8a", //JPush 上注册的包名对应的 Appkey.
+              //  JPUSH_APPKEY : "4f101278138ec612ecd2825d", //JPush 上注册的包名对应的 Appkey(我自己的云燕).
+                JPUSH_APPKEY : "cc448864b93ec440f79c761d", //JPush 上注册的包名对应的 Appkey(我自己的玲珑).
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
 
