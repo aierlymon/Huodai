@@ -5,9 +5,13 @@ import java.util.List;
 public class NewHomeBannerBean {
 
 
-    private List<BannersBean> banners;
+    /**
+     * banners : [{"id":3,"title":"对滴","icon":"/group1/default/20190725/14/48/8/云燕轮播.jpg","url":"www.baidu.com","open":1,"createTime":1561905152,"allowClient":"0,1,2"}]
+     * info : 获取成功！
+     */
 
     private String info;
+    private List<BannersBean> banners;
 
     public String getInfo() {
         return info;
@@ -28,29 +32,21 @@ public class NewHomeBannerBean {
     public static class BannersBean {
         /**
          * id : 3
-         * title : 快速下款
-         * icon : /group1/default/20190630/22/32/8/微信图片_20190417112246.png
-         * url : http://tang.rontloan.cn/yuan?inviteCode=xiaxia1123
-         * open : true
+         * title : 对滴
+         * icon : /group1/default/20190725/14/48/8/云燕轮播.jpg
+         * url : www.baidu.com
+         * open : 1
          * createTime : 1561905152
-         * allowClient:1
+         * allowClient : 0,1,2
          */
 
         private int id;
         private String title;
         private String icon;
         private String url;
-        private boolean open;
+        private int open;
         private int createTime;
-        private int allowClient;
-
-        public int getAllowClient() {
-            return allowClient;
-        }
-
-        public void setAllowClient(int allowClient) {
-            this.allowClient = allowClient;
-        }
+        private String allowClient;
 
         public int getId() {
             return id;
@@ -84,11 +80,11 @@ public class NewHomeBannerBean {
             this.url = url;
         }
 
-        public boolean isOpen() {
+        public int getOpen() {
             return open;
         }
 
-        public void setOpen(boolean open) {
+        public void setOpen(int open) {
             this.open = open;
         }
 
@@ -99,6 +95,13 @@ public class NewHomeBannerBean {
         public void setCreateTime(int createTime) {
             this.createTime = createTime;
         }
-    }
 
+        public String getAllowClient() {
+            return allowClient;
+        }
+
+        public void setAllowClient(String allowClient) {
+            this.allowClient = allowClient;
+        }
+    }
 }

@@ -17,7 +17,7 @@ public abstract class HttpConstant {
     //http://tuershiting.com/api/
     // public static String BASE_API_URL = BASE_URL+"api/";
 
-    public static String BASE_API_URL = BASE_URL + "newApi/";
+    public static String BASE_API_URL = BASE_URL + "newApiDev/";
 
     public static Context context;
 
