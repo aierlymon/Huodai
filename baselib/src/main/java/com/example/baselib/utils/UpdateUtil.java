@@ -93,7 +93,7 @@ public class UpdateUtil implements LifecycleObserver {
                     @Override
                     public void onNext(UpdateBean updateBean) {
                         //拿到新的版本号
-                        int newVersionCode = updateBean.getVersionCode();
+                        int newVersionCode = updateBean.getVersion_code();
                         int versionCode = PackageUtils.getVersionCode(context);
                         if (newVersionCode > versionCode) {
                             //弹出更新框
@@ -174,12 +174,12 @@ public class UpdateUtil implements LifecycleObserver {
 
     private void showDialog(Context context, UpdateBean updateBean) {
         builder = UpdateDialog.Builder(context)
-                .setTitle("是否更新到版本: " + updateBean.getVersionName())
-                .setMessage("更新内容为" + updateBean.getUpdateLog() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
+                .setTitle("是否更新到版本: " + updateBean.getVersion_name())
+                .setMessage("更新内容为" + updateBean.getUpdate_log() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
                 .setOnConfirmClickListener("确定", view -> {
                     //开始下载文件
                     File file = new File(getApkPath(),updateBean.getApk_name());
-                    download(updateBean.getApkUrl(), file, new Observer() {
+                    download(updateBean.getApk_url(), file, new Observer() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             mCompositeDisposable.add(d);
@@ -268,12 +268,12 @@ public class UpdateUtil implements LifecycleObserver {
     //测试工具类用的
     public void testUpdate(Context context, UpdateBean updateBean) {
         builder = UpdateDialog.Builder(context)
-                .setTitle("是否更新到版本: " + updateBean.getVersionName())
-                .setMessage("更新内容为" + updateBean.getUpdateLog() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
+                .setTitle("是否更新到版本: " + updateBean.getVersion_name())
+                .setMessage("更新内容为" + updateBean.getUpdate_log() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
                 .setOnConfirmClickListener("确定", view -> {
                     //开始下载文件
                     File file = new File(getApkPath(),updateBean.getApk_name());
-                    download(updateBean.getApkUrl(), file, new Observer() {
+                    download(updateBean.getApk_url(), file, new Observer() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             mCompositeDisposable.add(d);

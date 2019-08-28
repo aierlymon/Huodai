@@ -6,13 +6,13 @@ package com.example.model.bean;
  */
 public class UpdateBean {
     //新版本号
-    private int versionCode;
+    private int version_code;
     //版本名
-    private String versionName;
+    private String version_name;
     //新app下载地址
-    private String apkUrl;
+    private String apk_url;
     //更新日志
-    private String updateLog;
+    private String update_log;
     //配置默认更新dialog 的title
     private String update_def_dialog_title;
     //新app大小
@@ -24,44 +24,36 @@ public class UpdateBean {
     //apk的名字
     private String apk_name;
 
-    public String getApk_name() {
-        return apk_name;
+    public int getVersion_code() {
+        return version_code;
     }
 
-    public void setApk_name(String apk_name) {
-        this.apk_name = apk_name;
+    public void setVersion_code(int version_code) {
+        this.version_code = version_code;
     }
 
-    public int getVersionCode() {
-        return versionCode;
+    public String getVersion_name() {
+        return version_name;
     }
 
-    public void setVersionCode(int versionCode) {
-        this.versionCode = versionCode;
+    public void setVersion_name(String version_name) {
+        this.version_name = version_name;
     }
 
-    public String getVersionName() {
-        return versionName;
+    public String getApk_url() {
+        return apk_url;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setApk_url(String apk_url) {
+        this.apk_url = apk_url;
     }
 
-    public String getApkUrl() {
-        return apkUrl;
+    public String getUpdate_log() {
+        return update_log;
     }
 
-    public void setApkUrl(String apkUrl) {
-        this.apkUrl = apkUrl;
-    }
-
-    public String getUpdateLog() {
-        return updateLog;
-    }
-
-    public void setUpdateLog(String updateLog) {
-        this.updateLog = updateLog;
+    public void setUpdate_log(String update_log) {
+        this.update_log = update_log;
     }
 
     public String getUpdate_def_dialog_title() {
@@ -94,5 +86,13 @@ public class UpdateBean {
 
     public void setNew_md5(String new_md5) {
         this.new_md5 = new_md5;
+    }
+
+    public String getApk_name() {
+        return apk_name;
+    }
+
+    public void setApk_name(String apk_name) {
+        this.apk_name = apk_name;
     }
 }
