@@ -17,6 +17,7 @@ import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
 import com.example.model.bean.NewRecordsBean;
 import com.example.model.bean.NewReservedUvBean;
+import com.example.model.bean.NoteBean;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -48,7 +49,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reservedUv(BannerBean bannerBean){
-        reservedUv(bannerBean.getBannerId(),bannerBean.getUserId(),bannerBean.getUrl());
+        reservedUv(bannerBean.getBannerId());
     }
 
     List<BaseMulDataModel> list = new ArrayList<>();
@@ -118,13 +119,13 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });
     }
 
-    public void  reservedUv(int bannerId,int userId,String url){
-        HttpMethod.getInstance().reservedUv(bannerId,userId,url)
+    public void  reservedUv(int bannerId){
+        HttpMethod.getInstance().noteBanner(bannerId)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewReservedUvBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<NoteBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewReservedUvBean> httpResult) {
+                    public void onSuccess(HttpResult<NoteBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());

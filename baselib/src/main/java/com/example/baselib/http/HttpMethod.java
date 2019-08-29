@@ -11,6 +11,7 @@ import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
 import com.example.model.bean.NewRecordsBean;
 import com.example.model.bean.NewReservedUvBean;
+import com.example.model.bean.NoteBean;
 import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
@@ -204,5 +205,9 @@ public class HttpMethod {
 
     public  Observable<HttpResult<HistoryBean>> userApplyRecordsList(int id){
         return mMovieService.userApplyRecordsList(1,id);
+    }
+
+    public  Observable<HttpResult<NoteBean>> noteBanner(int bannerId){
+        return mMovieService.noteBanner(bannerId);
     }
 }

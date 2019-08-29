@@ -10,6 +10,7 @@ import com.example.model.bean.NewHomeBodyBean;
 import com.example.model.bean.NewHomeMenuBean;
 import com.example.model.bean.NewRecordsBean;
 import com.example.model.bean.NewReservedUvBean;
+import com.example.model.bean.NoteBean;
 import com.example.model.bean.RecommandStateBean;
 import com.example.model.bean.SplashBean;
 import com.example.model.bean.UpdateBean;
@@ -107,5 +108,6 @@ public interface MovieService {
     @GET("userApplyRecordsList")
     Observable<HttpResult<HistoryBean>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
 
-
+    @GET("addBannerLog")
+    Observable<HttpResult<NoteBean>> noteBanner(@Query("id") int bannerId);
 }
