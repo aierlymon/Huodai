@@ -40,7 +40,7 @@ public class LoggingInterceptor implements Interceptor {
                 .newBuilder()
                 .scheme(request.url().scheme())
                 .host(request.url().host())
-                .setQueryParameter("allowClient","1");
+                .setQueryParameter("allowClient","4");
         builder .method(request.method(), request.body());
         builder .url(commonParamsUrlBuilder.build());
 

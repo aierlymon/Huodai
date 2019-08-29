@@ -11,6 +11,7 @@ import com.linglong.model.bean.NewHomeBodyBean;
 import com.linglong.model.bean.NewHomeMenuBean;
 import com.linglong.model.bean.NewRecordsBean;
 import com.linglong.model.bean.NewReservedUvBean;
+import com.linglong.model.bean.NoteBean;
 import com.linglong.model.bean.RecommandStateBean;
 import com.linglong.model.bean.SplashBean;
 import com.linglong.model.bean.VerifyCodeBean;
@@ -173,9 +174,6 @@ public class HttpMethod {
         return mMovieService.applyRecords(loanProductId,id);
     }
 
-    public Observable<HttpResult<NewReservedUvBean>> reservedUv(int loanProductId, int id, String url) {
-        return mMovieService.reservedUv(loanProductId,id,url);
-    }
 
     public Observable<SplashBean> loadSplash() {
         return mMovieService.loadSplash();
@@ -201,5 +199,9 @@ public class HttpMethod {
 
     public  Observable<HttpResult<HistoryBean>> userApplyRecordsList(int id){
         return mMovieService.userApplyRecordsList(1,id);
+    }
+
+    public  Observable<HttpResult<NoteBean>> noteBanner(){
+        return mMovieService.noteBanner();
     }
 }

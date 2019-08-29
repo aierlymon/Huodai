@@ -10,6 +10,7 @@ import com.linglong.model.bean.NewHomeBodyBean;
 import com.linglong.model.bean.NewHomeMenuBean;
 import com.linglong.model.bean.NewRecordsBean;
 import com.linglong.model.bean.NewReservedUvBean;
+import com.linglong.model.bean.NoteBean;
 import com.linglong.model.bean.RecommandStateBean;
 import com.linglong.model.bean.SplashBean;
 import com.linglong.model.bean.UpdateBean;
@@ -104,5 +105,9 @@ public interface MovieService {
     @GET("userApplyRecordsList")
     Observable<HttpResult<HistoryBean>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
 
+
+
+    @GET("addBannerLog")
+    Observable<HttpResult<NoteBean>> noteBanner();
 
 }
