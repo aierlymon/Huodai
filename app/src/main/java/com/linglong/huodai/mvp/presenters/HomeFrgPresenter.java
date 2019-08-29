@@ -49,7 +49,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reservedUv(BannerBean bannerBean){
-        reservedUv();
+        reservedUv(bannerBean.getBannerId());
     }
 
     List<BaseMulDataModel> list = new ArrayList<>();
@@ -119,8 +119,8 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });
     }
 
-    public void  reservedUv(){
-        HttpMethod.getInstance().noteBanner()
+    public void  reservedUv(int bannerId){
+        HttpMethod.getInstance().noteBanner(bannerId)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NoteBean>>(this) {

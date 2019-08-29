@@ -201,7 +201,7 @@ public class HttpMethod {
         return mMovieService.userApplyRecordsList(1,id);
     }
 
-    public  Observable<HttpResult<NoteBean>> noteBanner(){
-        return mMovieService.noteBanner();
+    public  Observable<HttpResult<NoteBean>> noteBanner(int bannerId){
+        return mMovieService.noteBanner(bannerId);
     }
 }

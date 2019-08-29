@@ -108,6 +108,6 @@ public interface MovieService {
 
 
     @GET("addBannerLog")
-    Observable<HttpResult<NoteBean>> noteBanner();
+    Observable<HttpResult<NoteBean>> noteBanner(@Query("id") int bannerId);
 
 }
