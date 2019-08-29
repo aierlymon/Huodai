@@ -20,8 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep public class com.example.huodai.widget.**{*;}
--keep public class com.example.huodai.mvp.model.**{*;}
+-keep public class com.linglong.huodai.widget.**{*;}
+-keep public class com.linglong.huodai.mvp.model.**{*;}
 
 
 #eventbus

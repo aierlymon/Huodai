@@ -21,10 +21,10 @@
 #-renamesourcefileattribute SourceFile
 
 #自定义view
--keep public class com.example.baselib.widget.**{*;}
+-keep public class com.linglong.baselib.widget.**{*;}
 
 
--keep public class com.example.baselib.http.**
+-keep public class com.linglong.baselib.http.**
 
 -keep public class * extends android.app.Application
 -keep public class * extends android.support.multidex.MultiDexApplication
