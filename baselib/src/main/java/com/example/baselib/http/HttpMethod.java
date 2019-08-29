@@ -107,10 +107,6 @@ public class HttpMethod {
     }
 
 
-    //正式更新用的，但是url地址到时候自己改
-    public Observable<UpdateBean> checkUpdate() {
-        return mMovieService.checkUpdate();
-    }
 
 
     public Observable<HttpResult<NewHomeBannerBean>> loadHomeBanner() {

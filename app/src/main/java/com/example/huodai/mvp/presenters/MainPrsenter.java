@@ -39,7 +39,6 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
             @Override
             public void onProgress(int progress) {
                 getView().onUpdateProgress(progress);
-
             }
 
             @Override
@@ -55,8 +54,10 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
 
 
         });
+        updateUtil.checkUpdate();
 
-        UpdateBean updateBean = new UpdateBean();
+
+       /* UpdateBean updateBean = new UpdateBean();
         updateBean.setApk_name("huodai.apk");
         updateBean.setApk_url("http://192.168.1.103:8080/huodai.apk");
         updateBean.setVersion_code(2);
@@ -64,7 +65,7 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
         updateBean.setTarget_size("3M");
         updateBean.setVersion_name("2.0.0");
         updateBean.setUpdate_log("测试用例");
-
+*/
         //updateUtil.setAppPackName("com.example.huodai");
        // updateUtil.testUpdate(context,updateBean);
     }

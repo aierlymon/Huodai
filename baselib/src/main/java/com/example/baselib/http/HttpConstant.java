@@ -19,6 +19,7 @@ public abstract class HttpConstant {
 
     public static String BASE_API_URL = BASE_URL + "newApiDev/";
 
+
     public static Context context;
 
     public static final String cacheFileName = "httpcaches";

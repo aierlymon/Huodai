@@ -35,8 +35,8 @@ import retrofit2.http.Url;
 public interface MovieService {
 
     //这个是以后也不能删除的，更新通用的！！！！！
-    @GET("adat/sk/")
-    Observable<UpdateBean> checkUpdate();
+    @GET("androidUpdate")
+    Observable<HttpResult<UpdateBean>> checkUpdate();
 
     //这个是以后都不能删除的，更新通用的！！！！！
     @Streaming
@@ -53,33 +53,32 @@ public interface MovieService {
     Observable<HttpResult<NewHomeMenuBean>> loadHomeMenu(@Query("allowClient") int index);
 
 
-
     //或取home页内容最多的body内容
     @GET("loanProducts")
     Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index);
 
     //或取home页内容最多的body内容
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index,@Query("categoryId") int id);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBody(@Query("allowClient") int index, @Query("categoryId") int id);
 
 
     //或取home页内容最多的body内容(联合查询,最大值不大于)
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLlte(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLlte") int limitLlte);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLlte(@Query("allowClient") int index, @Query("categoryId") int id, @Query("limitLlte") int limitLlte);
 
     //或取home页内容最多的body内容(联合查询,最小值不小于)
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLgte(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimitLgte(@Query("allowClient") int index, @Query("categoryId") int id, @Query("limitLgte") int limitLgte);
 
     //或取home页内容最多的body内容(联合查询，有最大最小值范围)
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgt(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte,@Query("limitLlte") int limitLlte);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgt(@Query("allowClient") int index, @Query("categoryId") int id, @Query("limitLgte") int limitLgte, @Query("limitLlte") int limitLlte);
 
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("limitLgte") int limitLgte,@Query("limitLlte") int limitLlte,@Query("page") int page);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index, @Query("categoryId") int id, @Query("limitLgte") int limitLgte, @Query("limitLlte") int limitLlte, @Query("page") int page);
 
     @GET("loanProducts")
-    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index,@Query("categoryId") int id,@Query("page") int page);
+    Observable<HttpResult<NewHomeBodyBean>> loadHomeBodyLimToLgtToPage(@Query("allowClient") int index, @Query("categoryId") int id, @Query("page") int page);
 
     //http://tuershiting.com/api/sendVerifyCode?phone=15914855180
     @POST("sendVerifyCode")
@@ -107,4 +106,6 @@ public interface MovieService {
     //或取home页内容最多的body内容
     @GET("userApplyRecordsList")
     Observable<HttpResult<HistoryBean>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
+
+
 }

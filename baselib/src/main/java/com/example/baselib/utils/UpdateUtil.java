@@ -16,6 +16,8 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.example.baselib.http.HttpConstant;
 import com.example.baselib.http.HttpMethod;
 import com.example.baselib.http.MovieService;
+import com.example.baselib.http.UpdateHttpMethod;
+import com.example.model.bean.HttpResult;
 import com.example.model.bean.UpdateBean;
 import com.example.baselib.http.interrceptorebean.JsDownloadInterceptor;
 import com.example.baselib.http.listener.JsDownloadListener;
@@ -42,20 +44,21 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * on 2019/7/10
  */
 public class UpdateUtil implements LifecycleObserver {
-    public static final int FILE_NOTFOUND_ERROR=0x01;//没有找到地址
-    public static final int FILE_IO_ERROR=0x02;//下载过程错误
-    public static final int FILE_MD5_ERROR=0x03;//下载后md5错误
-    public static final int FILE_DOWNLOAD_ERROR=0x04;//文件下载失败
+    public static final int FILE_NOTFOUND_ERROR = 0x01;//没有找到地址
+    public static final int FILE_IO_ERROR = 0x02;//下载过程错误
+    public static final int FILE_MD5_ERROR = 0x03;//下载后md5错误
+    public static final int FILE_DOWNLOAD_ERROR = 0x04;//文件下载失败
 
     private Context context;
     private Retrofit retrofit;
     private JsDownloadListener jsDownloadListener;
     private CompositeDisposable mCompositeDisposable;
+
     public UpdateUtil(Context context, JsDownloadListener jsDownloadListener) {
-        this.jsDownloadListener=jsDownloadListener;
+        this.jsDownloadListener = jsDownloadListener;
         this.context = context.getApplicationContext();
         //定义下载client
-        mCompositeDisposable=new CompositeDisposable();
+        mCompositeDisposable = new CompositeDisposable();
         JsDownloadInterceptor mInterceptor = new JsDownloadInterceptor(jsDownloadListener);
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .addInterceptor(mInterceptor)
@@ -80,25 +83,33 @@ public class UpdateUtil implements LifecycleObserver {
         this.appPackName = appPackName;
     }
 
-    public boolean checkUpdate(HttpMethod httpMethod) {
-        httpMethod.checkUpdate()
+    public boolean checkUpdate() {
+        UpdateHttpMethod.getInstance().checkUpdate()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UpdateBean>() {
+                .subscribe(new Observer<HttpResult<UpdateBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         mCompositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onNext(UpdateBean updateBean) {
+                    public void onNext(HttpResult<UpdateBean> updateBean) {
                         //拿到新的版本号
-                        int newVersionCode = updateBean.getVersion_code();
+                        int newVersionCode = updateBean.getData().getVersion_code();
                         int versionCode = PackageUtils.getVersionCode(context);
-                        if (newVersionCode > versionCode) {
-                            //弹出更新框
-                            showDialog(context, updateBean);
+                        if (updateBean.getData().isConstraint()) {
+                            if (newVersionCode > versionCode) {
+                                //弹出更新框
+                                constraintDown(context, updateBean.getData());
+                            }
+                        } else {
+                            if (newVersionCode > versionCode) {
+                                //弹出更新框
+                                showDialog(context, updateBean.getData());
+                            }
                         }
+
                     }
 
                     @Override
@@ -116,6 +127,7 @@ public class UpdateUtil implements LifecycleObserver {
 
     /**
      * 开始下载
+     *
      * @param url
      * @param file
      * @param subscriber
@@ -146,24 +158,21 @@ public class UpdateUtil implements LifecycleObserver {
 
             int len;
             while ((len = inputString.read(b)) != -1) {
-                fos.write(b,0,len);
+                fos.write(b, 0, len);
             }
             inputString.close();
             fos.close();
 
         } catch (FileNotFoundException e) {
             clearDisposable();
-            jsDownloadListener.onFail(FILE_NOTFOUND_ERROR,"FileNotFoundException");
+            jsDownloadListener.onFail(FILE_NOTFOUND_ERROR, "FileNotFoundException");
         } catch (IOException e) {
             MyLog.i("写入数据异常");
             clearDisposable();
-            jsDownloadListener.onFail(FILE_IO_ERROR,"IOException");
+            jsDownloadListener.onFail(FILE_IO_ERROR, "IOException");
         }
 
     }
-
-
-
 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -178,7 +187,7 @@ public class UpdateUtil implements LifecycleObserver {
                 .setMessage("更新内容为" + updateBean.getUpdate_log() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
                 .setOnConfirmClickListener("确定", view -> {
                     //开始下载文件
-                    File file = new File(getApkPath(),updateBean.getApk_name());
+                    File file = new File(getApkPath(), updateBean.getApk_name());
                     download(updateBean.getApk_url(), file, new Observer() {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -189,20 +198,20 @@ public class UpdateUtil implements LifecycleObserver {
                         public void onNext(Object o) {
                             MyLog.i("完成了下载");
                             //md5比较，比较一致的情况下触发安装apk
-                            File file1=new File(getApkPath(),updateBean.getApk_name());
-                            String down_md5=CipherUtils.getFileMD5(file1);
-                            if(updateBean.getNew_md5().equals(down_md5)){
+                            File file1 = new File(getApkPath(), updateBean.getApk_name());
+                            String down_md5 = CipherUtils.getFileMD5(file1);
+                            if (updateBean.getNew_md5().equals(down_md5)) {
                                 //跳转安装apk
                                 MyLog.i("md5校验成功");
                                 //跳转启动apk有问题
                                 //判读版本是否在7.0以上
                                 File file = new File(getApkPath(), updateBean.getApk_name());
-                                MyLog.i("file存在吗: "+file.exists());
+                                MyLog.i("file存在吗: " + file.exists());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //判读版本是否在7.0以上
                                 if (Build.VERSION.SDK_INT >= 24) {
                                     //provider authorities
-                                    Uri apkUri = FileProvider.getUriForFile(context, "com.example.huodai.fileprovider", file);
+                                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
                                     //Granting Temporary Permissions to a URI
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
@@ -210,10 +219,10 @@ public class UpdateUtil implements LifecycleObserver {
                                     intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
                                 }
                                 jsDownloadListener.onDownSuccess(intent);
-                            }else{
+                            } else {
                                 MyLog.i("md5校验失败");
                                 clearDisposable();
-                                jsDownloadListener.onFail(FILE_MD5_ERROR,"下载的文件的md5值不一样，请重新下载");
+                                jsDownloadListener.onFail(FILE_MD5_ERROR, "下载的文件的md5值不一样，请重新下载");
                             }
                         }
 
@@ -221,7 +230,7 @@ public class UpdateUtil implements LifecycleObserver {
                         public void onError(Throwable e) {
                             MyLog.i("连接资源失败了");
                             clearDisposable();
-                            jsDownloadListener.onFail(FILE_DOWNLOAD_ERROR,e.getMessage());
+                            jsDownloadListener.onFail(FILE_DOWNLOAD_ERROR, e.getMessage());
                         }
 
                         @Override
@@ -242,23 +251,23 @@ public class UpdateUtil implements LifecycleObserver {
     }
 
     private String getApkPath() {
-        String directoryPath="";
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ) {//判断外部存储是否可用
-            MyLog.i("路径: "+Environment.getExternalStorageDirectory().getPath());
-            directoryPath =Environment.getExternalStorageDirectory().getPath();
-        }else{//没外部存储就使用内部存储
-            MyLog.i("路径: "+context.getFilesDir());
-            directoryPath=context.getFilesDir()+File.separator;
+        String directoryPath = "";
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {//判断外部存储是否可用
+            MyLog.i("路径: " + Environment.getExternalStorageDirectory().getPath());
+            directoryPath = Environment.getExternalStorageDirectory().getPath();
+        } else {//没外部存储就使用内部存储
+            MyLog.i("路径: " + context.getFilesDir());
+            directoryPath = context.getFilesDir() + File.separator;
         }
         File file = new File(directoryPath);
-        if(!file.exists()){//判断文件目录是否存在
+        if (!file.exists()) {//判断文件目录是否存在
             file.mkdirs();
         }
         return directoryPath;
     }
 
-    public void clearDisposable(){
-        if(mCompositeDisposable!=null){
+    public void clearDisposable() {
+        if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();
             mCompositeDisposable = null;
         }
@@ -272,7 +281,7 @@ public class UpdateUtil implements LifecycleObserver {
                 .setMessage("更新内容为" + updateBean.getUpdate_log() + "\r\n" + "更新大小为: " + updateBean.getTarget_size())
                 .setOnConfirmClickListener("确定", view -> {
                     //开始下载文件
-                    File file = new File(getApkPath(),updateBean.getApk_name());
+                    File file = new File(getApkPath(), updateBean.getApk_name());
                     download(updateBean.getApk_url(), file, new Observer() {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -283,22 +292,22 @@ public class UpdateUtil implements LifecycleObserver {
                         public void onNext(Object o) {
                             MyLog.i("完成了下载");
                             //md5比较，比较一致的情况下触发安装apk
-                            File file1=new File(getApkPath(),updateBean.getApk_name());
-                            String down_md5=CipherUtils.getFileMD5(file1);
-                            if(updateBean.getNew_md5().equals(down_md5)){
+                            File file1 = new File(getApkPath(), updateBean.getApk_name());
+                            String down_md5 = CipherUtils.getFileMD5(file1);
+                            if (updateBean.getNew_md5().equals(down_md5)) {
                                 //跳转安装apk
                                 MyLog.i("md5校验成功");
                                 //跳转启动apk有问题
                                 //判读版本是否在7.0以上
                                 File file = new File(getApkPath(), updateBean.getApk_name());
-                                MyLog.i("file存在吗: "+file.exists());
+                                MyLog.i("file存在吗: " + file.exists());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 //判读版本是否在7.0以上
                                 if (Build.VERSION.SDK_INT >= 24) {
                                     //provider authorities
-                                    MyLog.i("provider name: "+context.getPackageName()+".fileprovider");
-                                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider", file);
+                                    MyLog.i("provider name: " + context.getPackageName() + ".fileprovider");
+                                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
                                     //Granting Temporary Permissions to a URI
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
@@ -306,10 +315,10 @@ public class UpdateUtil implements LifecycleObserver {
                                     intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
                                 }
                                 jsDownloadListener.onDownSuccess(intent);
-                            }else{
+                            } else {
                                 MyLog.i("md5校验失败");
                                 clearDisposable();
-                                jsDownloadListener.onFail(FILE_MD5_ERROR,"下载的文件的md5值不一样，请重新下载");
+                                jsDownloadListener.onFail(FILE_MD5_ERROR, "下载的文件的md5值不一样，请重新下载");
                             }
                         }
 
@@ -317,7 +326,7 @@ public class UpdateUtil implements LifecycleObserver {
                         public void onError(Throwable e) {
                             MyLog.i("连接资源失败了");
                             clearDisposable();
-                            jsDownloadListener.onFail(FILE_DOWNLOAD_ERROR,e.getMessage());
+                            jsDownloadListener.onFail(FILE_DOWNLOAD_ERROR, e.getMessage());
                         }
 
                         @Override
@@ -335,5 +344,80 @@ public class UpdateUtil implements LifecycleObserver {
                 })
                 .build();
         builder.shown();
+    }
+
+    public void constraintDown(Context context, UpdateBean updateBean) {
+        //开始下载文件
+        File file = new File(getApkPath(), updateBean.getApk_name());
+        download(updateBean.getApk_url(), file, new Observer() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                mCompositeDisposable.add(d);
+            }
+
+            @Override
+            public void onNext(Object o) {
+                MyLog.i("完成了下载");
+                //md5比较，比较一致的情况下触发安装apk
+                //  File file1=new File(getApkPath(),updateBean.getApk_name());
+                //   String down_md5=CipherUtils.getFileMD5(file1);
+
+                //判读版本是否在7.0以上
+                File file = new File(getApkPath(), updateBean.getApk_name());
+                MyLog.i("file存在吗: " + file.exists());
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //判读版本是否在7.0以上
+                if (Build.VERSION.SDK_INT >= 24) {
+                    //provider authorities
+                    MyLog.i("provider name: " + context.getPackageName() + ".fileprovider");
+                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+                    //Granting Temporary Permissions to a URI
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                } else {
+                    intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                }
+                jsDownloadListener.onDownSuccess(intent);
+           /*     if(updateBean.getNew_md5().equals(down_md5)){
+                    //跳转安装apk
+                    MyLog.i("md5校验成功");
+                    //跳转启动apk有问题
+                    //判读版本是否在7.0以上
+                    File file = new File(getApkPath(), updateBean.getApk_name());
+                    MyLog.i("file存在吗: "+file.exists());
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //判读版本是否在7.0以上
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        //provider authorities
+                        MyLog.i("provider name: "+context.getPackageName()+".fileprovider");
+                        Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider", file);
+                        //Granting Temporary Permissions to a URI
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                    } else {
+                        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                    }
+                    jsDownloadListener.onDownSuccess(intent);
+                }else{
+                    MyLog.i("md5校验失败");
+                    clearDisposable();
+                    jsDownloadListener.onFail(FILE_MD5_ERROR,"下载的文件的md5值不一样，请重新下载");
+                }*/
+            }
+
+
+            @Override
+            public void onError(Throwable e) {
+                MyLog.i("连接资源失败了");
+                clearDisposable();
+                jsDownloadListener.onFail(FILE_DOWNLOAD_ERROR, e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 }
