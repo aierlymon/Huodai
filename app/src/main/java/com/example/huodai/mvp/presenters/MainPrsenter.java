@@ -58,12 +58,12 @@ public class MainPrsenter extends BasePresenter<MainViewImpl> {
 
         UpdateBean updateBean = new UpdateBean();
         updateBean.setApk_name("huodai.apk");
-        updateBean.setApkUrl("http://192.168.1.103:8080/huodai.apk");
-        updateBean.setVersionCode(2);
+        updateBean.setApk_url("http://192.168.1.103:8080/huodai.apk");
+        updateBean.setVersion_code(2);
         updateBean.setNew_md5("cbbc391b297986987a5811b9f9ff8ed6");
         updateBean.setTarget_size("3M");
-        updateBean.setVersionName("2.0.0");
-        updateBean.setUpdateLog("测试用例");
+        updateBean.setVersion_name("2.0.0");
+        updateBean.setUpdate_log("测试用例");
 
         //updateUtil.setAppPackName("com.example.huodai");
        // updateUtil.testUpdate(context,updateBean);
