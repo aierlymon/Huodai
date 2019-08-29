@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/my_login_color" />
 
-    <com.example.baselib.widget.StatusBarHeightView
+    <com.linglong.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
@@ -259,7 +259,7 @@
 
             </LinearLayout>
         </LinearLayout>
-    </com.example.baselib.widget.StatusBarHeightView>
+    </com.linglong.baselib.widget.StatusBarHeightView>
 
 
 </RelativeLayout>

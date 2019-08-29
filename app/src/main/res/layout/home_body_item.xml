@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y108">
+    android:layout_height="@dimen/y96">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,19 +14,19 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6.2"
+            android:layout_weight="6.1"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.example.huodai.widget.CircleImageView
+                <com.linglong.huodai.widget.CircleImageView
                     android:id="@+id/icon"
-                    android:layout_width="@dimen/x30"
-                    android:layout_height="@dimen/x30"
+                    android:layout_width="@dimen/x25"
+                    android:layout_height="@dimen/x25"
                     android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/y10"
+                    android:layout_marginTop="@dimen/y5"
                     android:layout_marginRight="@dimen/dp_10"
                     android:src="@mipmap/ic_launcher" />
 
@@ -35,12 +35,12 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y15"
+                    android:layout_marginTop="@dimen/y10"
                     android:layout_toRightOf="@+id/icon"
                     android:gravity="center"
                     android:text="bold字体"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/y12"
+                    android:textSize="@dimen/y11"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -61,7 +61,7 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:text="3000"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/y14"
+                    android:textSize="@dimen/y13"
                     android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 

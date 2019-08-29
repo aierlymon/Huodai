@@ -6,28 +6,45 @@
     android:focusableInTouchMode="true">
 
 
-    <WebView
-        android:id="@+id/webview"
+    <com.linglong.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/progress_horizontal"
+        app:use_type="use_padding_top">
 
-        android:layerType="software" />
-
-
-    <include
-        android:id="@+id/myweb_head"
-        layout="@layout/toolbarhead"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-    <ProgressBar
-        android:id="@+id/progress_horizontal"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_below="@+id/myweb_head"
-        android:progressDrawable="@drawable/progressbar" />
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/progress_horizontal"
+                android:layerType="software" />
+
+
+            <include
+                android:id="@+id/myweb_head"
+                layout="@layout/toolbarhead"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height" />
+
+
+            <ProgressBar
+                android:id="@+id/progress_horizontal"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_below="@+id/myweb_head"
+                android:progressDrawable="@drawable/progressbar" />
+
+
+        </RelativeLayout>
+
+
+    </com.linglong.baselib.widget.StatusBarHeightView>
+
 
 </RelativeLayout>
